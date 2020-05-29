@@ -2,7 +2,7 @@ package com.yuantu.po;
 
 public class Hotel {
     private Integer id;
-    private String hotelDame;
+    private String hotelName;
     private String address;
     private String businessDistrict;
     private String introduction;
@@ -14,7 +14,7 @@ public class Hotel {
 
     public Hotel(Integer id, String hotelDame, String address, String businessDistrict, String introduction, String facilities, String star) {
         this.id = id;
-        this.hotelDame = hotelDame;
+        this.hotelName = hotelDame;
         this.address = address;
         this.businessDistrict = businessDistrict;
         this.introduction = introduction;
@@ -31,11 +31,11 @@ public class Hotel {
     }
 
     public String getHotelDame() {
-        return hotelDame;
+        return hotelName;
     }
 
     public void setHotelDame(String hotelDame) {
-        this.hotelDame = hotelDame;
+        this.hotelName = hotelDame;
     }
 
     public String getAddress() {
@@ -82,7 +82,7 @@ public class Hotel {
     public String toString() {
         return "Hotel{" +
                 "id=" + id +
-                ", hotelDame='" + hotelDame + '\'' +
+                ", hotelDame='" + hotelName + '\'' +
                 ", address='" + address + '\'' +
                 ", businessDistrict='" + businessDistrict + '\'' +
                 ", introduction='" + introduction + '\'' +
