@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuantu.data.user.AccountMapper">
+
+    <!--结果集映射-->
+    <resultMap id="UserMap" type="User">
+        <!--column数据库中的字段，property实体类中的属性-->
+        <result column="id" property="id"/>
+        <result column="username" property="username"/>
+        <result column="accountnumber" property="accountNumber"/>
+        <result column="password" property="password"/>
+        <result column="phone" property="phone"/>
+        <result column="credit" property="credit"/>
+        <result column="vip" property="vip"/>
+        <result column="usertype" property="userType"/>
+        <result column="birthday" property="birthday"/>
+        <result column="companyname" property="companyName"/>
+        <result column="hotelname" property="hotelName"/>
+        <result column="hotel_id" property="hotel_id"/>
+    </resultMap>
+
+    <select id="queryUserById" resultMap="UserMap">
+        select * from user where id = #{id}
+    </select>
+
+    <select id="queryUserByAccountName" resultMap="UserMap">
+        select * from user where accountNumber = #{accountNumber}
+    </select>
+
+</mapper>
