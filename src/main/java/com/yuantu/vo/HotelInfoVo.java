@@ -1,10 +1,13 @@
 package com.yuantu.vo;
 
+import org.omg.PortableInterceptor.INACTIVE;
+
 /**
  * @Author caobo
  * @Date:2020-05-29
  */
 public class HotelInfoVo {
+  private String hotelName;//酒店名称
   private String address;//酒店地址
   private String businessDistrict;//酒店所属商圈
   private String introduction;//酒店简介
@@ -14,12 +17,21 @@ public class HotelInfoVo {
   public HotelInfoVo() {
   }
 
-  public HotelInfoVo(String address, String businessDistrict, String introduction, String facilities, String star) {
+  public HotelInfoVo(String hotelName, String address, String businessDistrict, String introduction, String facilities, String star) {
+    this.hotelName = hotelName;
     this.address = address;
     this.businessDistrict = businessDistrict;
     this.introduction = introduction;
     this.facilities = facilities;
     this.star = star;
+  }
+
+  public String getHotelName() {
+    return hotelName;
+  }
+
+  public void setHotelName(String hotelName) {
+    this.hotelName = hotelName;
   }
 
   public String getAddress() {
@@ -65,7 +77,8 @@ public class HotelInfoVo {
   @Override
   public String toString() {
     return "HotelInfoVo{" +
-      "address='" + address + '\'' +
+      "hotelName='" + hotelName + '\'' +
+      ", address='" + address + '\'' +
       ", businessDistrict='" + businessDistrict + '\'' +
       ", introduction='" + introduction + '\'' +
       ", facilities='" + facilities + '\'' +

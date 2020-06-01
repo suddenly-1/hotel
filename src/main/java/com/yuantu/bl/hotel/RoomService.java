@@ -7,6 +7,9 @@ package com.yuantu.bl.hotel;
 public interface RoomService {
 
 
+  
+
+
 
 
 }

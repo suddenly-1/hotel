@@ -2,7 +2,6 @@ package com.yuantu.po;
 
 public class Hotel {
     private Integer id;
-    private String hotelName;
     private String address;
     private String businessDistrict;
     private String introduction;
@@ -12,9 +11,8 @@ public class Hotel {
     public Hotel() {
     }
 
-    public Hotel(Integer id, String hotelDame, String address, String businessDistrict, String introduction, String facilities, String star) {
+    public Hotel(Integer id,String address, String businessDistrict, String introduction, String facilities, String star) {
         this.id = id;
-        this.hotelName = hotelDame;
         this.address = address;
         this.businessDistrict = businessDistrict;
         this.introduction = introduction;
@@ -28,14 +26,6 @@ public class Hotel {
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public String getHotelDame() {
-        return hotelName;
-    }
-
-    public void setHotelDame(String hotelDame) {
-        this.hotelName = hotelDame;
     }
 
     public String getAddress() {
@@ -81,13 +71,12 @@ public class Hotel {
     @Override
     public String toString() {
         return "Hotel{" +
-                "id=" + id +
-                ", hotelDame='" + hotelName + '\'' +
-                ", address='" + address + '\'' +
-                ", businessDistrict='" + businessDistrict + '\'' +
-                ", introduction='" + introduction + '\'' +
-                ", facilities='" + facilities + '\'' +
-                ", star='" + star + '\'' +
-                '}';
+          "id=" + id +
+          ", address='" + address + '\'' +
+          ", businessDistrict='" + businessDistrict + '\'' +
+          ", introduction='" + introduction + '\'' +
+          ", facilities='" + facilities + '\'' +
+          ", star='" + star + '\'' +
+          '}';
     }
 }
