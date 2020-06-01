@@ -9,6 +9,12 @@ public class ResponseVo {
 //    返回内容
     private Object content;
 
+    public static ResponseVo buildSuccess(){
+        ResponseVo responseVo = new ResponseVo();
+        responseVo.setSuccess(true);
+        return responseVo;
+    }
+
     public static ResponseVo buildSuccess(Object content){
         ResponseVo responseVo = new ResponseVo();
         responseVo.setSuccess(true);

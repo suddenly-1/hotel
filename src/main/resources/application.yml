@@ -1,4 +1,4 @@
-#Êý¾Ý¿â
+
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -6,8 +6,13 @@ spring:
     username: root
     password: sa
 
-#Mybatis
+
 mybatis:
   type-aliases-package: com.yuantu.po
   mapper-locations: classpath:dataimpl/*/*Mapper.xml
+
+
+logging:
+  level:
+    com.yuantu.data.user: DEBUG
 

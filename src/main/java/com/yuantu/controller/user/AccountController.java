@@ -1,8 +1,8 @@
 package com.yuantu.controller.user;
 
 import com.yuantu.bl.user.AccountService;
-import com.yuantu.po.User;
-import com.yuantu.vo.ResponseVo;
+import com.yuantu.vo.UserForm;
+import com.yuantu.vo.UserInfo;
 import com.yuantu.vo.UserLogin;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/Account")
 public class AccountController {
-    private final static String ACCOUNT_INFO_ERROR = "用户名或密码错误";
 
     @Autowired
     private AccountService accountService;
@@ -24,13 +23,22 @@ public class AccountController {
 
     @PostMapping("/login")
     public String login(@RequestBody UserLogin userLogin){
-        User user = accountService.login(userLogin);
+        return accountService.login(userLogin).toString();
+    }
 
-        if (null == user){
-            ResponseVo.buildFailure(ACCOUNT_INFO_ERROR);
-        }
+    @PostMapping("/register")
+    public String register(@RequestBody UserForm userForm){
+        return accountService.register(userForm).toString();
+    }
 
-        return ResponseVo.buildSuccess(user).toString();
+    @PostMapping("/info")
+    public String queryUserInfo(@RequestParam("id") int id){
+        return accountService.queryUserInfo(id).toString();
+    }
+
+    @PostMapping("/update")
+    public String updateUserInfo(@RequestBody UserInfo userInfo){
+        return accountService.updateUserInfo(userInfo).toString();
     }
 
 }

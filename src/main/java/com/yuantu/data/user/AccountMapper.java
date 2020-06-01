@@ -11,7 +11,11 @@ public interface AccountMapper {
 
 //    根据id查询
     User queryUserById(@Param("id") int id);
-//    根据账号登录
+//    根据账号查询
     User queryUserByAccountName(@Param("accountNumber") String accountNumber);
+//    添加用户
+    void createNewAccount(User user);
+//    修改信息
+    void updateAccount(User user);
 
 }

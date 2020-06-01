@@ -3,10 +3,17 @@ package com.yuantu;
 import com.yuantu.bl.user.AccountService;
 import com.yuantu.data.user.AccountMapper;
 import com.yuantu.po.User;
+import com.yuantu.vo.ResponseVo;
+import com.yuantu.vo.UserForm;
+import com.yuantu.vo.UserInfo;
 import com.yuantu.vo.UserLogin;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 @SpringBootTest
 class HotelApplicationTests {
@@ -20,13 +27,8 @@ class HotelApplicationTests {
     void contextLoads() {
         System.out.println("====================");
 
-
-//        User user = accountMapper.queryUserByName("111111");
-//        System.out.println(user.toString());
-
-        User user1 = accountService.login(new UserLogin("111111","123"));
-        System.out.println(user1);
-
+        UserInfo userInfo = new UserInfo(20,"黄20",null,"2020",null,null,null);
+        accountService.updateUserInfo(userInfo);
 
         System.out.println("====================");
     }
