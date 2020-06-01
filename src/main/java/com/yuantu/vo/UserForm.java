@@ -1,43 +1,31 @@
-package com.yuantu.po;
+package com.yuantu.vo;
 
 import java.util.Date;
 
-public class User {
-    private Integer id;
+public class UserForm {
     private String username;
     private String accountNumber;
     private String password;
     private String phone;
     private String credit;
-    private String vip;
     private String userType;
     private Date birthday;
     private String companyName;
     private Integer hotel_id;
 
-    public User() {
+    public UserForm() {
     }
 
-    public User(Integer id, String username, String accountNumber, String password, String phone, String credit, String vip, String userType, Date birthday, String companyName, Integer hotel_id) {
-        this.id = id;
+    public UserForm(String username, String accountNumber, String password, String phone, String credit, String userType, Date birthday, String companyName, Integer hotel_id) {
         this.username = username;
         this.accountNumber = accountNumber;
         this.password = password;
         this.phone = phone;
         this.credit = credit;
-        this.vip = vip;
         this.userType = userType;
         this.birthday = birthday;
         this.companyName = companyName;
         this.hotel_id = hotel_id;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
     }
 
     public String getUsername() {
@@ -80,14 +68,6 @@ public class User {
         this.credit = credit;
     }
 
-    public String getVip() {
-        return vip;
-    }
-
-    public void setVip(String vip) {
-        this.vip = vip;
-    }
-
     public String getUserType() {
         return userType;
     }
@@ -122,14 +102,12 @@ public class User {
 
     @Override
     public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", username='" + username + '\'' +
+        return "UserForm{" +
+                "username='" + username + '\'' +
                 ", accountNumber='" + accountNumber + '\'' +
                 ", password='" + password + '\'' +
                 ", phone='" + phone + '\'' +
                 ", credit='" + credit + '\'' +
-                ", vip='" + vip + '\'' +
                 ", userType='" + userType + '\'' +
                 ", birthday=" + birthday +
                 ", companyName='" + companyName + '\'' +

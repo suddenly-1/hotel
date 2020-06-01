@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuantu.data.user.AccountMapper">
+
+    <!--结果集映射-->
+    <resultMap id="UserMap" type="User">
+        <!--column数据库中的字段，property实体类中的属性-->
+        <result column="id" property="id"/>
+        <result column="username" property="username"/>
+        <result column="accountnumber" property="accountNumber"/>
+        <result column="password" property="password"/>
+        <result column="phone" property="phone"/>
+        <result column="credit" property="credit"/>
+        <result column="vip" property="vip"/>
+        <result column="usertype" property="userType"/>
+        <result column="birthday" property="birthday"/>
+        <result column="companyname" property="companyName"/>
+        <result column="hotel_id" property="hotel_id"/>
+    </resultMap>
+
+    <select id="queryUserById" resultMap="UserMap">
+        select * from user where id = #{id}
+    </select>
+
+    <select id="queryUserByAccountName" resultMap="UserMap">
+        select * from user where accountNumber = #{accountNumber}
+    </select>
+
+    <insert id="createNewAccount" parameterType="User" useGeneratedKeys="true" keyProperty="id">
+        insert into user (username,accountnumber,password,phone,credit,vip,usertype,birthday,companyname,hotel_id)
+        values (#{username},#{accountNumber},#{password},#{phone},#{credit},#{vip},#{userType},#{birthday},#{companyName},#{hotel_id})
+    </insert>
+
+    <update id="updateAccount" parameterType="User">
+        update user
+        <set>
+            <if test="username != null">
+                username = #{username},
+            </if>
+            <if test="phone != null">
+                phone = #{phone},
+            </if>
+            <if test="birthday != null">
+                birthday = #{birthday},
+            </if>
+            <if test="companyName != null">
+                companyname = #{companyName}
+            </if>
+        </set>
+        where id=#{id}
+    </update>
+
+</mapper>

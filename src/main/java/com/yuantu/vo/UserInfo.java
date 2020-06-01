@@ -1,35 +1,27 @@
-package com.yuantu.po;
+package com.yuantu.vo;
 
 import java.util.Date;
 
-public class User {
+public class UserInfo {
     private Integer id;
     private String username;
     private String accountNumber;
-    private String password;
     private String phone;
     private String credit;
-    private String vip;
-    private String userType;
     private Date birthday;
     private String companyName;
-    private Integer hotel_id;
 
-    public User() {
+    public UserInfo() {
     }
 
-    public User(Integer id, String username, String accountNumber, String password, String phone, String credit, String vip, String userType, Date birthday, String companyName, Integer hotel_id) {
+    public UserInfo(Integer id, String username, String accountNumber, String phone, String credit, Date birthday, String companyName) {
         this.id = id;
         this.username = username;
         this.accountNumber = accountNumber;
-        this.password = password;
         this.phone = phone;
         this.credit = credit;
-        this.vip = vip;
-        this.userType = userType;
         this.birthday = birthday;
         this.companyName = companyName;
-        this.hotel_id = hotel_id;
     }
 
     public Integer getId() {
@@ -56,14 +48,6 @@ public class User {
         this.accountNumber = accountNumber;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
     public String getPhone() {
         return phone;
     }
@@ -78,22 +62,6 @@ public class User {
 
     public void setCredit(String credit) {
         this.credit = credit;
-    }
-
-    public String getVip() {
-        return vip;
-    }
-
-    public void setVip(String vip) {
-        this.vip = vip;
-    }
-
-    public String getUserType() {
-        return userType;
-    }
-
-    public void setUserType(String userType) {
-        this.userType = userType;
     }
 
     public Date getBirthday() {
@@ -112,28 +80,16 @@ public class User {
         this.companyName = companyName;
     }
 
-    public Integer getHotel_id() {
-        return hotel_id;
-    }
-
-    public void setHotel_id(Integer hotel_id) {
-        this.hotel_id = hotel_id;
-    }
-
     @Override
     public String toString() {
-        return "User{" +
+        return "UserInfo{" +
                 "id=" + id +
                 ", username='" + username + '\'' +
                 ", accountNumber='" + accountNumber + '\'' +
-                ", password='" + password + '\'' +
                 ", phone='" + phone + '\'' +
                 ", credit='" + credit + '\'' +
-                ", vip='" + vip + '\'' +
-                ", userType='" + userType + '\'' +
                 ", birthday=" + birthday +
                 ", companyName='" + companyName + '\'' +
-                ", hotel_id=" + hotel_id +
                 '}';
     }
 }
