@@ -1,5 +1,6 @@
 package com.yuantu.controller.user;
 
+import com.alibaba.fastjson.JSON;
 import com.yuantu.bl.user.AccountService;
 import com.yuantu.vo.UserForm;
 import com.yuantu.vo.UserInfo;
@@ -18,27 +19,27 @@ public class AccountController {
 
     @RequestMapping("/queryUserById")
     public String queryUserById(@RequestParam("id") int id){
-        return accountService.queryUserById(id).toString();
+        return JSON.toJSONString(accountService.queryUserById(id));
     }
 
     @PostMapping("/login")
     public String login(@RequestBody UserLogin userLogin){
-        return accountService.login(userLogin).toString();
+        return JSON.toJSONString(accountService.login(userLogin));
     }
 
     @PostMapping("/register")
     public String register(@RequestBody UserForm userForm){
-        return accountService.register(userForm).toString();
+        return JSON.toJSONString(accountService.register(userForm));
     }
 
     @PostMapping("/info")
     public String queryUserInfo(@RequestParam("id") int id){
-        return accountService.queryUserInfo(id).toString();
+        return JSON.toJSONString(accountService.queryUserInfo(id));
     }
 
     @PostMapping("/update")
     public String updateUserInfo(@RequestBody UserInfo userInfo){
-        return accountService.updateUserInfo(userInfo).toString();
+        return JSON.toJSONString(accountService.updateUserInfo(userInfo));
     }
 
 }
