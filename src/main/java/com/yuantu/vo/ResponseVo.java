@@ -1,7 +1,6 @@
 package com.yuantu.vo;
 
 public class ResponseVo {
-
 //    返回状态
     private Boolean success;
 //    返回信息
