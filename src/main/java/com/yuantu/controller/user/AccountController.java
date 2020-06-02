@@ -2,6 +2,7 @@ package com.yuantu.controller.user;
 
 import com.alibaba.fastjson.JSON;
 import com.yuantu.bl.user.AccountService;
+import com.yuantu.vo.ResponseVo;
 import com.yuantu.vo.UserForm;
 import com.yuantu.vo.UserInfo;
 import com.yuantu.vo.UserLogin;
@@ -17,8 +18,9 @@ public class AccountController {
     @Autowired
     private AccountService accountService;
 
-    @RequestMapping("/queryUserById")
-    public String queryUserById(@RequestParam("id") int id){
+
+    @GetMapping("/queryUserById/{id}")
+    public String queryUserById(@PathVariable int id){
         return JSON.toJSONString(accountService.queryUserById(id));
     }
 
@@ -32,8 +34,8 @@ public class AccountController {
         return JSON.toJSONString(accountService.register(userForm));
     }
 
-    @PostMapping("/info")
-    public String queryUserInfo(@RequestParam("id") int id){
+    @GetMapping("/info/{id}")
+    public String queryUserInfo(@PathVariable int id){
         return JSON.toJSONString(accountService.queryUserInfo(id));
     }
 
