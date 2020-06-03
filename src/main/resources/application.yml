@@ -16,3 +16,15 @@ logging:
   level:
     com.yuantu.data.user: DEBUG
 
+
+server:
+  servlet:
+    encoding:
+      force: true
+      charset: UTF-8
+      enabled: true
+  tomcat:
+    uri-encoding: UTF-8
+
+
+#  port: 8081

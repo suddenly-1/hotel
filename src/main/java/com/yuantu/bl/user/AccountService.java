@@ -10,7 +10,7 @@ public interface AccountService {
     //    查询个人信息
     User queryUserById(int id);
     //    登录
-    ResponseVo login(UserLogin userLogin);
+    User login(UserLogin userLogin);
     //    注册
     ResponseVo register(UserForm userForm);
     //    个人信息

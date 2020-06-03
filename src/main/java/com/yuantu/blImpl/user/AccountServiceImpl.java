@@ -26,12 +26,13 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public ResponseVo login(UserLogin userLogin) {
+    public User login(UserLogin userLogin) {
         User user = accountMapper.queryUserByAccountName(userLogin.getAccountNumber());
-        if (null == user || !user.getPassword().equals(userLogin.getPassword())){
-            return ResponseVo.buildFailure(ACCOUNT_INFO_ERROR);
-        }
-        return ResponseVo.buildSuccess(user.getId());
+//        if (null == user || !user.getPassword().equals(userLogin.getPassword())){
+//            return ResponseVo.buildFailure(ACCOUNT_INFO_ERROR);
+//        }
+//        return ResponseVo.buildSuccess(user.getId());
+        return user;
     }
 
     @Override
