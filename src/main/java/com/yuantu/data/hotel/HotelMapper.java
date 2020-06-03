@@ -1,5 +1,6 @@
 package com.yuantu.data.hotel;
 
+import com.yuantu.po.Hotel;
 import com.yuantu.vo.HotelInfoVo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -12,13 +13,14 @@ import java.util.List;
 public interface HotelMapper {
   /**
    * 酒店工作人员维护酒店基本信息
-   * @param  hotelInfoVo
+   * @param  hotel ，hotelId
    */
-  int modifyHotelInfo(@Param("hotelInfoVo") HotelInfoVo hotelInfoVo ,@Param("hotelId") Integer hotelId);
+  int updateHotelInfo(@Param("hotel") Hotel hotel , @Param("hotelId") Integer hotelId);
 
   /**
    * 系统显示酒店基本信息
+   * @param hotelId
    * @return
    */
-  List<HotelInfoVo> getHotelInfo( @Param("hotelId") Integer hotelId);
+  List<HotelInfoVo> selectHotelInfo(@Param("hotelId") Integer hotelId);
 }

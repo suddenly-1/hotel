@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuantu.data.hotel.RoomMapper">
+    
+    <insert id="insertRoomInfo" parameterType="com.yuantu.po.Room" useGeneratedKeys="true" keyProperty="id">
+        insert into room(room.price,room.rooms,room.roomtype,room.hotel_id)
+        values (#{room.price},#{room.rooms},#{room.roomType},#{room.hotelId})
+    </insert>
+
+    <update id="updateRoomInfo" parameterType="com.yuantu.po.Room">
+        update room
+        <set>
+            <if test="room.id !=null">id=#{room.id},</if>
+            <if test="room.rooms !=null">price=#{room.price},</if>
+            <if test="room.price !=null">rooms=#{room.rooms}</if>
+        </set>
+        <where>
+            hotel_id=#{hotelId} and roomType=#{roomType}
+        </where>
+    </update>
+    
+    <select id="selectRoomInfo" resultMap="Room" parameterType="int">
+        select room.roomtype,room.price,room.rooms from room where room.hotel_id=#{hotelId}
+    </select>
+
+    <resultMap id="Room" type="com.yuantu.vo.RoomInfoVo">
+        <result column="roomType" property="roomType"></result>
+        <result column="price" property="price"></result>
+        <result column="rooms" property="rooms"></result>
+    </resultMap>
+</mapper> 
