@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/hotel")
 public class HotelController {
   @Autowired
-  HotelServiceImpl hotelService;
+  HotelService hotelService;
   //@Autowired
   //RoomService roomService;
 
@@ -20,9 +20,8 @@ public class HotelController {
     return ResponseVo.buildSuccess(hotelService.getHotelInfo(hotelId));
   }
 
-  @PostMapping("/{hotelId}/update")
+  @PostMapping("/update/{hotelId}")
   public ResponseVo modifyInfo(@RequestBody HotelInfoVo hotelInfoVo,@PathVariable Integer hotelId){
-    System.out.println(hotelInfoVo);
       return hotelService.modifyHotelInfo(hotelInfoVo,hotelId);
   }
 }

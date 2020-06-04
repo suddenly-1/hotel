@@ -18,7 +18,7 @@ public class ShiroConfig {
         shiroFilterFactoryBean.setSecurityManager(defaultWebSecurityManager);
 
         Map<String, String > filterMap = new LinkedHashMap<>();
-        filterMap.put("/Account/*","perms[user:*]");
+        filterMap.put("/Account/*","perms[admin]");
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterMap);
 
         shiroFilterFactoryBean.setLoginUrl("/autherror/1");

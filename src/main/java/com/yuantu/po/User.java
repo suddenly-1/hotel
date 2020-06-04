@@ -14,12 +14,11 @@ public class User {
     private Date birthday;
     private String companyName;
     private Integer hotel_id;
-    private String perms;
 
     public User() {
     }
 
-    public User(Integer id, String username, String accountNumber, String password, String phone, String credit, String vip, String userType, Date birthday, String companyName, Integer hotel_id, String perms) {
+    public User(Integer id, String username, String accountNumber, String password, String phone, String credit, String vip, String userType, Date birthday, String companyName, Integer hotel_id) {
         this.id = id;
         this.username = username;
         this.accountNumber = accountNumber;
@@ -31,7 +30,6 @@ public class User {
         this.birthday = birthday;
         this.companyName = companyName;
         this.hotel_id = hotel_id;
-        this.perms = perms;
     }
 
     public Integer getId() {
@@ -122,14 +120,6 @@ public class User {
         this.hotel_id = hotel_id;
     }
 
-    public String getPerms() {
-        return perms;
-    }
-
-    public void setPerms(String perms) {
-        this.perms = perms;
-    }
-
     @Override
     public String toString() {
         return "User{" +
@@ -144,7 +134,6 @@ public class User {
                 ", birthday=" + birthday +
                 ", companyName='" + companyName + '\'' +
                 ", hotel_id=" + hotel_id +
-                ", perms='" + perms + '\'' +
                 '}';
     }
 }

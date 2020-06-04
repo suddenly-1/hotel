@@ -26,7 +26,7 @@ public class ShiroRealm extends AuthorizingRealm {
         SimpleAuthorizationInfo simpleAuthorizationInfo = new SimpleAuthorizationInfo();
         Subject subject = SecurityUtils.getSubject();
         User currentUser = (User)subject.getPrincipal();
-        simpleAuthorizationInfo.addStringPermission(currentUser.getPerms());
+        simpleAuthorizationInfo.addStringPermission(currentUser.getUserType());
         return simpleAuthorizationInfo;
     }
 

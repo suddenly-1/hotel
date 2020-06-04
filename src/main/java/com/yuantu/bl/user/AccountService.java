@@ -6,15 +6,44 @@ import com.yuantu.vo.UserForm;
 import com.yuantu.vo.UserInfo;
 import com.yuantu.vo.UserLogin;
 
+/**
+ * @Author:zhaozhongwei
+ * @Date:2020-05-30
+ */
 public interface AccountService {
-    //    查询个人信息
+
+    /**
+     * 查询个人信息
+     * @param  id
+     * @return User
+     */
     User queryUserById(int id);
-    //    登录
+
+    /**
+     * 用户登录
+     * @param  userLogin
+     * @return
+     */
     User login(UserLogin userLogin);
-    //    注册
+
+    /**
+     * 注册账号
+     * @param  userForm
+     * @return
+     */
     ResponseVo register(UserForm userForm);
-    //    个人信息
+
+    /**
+     * 获取用户个人信息
+     * @param  id
+     * @return
+     */
     ResponseVo queryUserInfo(int id);
-    //    修改个人信息
+
+    /**
+     * 修改用户个人信息
+     * @param  userInfo
+     * @return
+     */
     ResponseVo updateUserInfo(UserInfo userInfo);
 }
