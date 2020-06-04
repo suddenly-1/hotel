@@ -2,27 +2,28 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yuantu.data.hotel.HotelMapper">
 
-    <select id="getHotelInfo" resultMap="Hotel" parameterType="int">
+    <select id="selectHotelInfo" resultMap="Hotel" parameterType="int">
         select hotel.hotelname, hotel.address,hotel.businessdistrict,hotel.Introduction,hotel.facilities,hotel.Star from hotel where hotel.id =#{hotelId}
     </select>
 
     <!--更新酒店信息-->
-  <update id="modifyHotelInfo" parameterType="com.yuantu.vo.HotelInfoVo">
+  <update id="updateHotelInfo" parameterType="com.yuantu.po.Hotel">
         update hotel
         <set>
-            <if test="hotelInfoVo.hotelName !=null">hotelName=#{hotelInfoVo.hotelName},</if>
-            <if test="hotelInfoVo.address !=null">address=#{hotelInfoVo.address},</if>
-            <if test="hotelInfoVo.businessDistrict !=null">businessDistrict=#{hotelInfoVo.businessDistrict},</if>
-            <if test="hotelInfoVo.introduction !=null">introduction=#{hotelInfoVo.introduction},</if>
-            <if test="hotelInfoVo.facilities !=null">facilities=#{hotelInfoVo.facilities},</if>
-            <if test="hotelInfoVo.star !=null">star=#{hotelInfoVo.star}</if>
+            <if test="hotel.hotelName !=null">hotelName=#{hotel.hotelName},</if>
+            <if test="hotel.address !=null">address=#{hotel.address},</if>
+            <if test="hotel.businessDistrict !=null">businessDistrict=#{hotel.businessDistrict},</if>
+            <if test="hotel.introduction !=null">introduction=#{hotel.introduction},</if>
+            <if test="hotel.facilities !=null">facilities=#{hotel.facilities},</if>
+            <if test="hotel.star !=null">star=#{hotel.star}</if>
         </set>
         <where>
             id =#{hotelId}
         </where>
     </update>
     
-    <resultMap id="Hotel" type="com.yuantu.vo.HotelInfoVo">
+    <resultMap id="Hotel" type="com.yuantu.po.Hotel">
+        <result column="id" property="id"></result>
         <result column="hotelname" property="hotelName"></result>
         <result column="address" property="address"></result>
         <result column="businessdistrict" property="businessDistrict"></result>
