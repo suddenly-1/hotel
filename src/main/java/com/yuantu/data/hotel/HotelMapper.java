@@ -1,7 +1,6 @@
 package com.yuantu.data.hotel;
 
 import com.yuantu.po.Hotel;
-import com.yuantu.vo.HotelInfoVo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
@@ -22,5 +21,21 @@ public interface HotelMapper {
    * @param hotelId
    * @return
    */
-  List<HotelInfoVo> selectHotelInfo(@Param("hotelId") Integer hotelId);
+  Hotel selectHotelInfo(@Param("hotelId") Integer hotelId);
+
+  /**
+   *排序：通过酒店价格从低到高，星级和评分排序
+   * @param condition
+   * return
+   */
+  List<Hotel> selectHotelSort(@Param("condition") String condition);
+
+
+  /**
+   *
+   * 模糊查询：通过酒店名称、房间、星级、评分区间等条件进行搜索
+   * @param condition
+   * return
+   */
+  List<Hotel> selectLikeQuery(@Param("condition") String condition);
 }

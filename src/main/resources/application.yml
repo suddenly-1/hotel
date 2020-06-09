@@ -4,18 +4,16 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/hotel?useSSL=true&useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai
     username: root
-    password: sa
-
+    password: 980310
 
 mybatis:
   type-aliases-package: com.yuantu.po
   mapper-locations: classpath:dataimpl/*/*Mapper.xml
 
-
 logging:
   level:
     com.yuantu.data.user: DEBUG
-
+    com.yuantu.data.hotel: DEBUG
 
 server:
   servlet:

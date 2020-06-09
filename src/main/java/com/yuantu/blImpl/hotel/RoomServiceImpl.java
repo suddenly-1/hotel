@@ -9,7 +9,10 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -48,6 +51,13 @@ public class RoomServiceImpl implements RoomService {
 
   @Override
   public List<RoomInfoVo> queryRoomInfo(Integer hotelId) {
-    return roomMapper.selectRoomInfo(hotelId);
+    List<Room> room = roomMapper.selectRoomInfo(hotelId);
+    List<RoomInfoVo> rl = new LinkedList<>();
+    for (int i=0;i<room.size();i++){
+        RoomInfoVo roomInfoVo = new RoomInfoVo();
+        BeanUtils.copyProperties(room.get(i),roomInfoVo);
+        rl.add(roomInfoVo);
+      }
+      return rl;
   }
 }

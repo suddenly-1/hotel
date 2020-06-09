@@ -7,12 +7,14 @@ public class Hotel {
     private String businessDistrict;
     private String introduction;
     private String facilities;
-    private String star;
+    private Integer star;
+    private Integer score;
+    private Integer averagePrice;
 
     public Hotel() {
     }
 
-    public Hotel(Integer id, String hotelName, String address, String businessDistrict, String introduction, String facilities, String star) {
+    public Hotel(Integer id, String hotelName, String address, String businessDistrict, String introduction, String facilities, Integer star,Integer score,Integer averagePrice) {
         this.id = id;
         this.hotelName = hotelName;
         this.address = address;
@@ -20,6 +22,8 @@ public class Hotel {
         this.introduction = introduction;
         this.facilities = facilities;
         this.star = star;
+        this.score = score;
+        this.averagePrice=averagePrice;
     }
 
     public Integer getId() {
@@ -70,12 +74,28 @@ public class Hotel {
         this.facilities = facilities;
     }
 
-    public String getStar() {
+    public Integer getStar() {
         return star;
     }
 
-    public void setStar(String star) {
+    public void setStar(Integer star) {
         this.star = star;
+    }
+
+    public Integer getScore() {
+        return score;
+    }
+
+    public void setScore(Integer score) {
+        this.score = score;
+    }
+
+    public Integer getAveragePrice() {
+        return averagePrice;
+    }
+
+    public void setAveragePrice(Integer averagePrice) {
+        this.averagePrice = averagePrice;
     }
 
     @Override
@@ -87,7 +107,9 @@ public class Hotel {
           ", businessDistrict='" + businessDistrict + '\'' +
           ", introduction='" + introduction + '\'' +
           ", facilities='" + facilities + '\'' +
-          ", star='" + star + '\'' +
+          ", star=" + star +
+          ", score=" + score +
+          ", averagePrice=" + averagePrice +
           '}';
     }
 }
