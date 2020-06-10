@@ -8,7 +8,7 @@ public class User {
     private String accountNumber;
     private String password;
     private String phone;
-    private String credit;
+    private Double credit;
     private String vip;
     private String userType;
     private Date birthday;
@@ -18,7 +18,7 @@ public class User {
     public User() {
     }
 
-    public User(Integer id, String username, String accountNumber, String password, String phone, String credit, String vip, String userType, Date birthday, String companyName, Integer hotel_id) {
+    public User(Integer id, String username, String accountNumber, String password, String phone, Double credit, String vip, String userType, Date birthday, String companyName, Integer hotel_id) {
         this.id = id;
         this.username = username;
         this.accountNumber = accountNumber;
@@ -72,11 +72,11 @@ public class User {
         this.phone = phone;
     }
 
-    public String getCredit() {
+    public Double getCredit() {
         return credit;
     }
 
-    public void setCredit(String credit) {
+    public void setCredit(Double credit) {
         this.credit = credit;
     }
 
@@ -128,7 +128,7 @@ public class User {
                 ", accountNumber='" + accountNumber + '\'' +
                 ", password='" + password + '\'' +
                 ", phone='" + phone + '\'' +
-                ", credit='" + credit + '\'' +
+                ", credit=" + credit +
                 ", vip='" + vip + '\'' +
                 ", userType='" + userType + '\'' +
                 ", birthday=" + birthday +

@@ -35,7 +35,7 @@ public class AccountServiceImpl implements AccountService {
     public ResponseVo register(UserForm userForm) {
         User user = new User();
         BeanUtils.copyProperties(userForm,user);
-        user.setCredit("100");
+        user.setCredit(100.0);
         try {
             accountMapper.createNewAccount(user);
         } catch (Exception e){

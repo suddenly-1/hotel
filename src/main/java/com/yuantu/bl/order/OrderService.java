@@ -1,5 +1,6 @@
 package com.yuantu.bl.order;
 
+import com.yuantu.vo.OrderPage;
 import com.yuantu.vo.OrderStatus;
 import com.yuantu.vo.OrderVo;
 import com.yuantu.vo.ResponseVo;
@@ -26,9 +27,21 @@ public interface OrderService {
     ResponseVo ordersExecuted(OrderStatus orderStatus);
 
     /**
-     * 按状态查询
+     * 按状态查询list
+     * @param orderPage
+     * */
+     ResponseVo queryOrderByStatus(OrderPage orderPage);
+
+    /**
+     * 按订单号查询订单
+     * @param orderNumber
+     * */
+    ResponseVo queryOrderByOrderNumber(String orderNumber);
+
+    /**
+     * 补登记执行
      * @param orderStatus
      * */
-        ResponseVo queryOrderByStatus(OrderStatus orderStatus);
+    ResponseVo supplementaryExecution(OrderStatus orderStatus);
 
 }

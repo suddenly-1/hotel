@@ -7,7 +7,7 @@ public class UserForm {
     private String accountNumber;
     private String password;
     private String phone;
-    private String credit;
+    private Double credit;
     private String userType;
     private Date birthday;
     private String companyName;
@@ -16,7 +16,7 @@ public class UserForm {
     public UserForm() {
     }
 
-    public UserForm(String username, String accountNumber, String password, String phone, String credit, String userType, Date birthday, String companyName, Integer hotel_id) {
+    public UserForm(String username, String accountNumber, String password, String phone, Double credit, String userType, Date birthday, String companyName, Integer hotel_id) {
         this.username = username;
         this.accountNumber = accountNumber;
         this.password = password;
@@ -60,11 +60,11 @@ public class UserForm {
         this.phone = phone;
     }
 
-    public String getCredit() {
+    public Double getCredit() {
         return credit;
     }
 
-    public void setCredit(String credit) {
+    public void setCredit(Double credit) {
         this.credit = credit;
     }
 
@@ -107,7 +107,7 @@ public class UserForm {
                 ", accountNumber='" + accountNumber + '\'' +
                 ", password='" + password + '\'' +
                 ", phone='" + phone + '\'' +
-                ", credit='" + credit + '\'' +
+                ", credit=" + credit +
                 ", userType='" + userType + '\'' +
                 ", birthday=" + birthday +
                 ", companyName='" + companyName + '\'' +

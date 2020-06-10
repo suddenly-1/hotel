@@ -9,12 +9,12 @@ public class Credit {
     private String orderNumber;
     private String action;
     private String creditChange;
-    private Integer creditResult;
+    private Double creditResult;
 
     public Credit() {
     }
 
-    public Credit(Integer id, Integer userId, Date time, String orderNumber, String action, String creditChange, Integer creditResult) {
+    public Credit(Integer id, Integer userId, Date time, String orderNumber, String action, String creditChange, Double creditResult) {
         this.id = id;
         this.userId = userId;
         this.time = time;
@@ -72,11 +72,11 @@ public class Credit {
         this.creditChange = creditChange;
     }
 
-    public Integer getCreditResult() {
+    public Double getCreditResult() {
         return creditResult;
     }
 
-    public void setCreditResult(Integer creditResult) {
+    public void setCreditResult(Double creditResult) {
         this.creditResult = creditResult;
     }
 

@@ -7,6 +7,14 @@ import com.yuantu.vo.ResponseVo;
 public interface CreditService {
 
     /**
+     * 根据订单号和状态查询信用详情
+     * @param orderNumber
+     * @param action
+     * @return
+     */
+    Credit creditDetails(String orderNumber, String action);
+
+    /**
      * 查询信用详情
      * @param id
      * @return

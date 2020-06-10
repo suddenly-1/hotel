@@ -42,6 +42,9 @@
             <if test="phone != null">
                 phone = #{phone},
             </if>
+            <if test="credit != null">
+                credit = #{credit},
+            </if>
             <if test="birthday != null">
                 birthday = #{birthday},
             </if>

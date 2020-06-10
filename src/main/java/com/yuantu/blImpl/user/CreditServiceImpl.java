@@ -22,6 +22,11 @@ public class CreditServiceImpl implements CreditService {
     private CreditMapper creditMapper;
 
     @Override
+    public Credit creditDetails(String orderNumber, String action) {
+        return creditMapper.queryCreditByOrderNumber(orderNumber,action);
+    }
+
+    @Override
     public ResponseVo creditDetails(int id) {
         CreditVo creditVo = new CreditVo();
         Credit credit = creditMapper.queryCreditById(id);
@@ -34,15 +39,16 @@ public class CreditServiceImpl implements CreditService {
     @Override
     public ResponseVo creditList(int userId, int pageNum, int pageSize) {
         PageHelper.startPage(pageNum,pageSize);
-        List<CreditVo> listVo = new ArrayList<>();
         List<Credit> creditList = creditMapper.queryCreditByUserId(userId);
+        List<CreditVo> listVo = new ArrayList<>();
         for (int i = 0; i < creditList.size(); i++){
             CreditVo creditVo = new CreditVo();
             BeanUtils.copyProperties(creditList.get(i),creditVo);
             creditVo.setTime(DateFormat.DateConvertString(creditList.get(i).getTime()));
             listVo.add(creditVo);
         }
-        PageInfo<CreditVo> pageInfo = new PageInfo<CreditVo>(listVo);
+        PageInfo pageInfo = new PageInfo(creditList);
+        pageInfo.setList(listVo);
         return ResponseVo.buildSuccess(pageInfo);
     }
 
