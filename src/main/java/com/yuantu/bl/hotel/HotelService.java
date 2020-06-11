@@ -31,8 +31,6 @@ public interface HotelService {
    List<HotelInfoVo>  getHotelInfo(@Param("businessdistrict")String businessdistrict,@Param("address")String address,@Param("hotelId") Integer hotelId,@Param("pageNum") Integer pageNum);
 
 
-
-
     /**
    *排序：通过酒店价格从低到高，星级和评分排序
    */
@@ -46,5 +44,10 @@ public interface HotelService {
    */
   List<HotelInfoVo> likeQuery(@Param("condition") String condition);
 
-
+  /**
+   * 添加酒店
+   * @param hotel
+   * @return
+   */
+  ResponseVo addHotelInfo(@Param("hotel") HotelInfoVo hotel);
 }

@@ -66,6 +66,13 @@
     </trim>
     </select>
 
+    <!--添加酒店-->
+    <insert id="insertHotelInfo" parameterType="com.yuantu.po.Hotel" useGeneratedKeys="true" keyProperty="id">
+        insert into
+        hotel(hotel.hotelname,hotel.address,hotel.businessdistrict,hotel.Introduction,hotel.facilities,hotel.Star)
+         VALUES (#{hotel.hotelName},#{hotel.address},#{hotel.businessDistrict},#{hotel.introduction},#{hotel.facilities},#{hotel.star})
+    </insert>
+
     <resultMap id="Hotel" type="com.yuantu.po.Hotel">
         <result column="id" property="id"></result>
         <result column="hotelname" property="hotelName"></result>

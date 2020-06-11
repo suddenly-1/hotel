@@ -15,8 +15,7 @@ import java.security.PublicKey;
 public class HotelController {
   @Autowired
   HotelService hotelService;
-  //@Autowired
-  //RoomService roomService;
+
 
 
   @GetMapping(value = {"/{address}/{businessdistrict}","/{address}/{businessdistrict}/{hotelId}"})
@@ -38,5 +37,10 @@ public class HotelController {
   @GetMapping("/fuzzy/{condition}")
   public ResponseVo HotelFuzzy(@PathVariable String condition){
     return ResponseVo.buildSuccess(JSON.toJSONString(hotelService.likeQuery(condition)));
+  }
+
+  @PostMapping("/insert")
+  public ResponseVo addHotel(@RequestBody HotelInfoVo hotelInfoVo){
+    return ResponseVo.buildSuccess(JSON.toJSONString(hotelService.addHotelInfo(hotelInfoVo)));
   }
 }

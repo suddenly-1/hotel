@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 
 @Service
 public class HotelServiceImpl implements HotelService {
-
+  private final static String INSERT_ERROR="添加失败";
   private final static String UPDATE_ERROR = "修改失败";
 
   @Autowired
@@ -92,5 +92,20 @@ public class HotelServiceImpl implements HotelService {
     return hotelInfoVos;
   }
 
+  @Override
+  public ResponseVo addHotelInfo(HotelInfoVo hotel) {
+    System.out.println(hotel);
+    Hotel h = new Hotel();
+    BeanUtils.copyProperties(hotel,h);
+    System.out.println(h);
+    try{
+      hotelMapper.insertHotelInfo(h);
+    }
+    catch (Exception e){
+      e.getMessage();
+      ResponseVo.buildSuccess(INSERT_ERROR);
+    }
+    return ResponseVo.buildSuccess(true);
+  }
 
 }
