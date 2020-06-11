@@ -24,7 +24,12 @@ public class LoginController {
         UsernamePasswordToken token = new UsernamePasswordToken(userLogin.getAccountNumber(),userLogin.getPassword());
         try {
             subject.login(token);
-            return JSON.toJSONString(ResponseVo.buildSuccess(accountService.login(userLogin).getId()));
+            if("on".equals(userLogin.getRemember())){
+                token.setRememberMe(true);
+            }else {
+                token.setRememberMe(false);
+            }
+            return JSON.toJSONString(accountService.login(userLogin));
         } catch (UnknownAccountException e) {
             return JSON.toJSONString(ResponseVo.buildFailure("用户名错误！"));
         } catch (IncorrectCredentialsException e) {

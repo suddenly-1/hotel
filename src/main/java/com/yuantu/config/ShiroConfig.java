@@ -23,6 +23,7 @@ public class ShiroConfig {
 
         shiroFilterFactoryBean.setLoginUrl("/autherror/1");
         shiroFilterFactoryBean.setUnauthorizedUrl("/autherror/2");
+
         return shiroFilterFactoryBean;
     }
 

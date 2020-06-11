@@ -26,23 +26,37 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public User login(UserLogin userLogin) {
+    public ResponseVo login(UserLogin userLogin) {
         User user = accountMapper.queryUserByAccountName(userLogin.getAccountNumber());
-        return user;
+        if (user != null){
+            userLogin.setId(user.getId());
+            userLogin.setPassword(null);
+            if (userLogin.getRemember() == null){
+                userLogin.setRemember("null");
+            }
+            return ResponseVo.buildSuccess(userLogin);
+        } else {
+            return ResponseVo.buildFailure("用户名或密码错误！");
+        }
     }
 
     @Override
     public ResponseVo register(UserForm userForm) {
-        User user = new User();
-        BeanUtils.copyProperties(userForm,user);
-        user.setCredit(100.0);
-        try {
-            accountMapper.createNewAccount(user);
-        } catch (Exception e){
-            e.getMessage();
-            return ResponseVo.buildFailure(ACCOUNT_EXIST);
+        User user1 = accountMapper.queryUserByAccountName(userForm.getAccountNumber());
+        if (user1 != null){
+            return ResponseVo.buildFailure("账号已存在！");
+        } else {
+            User user = new User();
+            BeanUtils.copyProperties(userForm,user);
+            user.setCredit(100.0);
+            try {
+                accountMapper.createNewAccount(user);
+            } catch (Exception e){
+                e.getMessage();
+                return ResponseVo.buildFailure(ACCOUNT_EXIST);
+            }
+            return ResponseVo.buildSuccess();
         }
-        return ResponseVo.buildSuccess();
     }
 
     @Override

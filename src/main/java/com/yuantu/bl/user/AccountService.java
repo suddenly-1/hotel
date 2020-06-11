@@ -24,7 +24,7 @@ public interface AccountService {
      * @param  userLogin
      * @return
      */
-    User login(UserLogin userLogin);
+    ResponseVo login(UserLogin userLogin);
 
     /**
      * 注册账号
