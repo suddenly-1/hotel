@@ -18,14 +18,14 @@ public class Order {
     private Integer child;
     private String status;
     private Double amount;
-    private String score;
+    private Double score;
     private String comment;
     private Date revocationTime;
 
     public Order() {
     }
 
-    public Order(Integer id, String orderNumber, Integer user_id, Integer hotel_id, String hotelName, Date generationDate, Date startDate, Date endDate, Date latestDate, String roomType, Integer rooms, Integer number, Integer child, String status, Double amount, String score, String comment, Date revocationTime) {
+    public Order(Integer id, String orderNumber, Integer user_id, Integer hotel_id, String hotelName, Date generationDate, Date startDate, Date endDate, Date latestDate, String roomType, Integer rooms, Integer number, Integer child, String status, Double amount, Double score, String comment, Date revocationTime) {
         this.id = id;
         this.orderNumber = orderNumber;
         this.user_id = user_id;
@@ -166,11 +166,11 @@ public class Order {
         this.amount = amount;
     }
 
-    public String getScore() {
+    public Double getScore() {
         return score;
     }
 
-    public void setScore(String score) {
+    public void setScore(Double score) {
         this.score = score;
     }
 
@@ -192,7 +192,7 @@ public class Order {
 
     @Override
     public String toString() {
-        return "order{" +
+        return "Order{" +
                 "id=" + id +
                 ", orderNumber='" + orderNumber + '\'' +
                 ", user_id=" + user_id +
@@ -208,7 +208,7 @@ public class Order {
                 ", child=" + child +
                 ", status='" + status + '\'' +
                 ", amount=" + amount +
-                ", score='" + score + '\'' +
+                ", score=" + score +
                 ", comment='" + comment + '\'' +
                 ", revocationTime=" + revocationTime +
                 '}';

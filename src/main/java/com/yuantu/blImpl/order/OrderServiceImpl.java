@@ -28,16 +28,28 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public ResponseVo generateOrders(OrderVo orderVo) {
-
+        // 类型转换
+        Order order1 = new Order();
+        BeanUtils.copyProperties(orderVo,order1);
+        order1.setGenerationDate(DateFormat.StringConvertDate(orderVo.getGenerationDate()));
+        order1.setStartDate(DateFormat.StringConvertDate(orderVo.getStartDate()));
+        order1.setEndDate(DateFormat.StringConvertDate(orderVo.getEndDate()));
+        order1.setLatestDate(DateFormat.StringConvertDate(orderVo.getLatestDate()));
+        // 订单号UUID
+        String s = new Date().getTime() + "";
+        String time = s.substring(s.length() - 4, s.length());
+        Integer random = (int)((Math.random()*9+1)*1000);
+        order1.setOrderNumber(time+random+orderVo.getUser_id());
+        orderMapper.addOrder(order1);
+        // 超过最晚执行订单时间
         long latestTime = DateFormat.StringConvertDate(orderVo.getLatestDate()).getTime();
         long startTime = DateFormat.StringConvertDate(orderVo.getStartDate()).getTime();
         long interval = latestTime - startTime;
-
         Timer timer = new Timer();
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
-                Order order = orderMapper.queryOrderByOrderNumber(orderVo.getOrderNumber());
+                Order order = orderMapper.queryOrderByOrderNumber(order1.getOrderNumber());
                 if ("未执行".equals(order.getStatus())) {
                     orderMapper.updateOrder(new Order(null,order.getOrderNumber(),null,null,null,null,null,null,null,null,null,null,null,"异常",null,null,null,null));
                     Double res = accountService.queryUserById(order.getUser_id()).getCredit()-order.getAmount();
@@ -46,15 +58,7 @@ public class OrderServiceImpl implements OrderService {
                     System.out.println("超过最晚订单执行时间后还没有办理入住，系统自动将其置为异常订单！同时扣除用户等于订单的总价值的信用值!");
                 }
             }
-        },5000);
-
-        Order order = new Order();
-        BeanUtils.copyProperties(orderVo,order);
-        order.setGenerationDate(DateFormat.StringConvertDate(orderVo.getGenerationDate()));
-        order.setStartDate(DateFormat.StringConvertDate(orderVo.getStartDate()));
-        order.setEndDate(DateFormat.StringConvertDate(orderVo.getEndDate()));
-        order.setLatestDate(DateFormat.StringConvertDate(orderVo.getLatestDate()));
-        orderMapper.addOrder(order);
+        },10000);
         return ResponseVo.buildSuccess(orderVo);
     }
 
@@ -149,6 +153,19 @@ public class OrderServiceImpl implements OrderService {
         creditService.addCredit(new Credit(null,credit.getUserId(),new Date(),credit.getOrderNumber(),"已执行","-"+res,result));
 
         return ResponseVo.buildSuccess();
+    }
+
+    @Override
+    public ResponseVo evaluation(OrderEvaluation orderEvaluation) {
+        Order order = new Order();
+        BeanUtils.copyProperties(orderEvaluation, order);
+        Order order1 = orderMapper.queryOrderByOrderNumber(orderEvaluation.getOrderNumber());
+        if ("已执行".equals(order1.getStatus())){
+            orderMapper.evaluation(order);
+            return ResponseVo.buildSuccess();
+        } else {
+            return ResponseVo.buildFailure("只能评价已执行订单！");
+        }
     }
 
 }

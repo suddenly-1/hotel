@@ -11,6 +11,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 
 
+
 @SpringBootTest
 public class HotelApplicationTests {
 
@@ -24,6 +25,9 @@ public class HotelApplicationTests {
     @Test
     public void getRoomMapper() {
         System.out.println("--------------------------------");
+
+
+
 
 
         System.out.println("--------------------------------");

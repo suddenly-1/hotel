@@ -65,4 +65,17 @@
         SELECT * FROM `order` where ordernumber = #{orderNumber}
     </select>
 
+    <update id="evaluation" parameterType="Order">
+        UPDATE `order`
+        <set>
+            <if test="score != null">
+                `score` = #{score},
+            </if>
+            <if test="comment != null">
+                `comment` = #{comment},
+            </if>
+        </set>
+        WHERE ordernumber = #{orderNumber}
+    </update>
+
 </mapper>

@@ -1,9 +1,6 @@
 package com.yuantu.bl.order;
 
-import com.yuantu.vo.OrderPage;
-import com.yuantu.vo.OrderStatus;
-import com.yuantu.vo.OrderVo;
-import com.yuantu.vo.ResponseVo;
+import com.yuantu.vo.*;
 
 
 public interface OrderService {
@@ -43,5 +40,11 @@ public interface OrderService {
      * @param orderStatus
      * */
     ResponseVo supplementaryExecution(OrderStatus orderStatus);
+
+    /**
+     * 评价
+     * @param orderEvaluation
+     * */
+    ResponseVo evaluation(OrderEvaluation orderEvaluation);
 
 }

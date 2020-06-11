@@ -34,4 +34,10 @@ public interface OrderMapper {
      * */
     Order queryOrderByOrderNumber(String orderNumber);
 
+    /**
+     * 评价
+     * @param order
+     * */
+    void evaluation(Order order);
+
 }
