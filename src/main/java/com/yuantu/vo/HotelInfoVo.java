@@ -12,18 +12,22 @@ public class HotelInfoVo {
   private String businessDistrict;//酒店所属商圈
   private String introduction;//酒店简介
   private String facilities;//设施服务
-  private String star;//酒店星级
+  private Integer star;//酒店星级
+  private Integer score;//酒店评分
+  private Integer averagePrice;//平均价格
 
   public HotelInfoVo() {
   }
 
-  public HotelInfoVo(String hotelName, String address, String businessDistrict, String introduction, String facilities, String star) {
+  public HotelInfoVo(String hotelName, String address, String businessDistrict, String introduction, String facilities, Integer star, Integer score,Integer averagePrice) {
     this.hotelName = hotelName;
     this.address = address;
     this.businessDistrict = businessDistrict;
     this.introduction = introduction;
     this.facilities = facilities;
     this.star = star;
+    this.score = score;
+    this.averagePrice = averagePrice;
   }
 
   public String getHotelName() {
@@ -66,12 +70,28 @@ public class HotelInfoVo {
     this.facilities = facilities;
   }
 
-  public String getStar() {
+  public Integer getStar() {
     return star;
   }
 
-  public void setStar(String star) {
+  public void setStar(Integer star) {
     this.star = star;
+  }
+
+  public Integer getScore() {
+    return score;
+  }
+
+  public void setScore(Integer score) {
+    this.score = score;
+  }
+
+  public Integer getAveragePrice() {
+    return averagePrice;
+  }
+
+  public void setAveragePrice(Integer averagePrice) {
+    this.averagePrice = averagePrice;
   }
 
   @Override
@@ -82,7 +102,9 @@ public class HotelInfoVo {
       ", businessDistrict='" + businessDistrict + '\'' +
       ", introduction='" + introduction + '\'' +
       ", facilities='" + facilities + '\'' +
-      ", star='" + star + '\'' +
+      ", star=" + star +
+      ", score=" + score +
+      ", averagePrice=" + averagePrice +
       '}';
   }
 }

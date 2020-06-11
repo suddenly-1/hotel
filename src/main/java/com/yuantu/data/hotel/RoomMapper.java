@@ -30,5 +30,6 @@ public interface RoomMapper {
    * @param hotelId
    * @return
    */
-  List<RoomInfoVo> selectRoomInfo(@Param("hotelId")Integer hotelId);
+  List<Room> selectRoomInfo(@Param("hotelId")Integer hotelId);
+
 }

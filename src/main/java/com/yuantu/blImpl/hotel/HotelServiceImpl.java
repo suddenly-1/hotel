@@ -1,15 +1,22 @@
 package com.yuantu.blImpl.hotel;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.yuantu.bl.hotel.HotelService;
 import com.yuantu.data.hotel.HotelMapper;
 import com.yuantu.po.Hotel;
+import com.yuantu.util.PageUtil;
 import com.yuantu.vo.HotelInfoVo;
 import com.yuantu.vo.ResponseVo;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class HotelServiceImpl implements HotelService {
@@ -33,8 +40,57 @@ public class HotelServiceImpl implements HotelService {
   }
 
   @Override
-  public List<HotelInfoVo> getHotelInfo(Integer hotelId) {
-    return hotelMapper.selectHotelInfo(hotelId);
+  public List<HotelInfoVo> getHotelInfo(String businessdistrict, String address, Integer hotelId, Integer pageNum) {
+
+    PageHelper.startPage(pageNum,PageUtil.pageSize);
+    List<Hotel> hotel= hotelMapper.selectHotelInfo(businessdistrict,address,hotelId);
+    List<HotelInfoVo> hotelInfoVos = new LinkedList<>();
+    for (int i=0; i<hotel.size();i++) {
+      HotelInfoVo hotelInfoVo = new HotelInfoVo();
+      BeanUtils.copyProperties(hotel.get(i),hotelInfoVo);
+      hotelInfoVos.add(hotelInfoVo);
+    }
+    PageInfo pageInfo = new PageInfo(hotel);
+    pageInfo.setList(hotelInfoVos);
+    return hotelInfoVos;
   }
+
+
+  @Override
+  public List<HotelInfoVo> HotelSort(String condition) {
+    List<Hotel> hotel=hotelMapper.selectHotelSort(condition);
+    List<HotelInfoVo> hotelInfoVo = hotel.stream().map(h -> {
+      HotelInfoVo hl= new HotelInfoVo();
+      hl.setAddress(h.getAddress());
+      hl.setBusinessDistrict(h.getBusinessDistrict());
+      hl.setIntroduction(h.getIntroduction());
+      hl.setFacilities(h.getFacilities());
+      hl.setHotelName(h.getHotelName());
+      hl.setScore(h.getScore());
+      hl.setStar(h.getStar());
+      hl.setAveragePrice(h.getAveragePrice());
+      return hl;
+    }).collect(Collectors.toList());
+    return hotelInfoVo;
+  }
+
+  @Override
+  public List<HotelInfoVo> likeQuery(String condition) {
+    List<Hotel> hotels = hotelMapper.selectLikeQuery(condition);
+    List<HotelInfoVo> hotelInfoVos = hotels.stream().map(hotel -> {
+      HotelInfoVo hl= new HotelInfoVo();
+      hl.setAddress(hotel.getAddress());
+      hl.setBusinessDistrict(hotel.getBusinessDistrict());
+      hl.setIntroduction(hotel.getIntroduction());
+      hl.setFacilities(hotel.getFacilities());
+      hl.setHotelName(hotel.getHotelName());
+      hl.setScore(hotel.getScore());
+      hl.setStar(hotel.getStar());
+      hl.setAveragePrice(hotel.getAveragePrice());
+      return hl;
+    }).collect(Collectors.toList());
+    return hotelInfoVos;
+  }
+
 
 }
