@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuantu.data.order.OrderMapper">
+
+    <!--结果集映射-->
+    <resultMap id="OrderMap" type="Order">
+        <!--column数据库中的字段，property实体类中的属性-->
+        <result column="id" property="id"/>
+        <result column="ordernumber" property="orderNumber"/>
+        <result column="user_id" property="user_id"/>
+        <result column="hotel_id" property="hotel_id"/>
+        <result column="hotelname" property="hotelName"/>
+        <result column="generationdate" property="generationDate"/>
+        <result column="startdate" property="startDate"/>
+        <result column="enddate" property="endDate"/>
+        <result column="latestdate" property="latestDate"/>
+        <result column="roomtype" property="roomType"/>
+        <result column="rooms" property="rooms"/>
+        <result column="number" property="number"/>
+        <result column="child" property="child"/>
+        <result column="status" property="status"/>
+        <result column="amount" property="amount"/>
+        <result column="score" property="score"/>
+        <result column="comment" property="comment"/>
+        <result column="revocationtime" property="revocationTime"/>
+    </resultMap>
+
+    <insert id="addOrder" parameterType="Order" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO `order`(ordernumber,user_id,hotel_id,hotelname,generationdate,startdate,enddate,latestdate,roomtype,rooms,number ,child,status,amount)
+         VALUES (#{orderNumber}, #{user_id}, #{hotel_id}, #{hotelName}, #{generationDate}, #{startDate}, #{endDate}, #{latestDate}, #{roomType}, #{rooms}, #{number}, #{child}, #{status}, #{amount})
+    </insert>
+
+    <update id="updateOrder" parameterType="Order">
+        UPDATE `order`
+        <set>
+            <if test="status != null">
+                `status` = #{status},
+            </if>
+            <if test="revocationTime != null">
+                `revocationtime` = #{revocationTime}
+            </if>
+        </set>
+        WHERE ordernumber = #{orderNumber}
+    </update>
+
+    <select id="queryOrderByStatus" parameterType="Order" resultMap="OrderMap">
+        SELECT * FROM `order` where user_id = #{user_id} and status = #{status}
+    </select>
+
+</mapper>

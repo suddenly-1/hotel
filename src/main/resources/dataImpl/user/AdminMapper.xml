@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuantu.data.user.AdminMapper">
+    <!--通过用户类型查询-->
+    <select id="selectUser" parameterType="string" resultMap="UserMap">
+        select INSERT(username,2,1,'*')as username, INSERT(accountnumber,4,4,'*') as accountnumber,'******'as password,INSERT(phone,4,4,'****') as phone,credit,vip
+         ,birthday,companyname from user
+         <where>
+             usertype=#{userType}
+         </where>
+    </select>
+
+    <!--修改用户信息-->
+    <update id="updateUser" parameterType="com.yuantu.po.User">
+        UPDATE user
+        <set>
+            <if test="user.password !=null">
+                password=#{user.password}
+            </if>
+            <if test="user.phone !=null">
+                phone=#{user.phone}
+            </if>
+            <if test="user.credit !=null">
+                credit=#{user.credit}
+            </if>
+            <if test="user.vip !=null">
+                vip=#{user.vip}
+            </if>
+            <if test="user.companyname !=null">
+                companyname=#{user.companyname}
+            </if>
+        </set>
+        <where>
+            usertype=#{usertype} and username=#{username}
+        </where>
+    </update>
+
+    <!--结果集映射-->
+    <resultMap id="UserMap" type="User">
+        <!--column数据库中的字段，property实体类中的属性-->
+        <result column="id" property="id"/>
+        <result column="username" property="username"/>
+        <result column="accountnumber" property="accountNumber"/>
+        <result column="password" property="password"/>
+        <result column="phone" property="phone"/>
+        <result column="credit" property="credit"/>
+        <result column="vip" property="vip"/>
+        <result column="usertype" property="userType"/>
+        <result column="birthday" property="birthday"/>
+        <result column="companyname" property="companyName"/>
+        <result column="hotel_id" property="hotel_id"/>
+    </resultMap>
+</mapper>

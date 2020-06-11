@@ -18,10 +18,12 @@ public class HotelController {
   //@Autowired
   //RoomService roomService;
 
-  @GetMapping("/{hotelId}")
-  public ResponseVo allHotelInfo(@PathVariable Integer hotelId){
-    return ResponseVo.buildSuccess(JSON.toJSONString(hotelService.getHotelInfo(hotelId)));
+
+  @GetMapping(value = {"/{address}/{businessdistrict}","/{address}/{businessdistrict}/{hotelId}"})
+  public ResponseVo HotelInfo(@PathVariable String businessdistrict,@PathVariable String address,@PathVariable(required = false) Integer hotelId,@RequestParam(value = "pageNum")Integer pageNum){
+    return ResponseVo.buildSuccess(JSON.toJSONString(hotelService.getHotelInfo(businessdistrict,address,hotelId,pageNum)));
   }
+
 
   @PostMapping("/update/{hotelId}")
   public ResponseVo modifyInfo(@RequestBody HotelInfoVo hotelInfoVo,@PathVariable Integer hotelId){

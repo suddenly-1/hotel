@@ -1,8 +1,11 @@
 package com.yuantu.blImpl.hotel;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.yuantu.bl.hotel.HotelService;
 import com.yuantu.data.hotel.HotelMapper;
 import com.yuantu.po.Hotel;
+import com.yuantu.util.PageUtil;
 import com.yuantu.vo.HotelInfoVo;
 import com.yuantu.vo.ResponseVo;
 import org.springframework.beans.BeanUtils;
@@ -11,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -36,12 +40,21 @@ public class HotelServiceImpl implements HotelService {
   }
 
   @Override
-  public HotelInfoVo getHotelInfo(Integer hotelId) {
-    Hotel hotel= hotelMapper.selectHotelInfo(hotelId);
-    HotelInfoVo hotelInfoVo = new HotelInfoVo();
-    BeanUtils.copyProperties(hotel,hotelInfoVo);
-    return hotelInfoVo;
+  public List<HotelInfoVo> getHotelInfo(String businessdistrict, String address, Integer hotelId, Integer pageNum) {
+
+    PageHelper.startPage(pageNum,PageUtil.pageSize);
+    List<Hotel> hotel= hotelMapper.selectHotelInfo(businessdistrict,address,hotelId);
+    List<HotelInfoVo> hotelInfoVos = new LinkedList<>();
+    for (int i=0; i<hotel.size();i++) {
+      HotelInfoVo hotelInfoVo = new HotelInfoVo();
+      BeanUtils.copyProperties(hotel.get(i),hotelInfoVo);
+      hotelInfoVos.add(hotelInfoVo);
+    }
+    PageInfo pageInfo = new PageInfo(hotel);
+    pageInfo.setList(hotelInfoVos);
+    return hotelInfoVos;
   }
+
 
   @Override
   public List<HotelInfoVo> HotelSort(String condition) {

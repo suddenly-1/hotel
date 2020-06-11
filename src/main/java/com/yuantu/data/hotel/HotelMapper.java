@@ -21,7 +21,7 @@ public interface HotelMapper {
    * @param hotelId
    * @return
    */
-  Hotel selectHotelInfo(@Param("hotelId") Integer hotelId);
+  List<Hotel> selectHotelInfo(@Param("businessdistrict")String businessdistrict,@Param("address")String address,@Param("hotelId") Integer hotelId);
 
   /**
    *排序：通过酒店价格从低到高，星级和评分排序
