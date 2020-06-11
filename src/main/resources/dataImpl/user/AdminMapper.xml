@@ -17,25 +17,40 @@
         UPDATE user
         <set>
             <if test="user.password !=null">
-                password=#{user.password}
+                password=#{user.password},
             </if>
             <if test="user.phone !=null">
-                phone=#{user.phone}
+                phone=#{user.phone},
             </if>
             <if test="user.credit !=null">
-                credit=#{user.credit}
+                credit=#{user.credit},
             </if>
             <if test="user.vip !=null">
-                vip=#{user.vip}
+                vip=#{user.vip},
             </if>
             <if test="user.companyname !=null">
                 companyname=#{user.companyname}
             </if>
         </set>
         <where>
-            usertype=#{usertype} and username=#{username}
+            usertype=#{userType} and username=#{username}
         </where>
     </update>
+
+    <!--添加酒店-->
+    <insert id="insertHotelInfo" parameterType="com.yuantu.po.Hotel" useGeneratedKeys="true" keyProperty="id">
+        insert into
+        hotel(hotel.hotelname,hotel.address,hotel.businessdistrict,hotel.Introduction,hotel.facilities,hotel.Star)
+         VALUES (#{hotel.hotelName},#{hotel.address},#{hotel.businessDistrict},#{hotel.introduction},#{hotel.facilities},#{hotel.star})
+    </insert>
+    <!--搜索酒店是否有员工-->
+    <select id="selectHotelWorker" parameterType="string" resultType="java.lang.Boolean">
+        select count(u.username) from user u LEFT JOIN
+        hotel h on u.hotel_id=h.id
+        <where>
+            h.id=#{hotelid}
+        </where>
+    </select>
 
     <!--结果集映射-->
     <resultMap id="UserMap" type="User">

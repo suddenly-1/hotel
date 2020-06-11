@@ -14,6 +14,10 @@
         <result column="creditresult" property="creditResult"/>
     </resultMap>
 
+    <select id="queryCreditByOrderNumber" resultMap="CreditMap">
+        SELECT * FROM credit WHERE ordernumber = #{orderNumber} and action = #{action}
+    </select>
+
     <select id="queryCreditById" resultMap="CreditMap">
         SELECT * FROM credit WHERE id = #{id}
     </select>

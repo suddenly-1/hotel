@@ -3,13 +3,13 @@ package com.yuantu.vo;
 public class OrderEvaluation {
 
     private String orderNumber;     //订单号
-    private String score;           //评分
+    private Double score;           //评分
     private String comment;         //评论
 
     public OrderEvaluation() {
     }
 
-    public OrderEvaluation(String orderNumber, String score, String comment) {
+    public OrderEvaluation(String orderNumber, Double score, String comment) {
         this.orderNumber = orderNumber;
         this.score = score;
         this.comment = comment;
@@ -23,11 +23,11 @@ public class OrderEvaluation {
         this.orderNumber = orderNumber;
     }
 
-    public String getScore() {
+    public Double getScore() {
         return score;
     }
 
-    public void setScore(String score) {
+    public void setScore(Double score) {
         this.score = score;
     }
 
@@ -43,7 +43,7 @@ public class OrderEvaluation {
     public String toString() {
         return "OrderEvaluation{" +
                 "orderNumber='" + orderNumber + '\'' +
-                ", score='" + score + '\'' +
+                ", score=" + score +
                 ", comment='" + comment + '\'' +
                 '}';
     }

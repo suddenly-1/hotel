@@ -23,9 +23,21 @@ public interface OrderMapper {
     void updateOrder(Order order);
 
     /**
-     * 查询订单
+     * 按状态查询订单
      * @param order
      * */
     List<Order> queryOrderByStatus(Order order);
+
+    /**
+     * 按订单号查询
+     * @param orderNumber
+     * */
+    Order queryOrderByOrderNumber(String orderNumber);
+
+    /**
+     * 评价
+     * @param order
+     * */
+    void evaluation(Order order);
 
 }

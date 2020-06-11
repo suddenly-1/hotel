@@ -6,12 +6,12 @@ public class CreditVo {
     private String orderNumber;
     private String action;
     private String creditChange;
-    private Integer creditResult;
+    private Double creditResult;
 
     public CreditVo() {
     }
 
-    public CreditVo(String time, String orderNumber, String action, String creditChange, Integer creditResult) {
+    public CreditVo(String time, String orderNumber, String action, String creditChange, Double creditResult) {
         this.time = time;
         this.orderNumber = orderNumber;
         this.action = action;
@@ -51,11 +51,11 @@ public class CreditVo {
         this.creditChange = creditChange;
     }
 
-    public Integer getCreditResult() {
+    public Double getCreditResult() {
         return creditResult;
     }
 
-    public void setCreditResult(Integer creditResult) {
+    public void setCreditResult(Double creditResult) {
         this.creditResult = creditResult;
     }
 

@@ -16,6 +16,14 @@ import java.util.List;
 public interface CreditMapper {
 
     /**
+     * 根据订单号和状态查询
+     * @param orderNumber
+     * @param action
+     * @return
+     */
+    Credit queryCreditByOrderNumber(@Param("orderNumber") String orderNumber, @Param("action") String action);
+
+    /**
      * 根据id查询
      * @param id
      * @return

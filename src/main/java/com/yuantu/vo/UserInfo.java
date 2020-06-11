@@ -7,14 +7,14 @@ public class UserInfo {
     private String username;
     private String accountNumber;
     private String phone;
-    private String credit;
+    private Double credit;
     private Date birthday;
     private String companyName;
 
     public UserInfo() {
     }
 
-    public UserInfo(Integer id, String username, String accountNumber, String phone, String credit, Date birthday, String companyName) {
+    public UserInfo(Integer id, String username, String accountNumber, String phone, Double credit, Date birthday, String companyName) {
         this.id = id;
         this.username = username;
         this.accountNumber = accountNumber;
@@ -56,11 +56,11 @@ public class UserInfo {
         this.phone = phone;
     }
 
-    public String getCredit() {
+    public Double getCredit() {
         return credit;
     }
 
-    public void setCredit(String credit) {
+    public void setCredit(Double credit) {
         this.credit = credit;
     }
 
@@ -87,7 +87,7 @@ public class UserInfo {
                 ", username='" + username + '\'' +
                 ", accountNumber='" + accountNumber + '\'' +
                 ", phone='" + phone + '\'' +
-                ", credit='" + credit + '\'' +
+                ", credit=" + credit +
                 ", birthday=" + birthday +
                 ", companyName='" + companyName + '\'' +
                 '}';

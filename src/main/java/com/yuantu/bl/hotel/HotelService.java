@@ -47,7 +47,4 @@ public interface HotelService {
   List<HotelInfoVo> likeQuery(@Param("condition") String condition);
 
 
-  /**
-   *
-   */
 }

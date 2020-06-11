@@ -45,8 +45,37 @@
         WHERE ordernumber = #{orderNumber}
     </update>
 
+<!--    SELECT * FROM `order` where user_id = #{user_id} and status = #{status}-->
     <select id="queryOrderByStatus" parameterType="Order" resultMap="OrderMap">
-        SELECT * FROM `order` where user_id = #{user_id} and status = #{status}
+        SELECT * FROM `order`
+        <where>
+            <if test="hotel_id != null">
+                and hotel_id = #{hotel_id}
+            </if>
+            <if test="user_id != null">
+                and user_id = #{user_id}
+            </if>
+            <if test="status != null">
+                and status = #{status}
+            </if>
+        </where>
     </select>
+
+    <select id="queryOrderByOrderNumber" resultMap="OrderMap">
+        SELECT * FROM `order` where ordernumber = #{orderNumber}
+    </select>
+
+    <update id="evaluation" parameterType="Order">
+        UPDATE `order`
+        <set>
+            <if test="score != null">
+                `score` = #{score},
+            </if>
+            <if test="comment != null">
+                `comment` = #{comment},
+            </if>
+        </set>
+        WHERE ordernumber = #{orderNumber}
+    </update>
 
 </mapper>

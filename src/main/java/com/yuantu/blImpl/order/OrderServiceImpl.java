@@ -1,19 +1,20 @@
 package com.yuantu.blImpl.order;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.yuantu.bl.order.OrderService;
 import com.yuantu.bl.user.AccountService;
+import com.yuantu.bl.user.CreditService;
 import com.yuantu.data.order.OrderMapper;
+import com.yuantu.po.Credit;
 import com.yuantu.po.Order;
-import com.yuantu.po.User;
 import com.yuantu.util.DateFormat;
-import com.yuantu.vo.OrderStatus;
-import com.yuantu.vo.OrderVo;
-import com.yuantu.vo.ResponseVo;
+import com.yuantu.vo.*;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.*;
 
 @Service
 public class OrderServiceImpl implements OrderService {
@@ -21,30 +22,64 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     private AccountService accountService;
     @Autowired
+    private CreditService creditService;
+    @Autowired
     private OrderMapper orderMapper;
 
     @Override
     public ResponseVo generateOrders(OrderVo orderVo) {
-        Order order = new Order();
-        BeanUtils.copyProperties(orderVo,order);
-        order.setGenerationDate(DateFormat.StringConvertDate(orderVo.getGenerationDate()));
-        order.setStartDate(DateFormat.StringConvertDate(orderVo.getStartDate()));
-        order.setEndDate(DateFormat.StringConvertDate(orderVo.getEndDate()));
-        order.setLatestDate(DateFormat.StringConvertDate(orderVo.getLatestDate()));
-        orderMapper.addOrder(order);
+        // 类型转换
+        Order order1 = new Order();
+        BeanUtils.copyProperties(orderVo,order1);
+        order1.setGenerationDate(DateFormat.StringConvertDate(orderVo.getGenerationDate()));
+        order1.setStartDate(DateFormat.StringConvertDate(orderVo.getStartDate()));
+        order1.setEndDate(DateFormat.StringConvertDate(orderVo.getEndDate()));
+        order1.setLatestDate(DateFormat.StringConvertDate(orderVo.getLatestDate()));
+        // 订单号UUID
+        String s = new Date().getTime() + "";
+        String time = s.substring(s.length() - 4, s.length());
+        Integer random = (int)((Math.random()*9+1)*1000);
+        order1.setOrderNumber(time+random+orderVo.getUser_id());
+        orderMapper.addOrder(order1);
+        // 超过最晚执行订单时间
+        long latestTime = DateFormat.StringConvertDate(orderVo.getLatestDate()).getTime();
+        long startTime = DateFormat.StringConvertDate(orderVo.getStartDate()).getTime();
+        long interval = latestTime - startTime;
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                Order order = orderMapper.queryOrderByOrderNumber(order1.getOrderNumber());
+                if ("未执行".equals(order.getStatus())) {
+                    orderMapper.updateOrder(new Order(null,order.getOrderNumber(),null,null,null,null,null,null,null,null,null,null,null,"异常",null,null,null,null));
+                    Double res = accountService.queryUserById(order.getUser_id()).getCredit()-order.getAmount();
+                    accountService.updateUserInfo(new UserInfo(order.getUser_id(),null,null,null,res,null,null));
+                    creditService.addCredit(new Credit(null,order.getUser_id(),new Date(),order.getOrderNumber(),"异常","-"+order.getAmount(),res));
+                    System.out.println("超过最晚订单执行时间后还没有办理入住，系统自动将其置为异常订单！同时扣除用户等于订单的总价值的信用值!");
+                }
+            }
+        },10000);
         return ResponseVo.buildSuccess(orderVo);
     }
 
     @Override
     public ResponseVo undoOrder(OrderStatus orderStatus) {
-//        System.out.println(orderStatus.toString());
-//        User user = accountService.queryUserById(orderStatus.getUser_id());
-//        System.out.println("user的信用：" + user.getCredit());
+        long latestTime = DateFormat.StringConvertDate(orderStatus.getLatestDate()).getTime();
+        long revocationTime = DateFormat.StringConvertDate(orderStatus.getRevocationTime()).getTime();
+        long interval = latestTime - revocationTime;
+
         Order order = new Order();
         try {
             BeanUtils.copyProperties(orderStatus,order);
             order.setRevocationTime(DateFormat.StringConvertDate(orderStatus.getRevocationTime()));
             orderMapper.updateOrder(order);
+            if (interval < 1000*60*60*6) {
+                Double amount = orderStatus.getAmount()*1/2;
+                Double res = accountService.queryUserById(orderStatus.getUser_id()).getCredit()-amount;
+                accountService.updateUserInfo(new UserInfo(orderStatus.getUser_id(),null,null,null,res,null,null));
+                creditService.addCredit(new Credit(null,orderStatus.getUser_id(),new Date(),orderStatus.getOrderNumber(),orderStatus.getStatus(),"-"+amount,res));
+                return ResponseVo.buildSuccess("撤销的订单距离最晚执行订单时间不足6小时，撤销同时扣除信用值，信用值为订单的（总价*1/2）!");
+            }
             return ResponseVo.buildSuccess();
         } catch (Exception e) {
             System.out.println("撤销错误！");
@@ -58,6 +93,13 @@ public class OrderServiceImpl implements OrderService {
         try {
             BeanUtils.copyProperties(orderStatus,order);
             orderMapper.updateOrder(order);
+
+            Double res = accountService.queryUserById(orderStatus.getUser_id()).getCredit() + orderStatus.getAmount();
+            System.out.println(orderStatus.getUser_id());
+            System.out.println(res);
+            accountService.updateUserInfo(new UserInfo(orderStatus.getUser_id(),null,null,null,res,null,null));
+            creditService.addCredit(new Credit(null,orderStatus.getUser_id(),new Date(),orderStatus.getOrderNumber(),orderStatus.getStatus(),"+"+orderStatus.getAmount(),res));
+
             return ResponseVo.buildSuccess();
         } catch (Exception e) {
             System.out.println("执行错误！");
@@ -66,15 +108,63 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public ResponseVo queryOrderByStatus(OrderStatus orderStatus) {
+    public ResponseVo queryOrderByStatus(OrderPage orderPage) {
         Order order = new Order();
         try {
-            BeanUtils.copyProperties(orderStatus,order);
+            order.setHotel_id(orderPage.getHotel_id());
+            order.setUser_id(orderPage.getUser_id());
+            order.setStatus(orderPage.getStatus());
+            PageHelper.startPage(orderPage.getPageNum(),orderPage.getPageSize());
             List<Order> orders = orderMapper.queryOrderByStatus(order);
-            return ResponseVo.buildSuccess(orders);
+            List<OrderInfo> orderInfoList = new ArrayList<>();
+            for (int i = 0; i < orders.size(); i++){
+                OrderInfo orderInfo = new OrderInfo();
+                BeanUtils.copyProperties(orders.get(i),orderInfo);
+                orderInfoList.add(orderInfo);
+            }
+            PageInfo pageInfo = new PageInfo(orders);
+            pageInfo.setList(orderInfoList);
+
+            System.out.println(pageInfo);
+            return ResponseVo.buildSuccess(pageInfo);
         } catch (Exception e) {
             System.out.println("查询订单错误！");
             return ResponseVo.buildFailure("查询订单错误！");
+        }
+    }
+
+    @Override
+    public ResponseVo queryOrderByOrderNumber(String orderNumber) {
+        Order order = orderMapper.queryOrderByOrderNumber(orderNumber);
+        OrderInfo orderInfo = new OrderInfo();
+        BeanUtils.copyProperties(order,orderInfo);
+        return ResponseVo.buildSuccess(orderInfo);
+    }
+
+    @Override
+    public ResponseVo supplementaryExecution(OrderStatus orderStatus) {
+        Credit credit = creditService.creditDetails(orderStatus.getOrderNumber(), orderStatus.getStatus());
+        Double res = Double.valueOf(credit.getCreditChange().substring(1));
+        Double creditResult = credit.getCreditResult();
+        Double result = res + creditResult;
+
+        orderMapper.updateOrder(new Order(null,orderStatus.getOrderNumber(),null,null,null,null,null,null,null,null,null,null,null,"已执行",null,null,null,null));
+        accountService.updateUserInfo(new UserInfo(credit.getUserId(),null,null,null,result,null,null));
+        creditService.addCredit(new Credit(null,credit.getUserId(),new Date(),credit.getOrderNumber(),"已执行","-"+res,result));
+
+        return ResponseVo.buildSuccess();
+    }
+
+    @Override
+    public ResponseVo evaluation(OrderEvaluation orderEvaluation) {
+        Order order = new Order();
+        BeanUtils.copyProperties(orderEvaluation, order);
+        Order order1 = orderMapper.queryOrderByOrderNumber(orderEvaluation.getOrderNumber());
+        if ("已执行".equals(order1.getStatus())){
+            orderMapper.evaluation(order);
+            return ResponseVo.buildSuccess();
+        } else {
+            return ResponseVo.buildFailure("只能评价已执行订单！");
         }
     }
 

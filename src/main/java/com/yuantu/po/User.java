@@ -128,7 +128,7 @@ public class User {
                 ", accountNumber='" + accountNumber + '\'' +
                 ", password='" + password + '\'' +
                 ", phone='" + phone + '\'' +
-                ", credit='" + credit + '\'' +
+                ", credit=" + credit +
                 ", vip='" + vip + '\'' +
                 ", userType='" + userType + '\'' +
                 ", birthday=" + birthday +

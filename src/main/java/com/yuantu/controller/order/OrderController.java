@@ -2,6 +2,8 @@ package com.yuantu.controller.order;
 
 import com.alibaba.fastjson.JSON;
 import com.yuantu.bl.order.OrderService;
+import com.yuantu.vo.OrderEvaluation;
+import com.yuantu.vo.OrderPage;
 import com.yuantu.vo.OrderStatus;
 import com.yuantu.vo.OrderVo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,13 +28,27 @@ public class OrderController {
 
     @PostMapping("/ordersExecuted")
     public String ordersExecuted(@RequestBody OrderStatus orderStatus){
-        System.out.println(orderStatus.toString());
         return JSON.toJSONString(orderService.ordersExecuted(orderStatus));
     }
 
     @PostMapping("/queryOrderByStatus")
-    public String queryOrderByStatus(@RequestBody OrderStatus orderStatus){
-        return JSON.toJSONString(orderService.queryOrderByStatus(orderStatus));
+    public String queryOrderByStatus(@RequestBody OrderPage orderPage){
+        return JSON.toJSONString(orderService.queryOrderByStatus(orderPage));
+    }
+
+    @GetMapping("/queryOrderByOrderNumber/{orderNumber}")
+    public String queryOrderByOrderNumber(@PathVariable String orderNumber){
+        return JSON.toJSONString(orderService.queryOrderByOrderNumber(orderNumber));
+    }
+
+    @PostMapping("/supplementaryExecution")
+    public String supplementaryExecution(@RequestBody OrderStatus orderStatus){
+        return JSON.toJSONString(orderService.supplementaryExecution(orderStatus));
+    }
+
+    @PostMapping("/evaluation")
+    public String evaluation(@RequestBody OrderEvaluation orderEvaluation){
+        return JSON.toJSONString(orderService.evaluation(orderEvaluation));
     }
 
 }
