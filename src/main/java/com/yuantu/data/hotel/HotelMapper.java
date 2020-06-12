@@ -38,4 +38,11 @@ public interface HotelMapper {
    * return
    */
   List<Hotel> selectLikeQuery(@Param("condition") String condition);
+
+  /**
+   * 添加酒店
+   * @param hotel
+   * @return
+   */
+  int insertHotelInfo(@Param("hotel") Hotel hotel);
 }

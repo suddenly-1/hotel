@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.yuantu.data.user.AdminMapper">
+<mapper namespace="com.yuantu.data.admin.AdminMapper">
     <!--通过用户类型查询-->
     <select id="selectUser" parameterType="string" resultMap="UserMap">
         select INSERT(username,2,1,'*')as username, INSERT(accountnumber,4,4,'*') as accountnumber,'******'as password,INSERT(phone,4,4,'****') as phone,credit,vip
@@ -37,12 +37,6 @@
         </where>
     </update>
 
-    <!--添加酒店-->
-    <insert id="insertHotelInfo" parameterType="com.yuantu.po.Hotel" useGeneratedKeys="true" keyProperty="id">
-        insert into
-        hotel(hotel.hotelname,hotel.address,hotel.businessdistrict,hotel.Introduction,hotel.facilities,hotel.Star)
-         VALUES (#{hotel.hotelName},#{hotel.address},#{hotel.businessDistrict},#{hotel.introduction},#{hotel.facilities},#{hotel.star})
-    </insert>
     <!--搜索酒店是否有员工-->
     <select id="selectHotelWorker" parameterType="string" resultType="java.lang.Boolean">
         select count(u.username) from user u LEFT JOIN

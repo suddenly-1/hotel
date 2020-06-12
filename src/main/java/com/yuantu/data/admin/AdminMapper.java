@@ -1,6 +1,5 @@
-package com.yuantu.data.user;
+package com.yuantu.data.admin;
 
-import com.yuantu.po.Hotel;
 import com.yuantu.po.User;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -31,12 +30,7 @@ public interface AdminMapper {
    */
     int updateUser(@Param("user") User user,@Param("userType") String userType,@Param("username") String username);
 
-  /**
-   * 添加酒店
-   * @param hotel
-   * @return
-   */
-  int insertHotelInfo(@Param("hotel") Hotel hotel);
+
 
   /**
    *通过酒店id查询是否有员工,返回true表明存在，false可以添加

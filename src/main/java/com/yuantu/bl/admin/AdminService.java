@@ -1,16 +1,13 @@
-package com.yuantu.bl.user;
+package com.yuantu.bl.admin;
 
-import com.yuantu.po.User;
-import com.yuantu.vo.HotelInfoVo;
 import com.yuantu.vo.ResponseVo;
 import com.yuantu.vo.UserInfoVo;
 import org.apache.ibatis.annotations.Param;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 /**
- * @Author:zhaozhongwei
+ * @Author:caobo
  * @Date:2020-06-06
  */
 
@@ -32,12 +29,6 @@ public interface AdminService {
    */
   ResponseVo updateUser(@Param("user") UserInfoVo user, @Param("userType") String userType, @Param("username") String username);
 
-  /**
-   * 添加酒店
-   * @param hotel
-   * @return
-   */
-  ResponseVo addHotelInfo(@Param("hotel") HotelInfoVo hotel);
 
   /**
    * 通过酒店id查询是否有员工,返回true表明存在，false可以添加
