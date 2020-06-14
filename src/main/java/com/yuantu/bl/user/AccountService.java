@@ -46,4 +46,12 @@ public interface AccountService {
      * @return
      */
     ResponseVo updateUserInfo(UserInfo userInfo);
+
+    /**
+     * 修改用户个人信息
+     * @param  id
+     * @param  credit
+     * @return
+     */
+    void vip(Integer id, Double credit);
 }

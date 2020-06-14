@@ -49,7 +49,10 @@
                 birthday = #{birthday},
             </if>
             <if test="companyName != null">
-                companyname = #{companyName}
+                companyname = #{companyName},
+            </if>
+            <if test="vip != null">
+                vip = #{vip},
             </if>
         </set>
         where id=#{id}

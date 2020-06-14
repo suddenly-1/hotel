@@ -8,6 +8,7 @@ import com.yuantu.bl.user.CreditService;
 import com.yuantu.data.order.OrderMapper;
 import com.yuantu.po.Credit;
 import com.yuantu.po.Order;
+import com.yuantu.po.User;
 import com.yuantu.util.DateFormat;
 import com.yuantu.vo.*;
 import org.springframework.beans.BeanUtils;
@@ -18,6 +19,7 @@ import java.util.*;
 
 @Service
 public class OrderServiceImpl implements OrderService {
+
 
     @Autowired
     private AccountService accountService;
@@ -53,8 +55,11 @@ public class OrderServiceImpl implements OrderService {
                 if ("未执行".equals(order.getStatus())) {
                     orderMapper.updateOrder(new Order(null,order.getOrderNumber(),null,null,null,null,null,null,null,null,null,null,null,"异常",null,null,null,null));
                     Double res = accountService.queryUserById(order.getUser_id()).getCredit()-order.getAmount();
-                    accountService.updateUserInfo(new UserInfo(order.getUser_id(),null,null,null,res,null,null));
+                    accountService.updateUserInfo(new UserInfo(order.getUser_id(),null,null,null,res,null,null,null));
                     creditService.addCredit(new Credit(null,order.getUser_id(),new Date(),order.getOrderNumber(),"异常","-"+order.getAmount(),res));
+                    // vip
+                    User user = accountService.queryUserById(orderVo.getUser_id());
+                    accountService.vip(orderVo.getUser_id(),user.getCredit());
                     System.out.println("超过最晚订单执行时间后还没有办理入住，系统自动将其置为异常订单！同时扣除用户等于订单的总价值的信用值!");
                 }
             }
@@ -76,8 +81,11 @@ public class OrderServiceImpl implements OrderService {
             if (interval < 1000*60*60*6) {
                 Double amount = orderStatus.getAmount()*1/2;
                 Double res = accountService.queryUserById(orderStatus.getUser_id()).getCredit()-amount;
-                accountService.updateUserInfo(new UserInfo(orderStatus.getUser_id(),null,null,null,res,null,null));
+                accountService.updateUserInfo(new UserInfo(orderStatus.getUser_id(),null,null,null,res,null,null,null));
                 creditService.addCredit(new Credit(null,orderStatus.getUser_id(),new Date(),orderStatus.getOrderNumber(),orderStatus.getStatus(),"-"+amount,res));
+                // vip
+                User user = accountService.queryUserById(orderStatus.getUser_id());
+                accountService.vip(orderStatus.getUser_id(),user.getCredit());
                 return ResponseVo.buildSuccess("撤销的订单距离最晚执行订单时间不足6小时，撤销同时扣除信用值，信用值为订单的（总价*1/2）!");
             }
             return ResponseVo.buildSuccess();
@@ -97,9 +105,11 @@ public class OrderServiceImpl implements OrderService {
             Double res = accountService.queryUserById(orderStatus.getUser_id()).getCredit() + orderStatus.getAmount();
             System.out.println(orderStatus.getUser_id());
             System.out.println(res);
-            accountService.updateUserInfo(new UserInfo(orderStatus.getUser_id(),null,null,null,res,null,null));
+            accountService.updateUserInfo(new UserInfo(orderStatus.getUser_id(),null,null,null,res,null,null,null));
             creditService.addCredit(new Credit(null,orderStatus.getUser_id(),new Date(),orderStatus.getOrderNumber(),orderStatus.getStatus(),"+"+orderStatus.getAmount(),res));
-
+            // vip
+            User user = accountService.queryUserById(orderStatus.getUser_id());
+            accountService.vip(orderStatus.getUser_id(),user.getCredit());
             return ResponseVo.buildSuccess();
         } catch (Exception e) {
             System.out.println("执行错误！");
@@ -149,9 +159,11 @@ public class OrderServiceImpl implements OrderService {
         Double result = res + creditResult;
 
         orderMapper.updateOrder(new Order(null,orderStatus.getOrderNumber(),null,null,null,null,null,null,null,null,null,null,null,"已执行",null,null,null,null));
-        accountService.updateUserInfo(new UserInfo(credit.getUserId(),null,null,null,result,null,null));
+        accountService.updateUserInfo(new UserInfo(credit.getUserId(),null,null,null,result,null,null,null));
         creditService.addCredit(new Credit(null,credit.getUserId(),new Date(),credit.getOrderNumber(),"已执行","-"+res,result));
-
+        // vip
+        User user = accountService.queryUserById(orderStatus.getUser_id());
+        accountService.vip(orderStatus.getUser_id(),user.getCredit());
         return ResponseVo.buildSuccess();
     }
 

@@ -10,9 +10,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 public class HotelApplicationTests {
 
 
-@Test
-public void test() {
 
-}
+    @Test
+    public void test() {
+
+    }
+
 }
 

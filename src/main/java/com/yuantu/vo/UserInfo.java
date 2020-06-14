@@ -8,13 +8,14 @@ public class UserInfo {
     private String accountNumber;
     private String phone;
     private Double credit;
-    private Date birthday;
+    private String birthday;
     private String companyName;
+    private String vip;
 
     public UserInfo() {
     }
 
-    public UserInfo(Integer id, String username, String accountNumber, String phone, Double credit, Date birthday, String companyName) {
+    public UserInfo(Integer id, String username, String accountNumber, String phone, Double credit, String birthday, String companyName, String vip) {
         this.id = id;
         this.username = username;
         this.accountNumber = accountNumber;
@@ -22,6 +23,7 @@ public class UserInfo {
         this.credit = credit;
         this.birthday = birthday;
         this.companyName = companyName;
+        this.vip = vip;
     }
 
     public Integer getId() {
@@ -64,11 +66,11 @@ public class UserInfo {
         this.credit = credit;
     }
 
-    public Date getBirthday() {
+    public String getBirthday() {
         return birthday;
     }
 
-    public void setBirthday(Date birthday) {
+    public void setBirthday(String birthday) {
         this.birthday = birthday;
     }
 
@@ -80,6 +82,14 @@ public class UserInfo {
         this.companyName = companyName;
     }
 
+    public String getVip() {
+        return vip;
+    }
+
+    public void setVip(String vip) {
+        this.vip = vip;
+    }
+
     @Override
     public String toString() {
         return "UserInfo{" +
@@ -88,8 +98,9 @@ public class UserInfo {
                 ", accountNumber='" + accountNumber + '\'' +
                 ", phone='" + phone + '\'' +
                 ", credit=" + credit +
-                ", birthday=" + birthday +
+                ", birthday='" + birthday + '\'' +
                 ", companyName='" + companyName + '\'' +
+                ", vip='" + vip + '\'' +
                 '}';
     }
 }
