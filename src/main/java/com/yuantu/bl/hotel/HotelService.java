@@ -27,8 +27,9 @@ public interface HotelService {
    * 明确地址和商圈查看酒店信息
    * @param hotelId
    * @return
+   * @return
    */
-   List<HotelInfoVo>  getHotelInfo(@Param("businessdistrict")String businessdistrict,@Param("address")String address,@Param("hotelId") Integer hotelId,@Param("pageNum") Integer pageNum);
+   ResponseVo getHotelInfo(@Param("businessdistrict")String businessdistrict,@Param("address")String address,@Param("hotelId") Integer hotelId,@Param("pageNum") Integer pageNum);
 
 
     /**

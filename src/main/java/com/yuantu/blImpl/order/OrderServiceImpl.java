@@ -210,20 +210,20 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public List<OrderVo> hotelReservationInfo(Integer userid, Integer hotelid,Integer pageNum) {
+    public ResponseVo hotelReservationInfo(Integer userid, Integer hotelid,Integer pageNum) {
         PageHelper.startPage(pageNum, PageUtil.pageSize);
         List<Order> orders = orderMapper.hotelReservation(userid, hotelid);
         List<OrderVo> voList = new LinkedList<>();
+        PageInfo pageInfo = new PageInfo(orders);
+        pageInfo.setList(voList);
         for (int i = 0; i < orders.size(); i++) {
             OrderVo orderVo = new OrderVo();
             orderVo.setStartDate(DateFormat.DateConvertString(orders.get(i).getStartDate()));
             orderVo.setEndDate(DateFormat.DateConvertString(orders.get(i).getEndDate()));
-            BeanUtils.copyProperties(orders.get(i),orderVo);
+            BeanUtils.copyProperties(orders.get(i), orderVo);
             voList.add(orderVo);
         }
-        PageInfo pageInfo = new PageInfo(orders);
-        pageInfo.setList(voList);
-        return voList;
+        return ResponseVo.buildSuccess(pageInfo);
     }
 
 }

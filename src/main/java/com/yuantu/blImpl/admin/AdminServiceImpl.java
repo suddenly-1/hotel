@@ -30,7 +30,7 @@ public class AdminServiceImpl implements AdminService {
   AccountMapper accountMapper;
 
   @Override
-  public List<UserInfoVo> queryUserInfo(String userType,Integer pageNum) {
+  public ResponseVo queryUserInfo(String userType,Integer pageNum) {
     PageHelper.startPage(pageNum, PageUtil.pageSize);
     List<User> user = adminMapper.selectUser(userType);
     List<UserInfoVo> userInfo = new LinkedList<>();
@@ -43,7 +43,7 @@ public class AdminServiceImpl implements AdminService {
     PageInfo pageInfo = new PageInfo(user);
     pageInfo.setList(userInfo);
 
-    return userInfo;
+    return ResponseVo.buildSuccess(pageInfo);
   }
 
   @Override

@@ -40,7 +40,7 @@ public class HotelServiceImpl implements HotelService {
   }
 
   @Override
-  public List<HotelInfoVo> getHotelInfo(String businessdistrict, String address, Integer hotelId, Integer pageNum) {
+  public ResponseVo getHotelInfo(String businessdistrict, String address, Integer hotelId, Integer pageNum) {
 
     PageHelper.startPage(pageNum,PageUtil.pageSize);
     List<Hotel> hotel= hotelMapper.selectHotelInfo(businessdistrict,address,hotelId);
@@ -52,7 +52,7 @@ public class HotelServiceImpl implements HotelService {
     }
     PageInfo pageInfo = new PageInfo(hotel);
     pageInfo.setList(hotelInfoVos);
-    return hotelInfoVos;
+    return ResponseVo.buildSuccess(pageInfo);
   }
 
 

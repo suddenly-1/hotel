@@ -17,7 +17,7 @@ public interface AdminService {
    * @param userType
    * @return
    */
-  List<UserInfoVo> queryUserInfo(@Param("userType") String userType,@Param("pageNum") Integer pageNum);
+  ResponseVo queryUserInfo(@Param("userType") String userType,@Param("pageNum") Integer pageNum);
 
 
   /**
