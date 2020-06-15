@@ -7,17 +7,17 @@ public class OrderInfo {
     private Integer user_id;        //用户id
     private Integer hotel_id;       //酒店id
     private String hotelName;       //酒店名称
-    private String generationDate;    //订单生成日期
-    private String startDate;         //开始时间
-    private String endDate;           //退房时间
-    private String latestDate;        //最晚执行订单时间
+    private String generationDate;  //订单生成日期
+    private String startDate;       //开始时间
+    private String endDate;         //退房时间
+    private String latestDate;      //最晚执行订单时间
     private String roomType;        //房型
     private Integer rooms;          //间数
     private Integer number;         //人数
     private Integer child;          //有无儿童
     private String status;          //状态（已完成、未完成、已撤销、异常）
     private Double amount;          //金额
-    private String revocationTime;    //撤销时间
+    private String revocationTime;  //撤销时间
 
     public OrderInfo() {
     }
