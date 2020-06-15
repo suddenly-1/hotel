@@ -10,6 +10,7 @@ import com.yuantu.po.Credit;
 import com.yuantu.po.Order;
 import com.yuantu.po.User;
 import com.yuantu.util.DateFormat;
+import com.yuantu.util.PageUtil;
 import com.yuantu.vo.*;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -209,7 +210,8 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public List<OrderVo> hotelReservationInfo(Integer userid, Integer hotelid) {
+    public List<OrderVo> hotelReservationInfo(Integer userid, Integer hotelid,Integer pageNum) {
+        PageHelper.startPage(pageNum, PageUtil.pageSize);
         List<Order> orders = orderMapper.hotelReservation(userid, hotelid);
         List<OrderVo> voList = new LinkedList<>();
         for (int i = 0; i < orders.size(); i++) {
@@ -219,6 +221,8 @@ public class OrderServiceImpl implements OrderService {
             BeanUtils.copyProperties(orders.get(i),orderVo);
             voList.add(orderVo);
         }
+        PageInfo pageInfo = new PageInfo(orders);
+        pageInfo.setList(voList);
         return voList;
     }
 
