@@ -1,6 +1,5 @@
 package com.yuantu.vo;
 
-import org.omg.PortableInterceptor.INACTIVE;
 
 /**
  * @Author caobo
