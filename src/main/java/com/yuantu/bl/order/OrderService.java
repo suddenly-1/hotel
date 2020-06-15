@@ -1,6 +1,9 @@
 package com.yuantu.bl.order;
 
 import com.yuantu.vo.*;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 
 public interface OrderService {
@@ -47,4 +50,11 @@ public interface OrderService {
      * */
     ResponseVo evaluation(OrderEvaluation orderEvaluation);
 
+    /**
+     *查看自己预定过的酒店
+     * @param userid
+     * @param hotelid
+     * @return
+     */
+    List<OrderVo> hotelReservationInfo(@Param("userid")Integer userid, @Param("hotelid")Integer hotelid);
 }

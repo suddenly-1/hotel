@@ -78,4 +78,13 @@
         WHERE ordernumber = #{orderNumber}
     </update>
 
+    <select id="hotelReservation" resultMap="OrderMap" parameterType="int">
+        select u.username,o.hotelname,o.status,o.startdate,o.enddate,o.roomtype,o.rooms,o.number,o.amount from `order` o
+        LEFT JOIN `user` u on u.id=o.user_id
+        <trim prefix="where" prefixOverrides="and">
+            <if test="userid !=null">and u.id=#{userid}</if>
+            <if test="hotelid !=null">and o.hotel_id=#{hotelid}</if>
+        </trim>
+    </select>
+
 </mapper>
