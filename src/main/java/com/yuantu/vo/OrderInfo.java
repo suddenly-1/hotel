@@ -1,29 +1,28 @@
 package com.yuantu.vo;
 
 
-import java.util.Date;
 
 public class OrderInfo {
     private String orderNumber;     //订单号
     private Integer user_id;        //用户id
     private Integer hotel_id;       //酒店id
     private String hotelName;       //酒店名称
-    private Date generationDate;    //订单生成日期
-    private Date startDate;         //开始时间
-    private Date endDate;           //退房时间
-    private Date latestDate;        //最晚执行订单时间
+    private String generationDate;  //订单生成日期
+    private String startDate;       //开始时间
+    private String endDate;         //退房时间
+    private String latestDate;      //最晚执行订单时间
     private String roomType;        //房型
     private Integer rooms;          //间数
     private Integer number;         //人数
     private Integer child;          //有无儿童
     private String status;          //状态（已完成、未完成、已撤销、异常）
     private Double amount;          //金额
-    private Date revocationTime;    //撤销时间
+    private String revocationTime;  //撤销时间
 
     public OrderInfo() {
     }
 
-    public OrderInfo(String orderNumber, Integer user_id, Integer hotel_id, String hotelName, Date generationDate, Date startDate, Date endDate, Date latestDate, String roomType, Integer rooms, Integer number, Integer child, String status, Double amount, Date revocationTime) {
+    public OrderInfo(String orderNumber, Integer user_id, Integer hotel_id, String hotelName, String generationDate, String startDate, String endDate, String latestDate, String roomType, Integer rooms, Integer number, Integer child, String status, Double amount, String revocationTime) {
         this.orderNumber = orderNumber;
         this.user_id = user_id;
         this.hotel_id = hotel_id;
@@ -73,35 +72,35 @@ public class OrderInfo {
         this.hotelName = hotelName;
     }
 
-    public Date getGenerationDate() {
+    public String getGenerationDate() {
         return generationDate;
     }
 
-    public void setGenerationDate(Date generationDate) {
+    public void setGenerationDate(String generationDate) {
         this.generationDate = generationDate;
     }
 
-    public Date getStartDate() {
+    public String getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(Date startDate) {
+    public void setStartDate(String startDate) {
         this.startDate = startDate;
     }
 
-    public Date getEndDate() {
+    public String getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(Date endDate) {
+    public void setEndDate(String endDate) {
         this.endDate = endDate;
     }
 
-    public Date getLatestDate() {
+    public String getLatestDate() {
         return latestDate;
     }
 
-    public void setLatestDate(Date latestDate) {
+    public void setLatestDate(String latestDate) {
         this.latestDate = latestDate;
     }
 
@@ -153,11 +152,11 @@ public class OrderInfo {
         this.amount = amount;
     }
 
-    public Date getRevocationTime() {
+    public String getRevocationTime() {
         return revocationTime;
     }
 
-    public void setRevocationTime(Date revocationTime) {
+    public void setRevocationTime(String revocationTime) {
         this.revocationTime = revocationTime;
     }
 
@@ -168,17 +167,17 @@ public class OrderInfo {
                 ", user_id=" + user_id +
                 ", hotel_id=" + hotel_id +
                 ", hotelName='" + hotelName + '\'' +
-                ", generationDate=" + generationDate +
-                ", startDate=" + startDate +
-                ", endDate=" + endDate +
-                ", latestDate=" + latestDate +
+                ", generationDate='" + generationDate + '\'' +
+                ", startDate='" + startDate + '\'' +
+                ", endDate='" + endDate + '\'' +
+                ", latestDate='" + latestDate + '\'' +
                 ", roomType='" + roomType + '\'' +
                 ", rooms=" + rooms +
                 ", number=" + number +
                 ", child=" + child +
                 ", status='" + status + '\'' +
                 ", amount=" + amount +
-                ", revocationTime=" + revocationTime +
+                ", revocationTime='" + revocationTime + '\'' +
                 '}';
     }
 }

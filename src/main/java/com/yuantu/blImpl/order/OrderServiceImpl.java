@@ -130,12 +130,25 @@ public class OrderServiceImpl implements OrderService {
             for (int i = 0; i < orders.size(); i++){
                 OrderInfo orderInfo = new OrderInfo();
                 BeanUtils.copyProperties(orders.get(i),orderInfo);
+                if(orders.get(i).getGenerationDate() != null){
+                    orderInfo.setGenerationDate(DateFormat.DateConvertString(orders.get(i).getGenerationDate()));
+                }
+                if(orders.get(i).getStartDate() != null) {
+                    orderInfo.setStartDate(DateFormat.DateConvertString(orders.get(i).getStartDate()));
+                }
+                if(orders.get(i).getEndDate() != null) {
+                    orderInfo.setEndDate(DateFormat.DateConvertString(orders.get(i).getEndDate()));
+                }
+                if(orders.get(i).getLatestDate() != null) {
+                    orderInfo.setLatestDate(DateFormat.DateConvertString(orders.get(i).getLatestDate()));
+                }
+                if(orders.get(i).getRevocationTime() != null) {
+                    orderInfo.setRevocationTime(DateFormat.DateConvertString(orders.get(i).getRevocationTime()));
+                }
                 orderInfoList.add(orderInfo);
             }
             PageInfo pageInfo = new PageInfo(orders);
             pageInfo.setList(orderInfoList);
-
-            System.out.println(pageInfo);
             return ResponseVo.buildSuccess(pageInfo);
         } catch (Exception e) {
             System.out.println("查询订单错误！");
@@ -148,6 +161,21 @@ public class OrderServiceImpl implements OrderService {
         Order order = orderMapper.queryOrderByOrderNumber(orderNumber);
         OrderInfo orderInfo = new OrderInfo();
         BeanUtils.copyProperties(order,orderInfo);
+        if(order.getGenerationDate() != null) {
+            orderInfo.setGenerationDate(DateFormat.DateConvertString(order.getGenerationDate()));
+        }
+        if(order.getStartDate() != null) {
+            orderInfo.setStartDate(DateFormat.DateConvertString(order.getStartDate()));
+        }
+        if(order.getEndDate() != null) {
+            orderInfo.setEndDate(DateFormat.DateConvertString(order.getEndDate()));
+        }
+        if(order.getLatestDate() != null) {
+            orderInfo.setLatestDate(DateFormat.DateConvertString(order.getLatestDate()));
+        }
+        if(order.getRevocationTime() != null) {
+            orderInfo.setRevocationTime(DateFormat.DateConvertString(order.getRevocationTime()));
+        }
         return ResponseVo.buildSuccess(orderInfo);
     }
 
