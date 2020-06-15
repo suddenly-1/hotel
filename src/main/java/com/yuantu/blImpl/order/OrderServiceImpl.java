@@ -180,4 +180,18 @@ public class OrderServiceImpl implements OrderService {
         }
     }
 
+    @Override
+    public List<OrderVo> hotelReservationInfo(Integer userid, Integer hotelid) {
+        List<Order> orders = orderMapper.hotelReservation(userid, hotelid);
+        List<OrderVo> voList = new LinkedList<>();
+        for (int i = 0; i < orders.size(); i++) {
+            OrderVo orderVo = new OrderVo();
+            orderVo.setStartDate(DateFormat.DateConvertString(orders.get(i).getStartDate()));
+            orderVo.setEndDate(DateFormat.DateConvertString(orders.get(i).getEndDate()));
+            BeanUtils.copyProperties(orders.get(i),orderVo);
+            voList.add(orderVo);
+        }
+        return voList;
+    }
+
 }
