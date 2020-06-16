@@ -19,8 +19,8 @@ public class HotelController {
 
 
   @GetMapping(value = {"/{address}/{businessdistrict}","/{address}/{businessdistrict}/{hotelId}"})
-  public ResponseVo HotelInfo(@PathVariable String businessdistrict,@PathVariable String address,@PathVariable(required = false) Integer hotelId,@RequestParam(value = "pageNum")Integer pageNum){
-    return ResponseVo.buildSuccess(JSON.toJSONString(hotelService.getHotelInfo(businessdistrict,address,hotelId,pageNum)));
+  public String HotelInfo(@PathVariable String businessdistrict,@PathVariable String address,@PathVariable(required = false) Integer hotelId,@RequestParam(value = "pageNum")Integer pageNum){
+    return JSON.toJSONString(hotelService.getHotelInfo(businessdistrict,address,hotelId,pageNum));
   }
 
 
