@@ -56,5 +56,5 @@ public interface OrderService {
      * @param hotelid
      * @return
      */
-    List<OrderVo> hotelReservationInfo(@Param("userid")Integer userid, @Param("hotelid")Integer hotelid,@Param("pageNum") Integer pageNum);
+   ResponseVo hotelReservationInfo(@Param("userid")Integer userid, @Param("hotelid")Integer hotelid,@Param("pageNum") Integer pageNum);
 }

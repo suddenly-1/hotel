@@ -11,8 +11,8 @@
         update room
         <set>
             <if test="room.id !=null">id=#{room.id},</if>
-            <if test="room.rooms !=null">price=#{room.price},</if>
-            <if test="room.price !=null">rooms=#{room.rooms}</if>
+            <if test="room.price !=null">price=#{room.price},</if>
+            <if test="room.rooms !=null">rooms=#{room.rooms},</if>
         </set>
         <where>
             hotel_id=#{hotelId} and roomType=#{roomType}
@@ -23,9 +23,22 @@
         select room.roomtype,room.price,room.rooms from room where room.hotel_id=#{hotelId}
     </select>
 
+    <select id="queryRoomByIdType" resultMap="RoomMap">
+        select * from room where hotel_id = #{hotelId} AND roomtype = #{roomType}
+    </select>
+
     <resultMap id="Room" type="com.yuantu.vo.RoomInfoVo">
         <result column="roomType" property="roomType"></result>
         <result column="price" property="price"></result>
         <result column="rooms" property="rooms"></result>
     </resultMap>
+
+    <resultMap id="RoomMap" type="com.yuantu.po.Room">
+        <result column="id" property="id"></result>
+        <result column="hotel_id" property="hotelId"></result>
+        <result column="roomtype" property="roomType"></result>
+        <result column="price" property="price"></result>
+        <result column="rooms" property="rooms"></result>
+    </resultMap>
+
 </mapper> 
