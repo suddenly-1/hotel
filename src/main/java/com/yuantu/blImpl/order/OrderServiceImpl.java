@@ -50,11 +50,6 @@ public class OrderServiceImpl implements OrderService {
         Integer random = (int)((Math.random()*9+1)*1000);
         order1.setOrderNumber(time+random+orderVo.getUser_id());
         orderMapper.addOrder(order1);
-        // 房间
-//        Order order2 = orderMapper.queryOrderByOrderNumber(order1.getOrderNumber());
-//        Room room = roomService.queryRoomByIdType(order2.getHotel_id(),order2.getRoomType());
-//        int resultRoom = room.getRooms()-order2.getRooms();
-//        roomService.modifyRoomInfo(new RoomInfoVo(order2.getRoomType(),null,resultRoom),order2.getRoomType(),order2.getHotel_id());
 
         // 超过最晚执行订单时间
         long latestTime = DateFormat.StringConvertDate(orderVo.getLatestDate()).getTime();
@@ -73,11 +68,6 @@ public class OrderServiceImpl implements OrderService {
                     // vip
                     User user = accountService.queryUserById(orderVo.getUser_id());
                     accountService.vip(orderVo.getUser_id(),user.getCredit());
-                    // 房间
-//                    Order order2 = orderMapper.queryOrderByOrderNumber(order1.getOrderNumber());
-//                    Room room = roomService.queryRoomByIdType(order2.getHotel_id(),order2.getRoomType());
-//                    int resultRoom = room.getRooms()+order2.getRooms();
-//                    roomService.modifyRoomInfo(new RoomInfoVo(order2.getRoomType(),null,resultRoom),order2.getRoomType(),order2.getHotel_id());
                     System.out.println("超过最晚订单执行时间后还没有办理入住，系统自动将其置为异常订单！同时扣除用户等于订单的总价值的信用值!");
                 }
             }
@@ -104,11 +94,6 @@ public class OrderServiceImpl implements OrderService {
                 // vip
                 User user = accountService.queryUserById(orderStatus.getUser_id());
                 accountService.vip(orderStatus.getUser_id(),user.getCredit());
-                // 房间
-//                Order order2 = orderMapper.queryOrderByOrderNumber(orderStatus.getOrderNumber());
-//                Room room = roomService.queryRoomByIdType(order2.getHotel_id(),order2.getRoomType());
-//                int resultRoom = room.getRooms()+order2.getRooms();
-//                roomService.modifyRoomInfo(new RoomInfoVo(order2.getRoomType(),null,resultRoom),order2.getRoomType(),order2.getHotel_id());
                 return ResponseVo.buildSuccess("撤销的订单距离最晚执行订单时间不足6小时，撤销同时扣除信用值，信用值为订单的（总价*1/2）!");
             }
             return ResponseVo.buildSuccess();

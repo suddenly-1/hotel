@@ -49,5 +49,5 @@ public interface HotelService {
    * @param hotel
    * @return
    */
-  List<HotelqueryInfoVo> queryHotel(HotelReceiveDto hotel);
+  ResponseVo queryHotel(HotelReceiveDto hotel, int pageNum, int pageSize);
 }

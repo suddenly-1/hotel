@@ -96,10 +96,8 @@ public class HotelServiceImpl implements HotelService {
 
 
   @Override
-  public List<HotelqueryInfoVo> queryHotel(HotelReceiveDto hotel) {
-
+  public ResponseVo queryHotel(HotelReceiveDto hotel, int pageNum, int pageSize) {
     HotelQueryVo hotelQueryVo = new HotelQueryVo();
-
     if (hotel.getScore()!=null){
       String[] Score=hotel.getScore().split("-");
       hotelQueryVo.setScore((Double[])ConvertUtils.convert(Score,Double.class));
@@ -108,12 +106,10 @@ public class HotelServiceImpl implements HotelService {
       String[] Price = hotel.getPrice().split("-");
       hotelQueryVo.setPrice((Double[])ConvertUtils.convert(Price,Double.class));
     }
-
   BeanUtils.copyProperties(hotel,hotelQueryVo);
 
-
+    PageHelper.startPage(pageNum,pageSize);
     List<HotelqueryInfoVo> hotelquery = hotelMapper.selectHotel(hotelQueryVo);
-
     List<HotelqueryInfoVo> hotelqueryList = new LinkedList<>();
 
     if (hotel.getRoomNumber()!=null) {
@@ -124,11 +120,13 @@ public class HotelServiceImpl implements HotelService {
           hotelqueryList.add(hotelVo);
         }
       }
-      return hotelqueryList;
+      PageInfo pageInfo = new PageInfo(hotelquery);
+      pageInfo.setList(hotelqueryList);
+      return ResponseVo.buildSuccess(pageInfo);
     }
-
     else {
-      return hotelquery;
+      PageInfo<HotelqueryInfoVo> pageInfo = new PageInfo<HotelqueryInfoVo>(hotelquery);
+      return ResponseVo.buildSuccess(pageInfo);
     }
   }
 

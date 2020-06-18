@@ -109,7 +109,7 @@
           </if>
       </trim>
         GROUP BY
-        r.roomtype,r.rooms,r.hotel_id,r.price,h.hotelname,h.address,h.businessdistrict,h.Star,h.facilities,h.Introduction,h.score;
+        r.roomtype,r.rooms,r.hotel_id,r.price,h.hotelname,h.address,h.businessdistrict,h.Star,h.facilities,h.Introduction,h.score
 
     </select>
 

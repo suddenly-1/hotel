@@ -40,9 +40,9 @@ public class HotelController {
   public ResponseVo addHotel(@RequestBody HotelInfoVo hotelInfoVo){
     return ResponseVo.buildSuccess(JSON.toJSONString(hotelService.addHotelInfo(hotelInfoVo)));
   }
-  @PostMapping("/query")
-  public ResponseVo queryHotel(@RequestBody HotelReceiveDto hotel){
+  @PostMapping("/query/{pageNum}/{pageSize}")
+  public String queryHotel(@PathVariable int pageNum, @PathVariable int pageSize, @RequestBody HotelReceiveDto hotel){
+      return JSON.toJSONString(hotelService.queryHotel(hotel,pageNum,pageSize));
+}
 
-    return ResponseVo.buildSuccess(JSON.toJSONString(hotelService.queryHotel(hotel)));
-  }
 }
