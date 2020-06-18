@@ -43,7 +43,6 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public ResponseVo register(UserForm userForm) {
-        System.out.println("-------------------------" + userForm);
         User user1 = accountMapper.queryUserByAccountName(userForm.getAccountNumber());
         if (user1 != null){
             return ResponseVo.buildFailure("账号已存在！");
@@ -79,7 +78,9 @@ public class AccountServiceImpl implements AccountService {
     public ResponseVo updateUserInfo(UserInfo userInfo) {
         User user = new User();
         BeanUtils.copyProperties(userInfo,user);
-        user.setBirthday(DateFormat.StringConvertDate(userInfo.getBirthday(),"yyyy-MM-dd"));
+        if(userInfo.getBirthday() != null){
+            user.setBirthday(DateFormat.StringConvertDate(userInfo.getBirthday(),"yyyy-MM-dd"));
+        }
         accountMapper.updateAccount(user);
         try {
             accountMapper.updateAccount(user);
@@ -93,13 +94,10 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public void vip(Integer id, Double credit) {
         if (credit >= 0 && credit < 2000) {
-            System.out.println("vip1");
             accountMapper.updateAccount(new User(id,null,null,null,null,null,"vip1",null,null,null,null));
         }else if (credit >= 2000 && credit < 5000) {
-            System.out.println("vip2");
             accountMapper.updateAccount(new User(id,null,null,null,null,null,"vip2",null,null,null,null));
         }else if (credit >= 5000) {
-            System.out.println("vip3");
             accountMapper.updateAccount(new User(id,null,null,null,null,null,"vip3",null,null,null,null));
         }
     }

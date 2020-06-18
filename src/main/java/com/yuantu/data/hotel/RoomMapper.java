@@ -32,4 +32,12 @@ public interface RoomMapper {
    */
   List<Room> selectRoomInfo(@Param("hotelId")Integer hotelId);
 
+  /**
+   * 显示客房信息
+   * @param hotelId
+   * @param roomType
+   * @return
+   */
+  Room queryRoomByIdType(@Param("hotelId")Integer hotelId, @Param("roomType")String roomType);
+
 }

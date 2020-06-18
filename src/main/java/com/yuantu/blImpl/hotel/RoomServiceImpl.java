@@ -60,4 +60,9 @@ public class RoomServiceImpl implements RoomService {
       }
       return rl;
   }
+
+  @Override
+  public Room queryRoomByIdType(Integer hotelId, String roomType) {
+    return roomMapper.queryRoomByIdType(hotelId,roomType);
+  }
 }

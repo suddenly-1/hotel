@@ -1,5 +1,6 @@
 package com.yuantu.bl.hotel;
 
+import com.yuantu.po.Room;
 import com.yuantu.vo.ResponseVo;
 import com.yuantu.vo.RoomInfoVo;
 import org.apache.ibatis.annotations.Param;
@@ -32,5 +33,13 @@ public interface RoomService {
    * @return
    */
   List<RoomInfoVo> queryRoomInfo(@Param("hotelId")Integer hotelId);
+
+  /**
+   * 房间详情
+   * @param hotelId
+   * @param roomType
+   * @return
+   */
+  Room queryRoomByIdType(Integer hotelId, String roomType);
 
 }

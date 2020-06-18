@@ -52,7 +52,7 @@ public class OrderController {
 
     @GetMapping(value = {"/reserve/{userid}/{hotelid}","/reserve/{userid}"})
     public ResponseVo reserve(@PathVariable Integer userid,@PathVariable(required = false)Integer hotelid,@RequestParam(value = "pageNum")Integer pageNum){
-        return ResponseVo.buildSuccess(orderService.hotelReservationInfo(userid,hotelid,pageNum));
+        return ResponseVo.buildSuccess(orderService.hotelReservationInfo(userid, hotelid, pageNum));
     }
 
 }
