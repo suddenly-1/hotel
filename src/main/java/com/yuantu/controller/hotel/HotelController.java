@@ -1,33 +1,30 @@
 package com.yuantu.controller.hotel;
 
 import com.alibaba.fastjson.JSON;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.yuantu.bl.hotel.HotelService;
-import com.yuantu.blImpl.hotel.HotelServiceImpl;
+import com.yuantu.util.PageUtil;
 import com.yuantu.vo.HotelInfoVo;
+import com.yuantu.vo.HotelReceiveDto;
 import com.yuantu.vo.ResponseVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.security.PublicKey;
-
 @RestController
 @RequestMapping("/hotel")
 public class HotelController {
+
   @Autowired
   HotelService hotelService;
 
 
 
   @GetMapping(value = {"/{address}/{businessdistrict}","/{address}/{businessdistrict}/{hotelId}"})
-  public ResponseVo HotelInfo(@PathVariable String businessdistrict,@PathVariable String address,@PathVariable(required = false) Integer hotelId,@RequestParam(value = "pageNum")Integer pageNum){
-    return ResponseVo.buildSuccess(JSON.toJSONString(hotelService.getHotelInfo(businessdistrict,address,hotelId,pageNum)));
+  public String HotelInfo(@PathVariable String businessdistrict,@PathVariable String address,@PathVariable(required = false) Integer hotelId,@RequestParam(value = "pageNum")Integer pageNum){
+    return JSON.toJSONString(hotelService.getHotelInfo(businessdistrict,address,hotelId,pageNum));
   }
 
-
-  @PostMapping("/update/{hotelId}")
-  public ResponseVo modifyInfo(@RequestBody HotelInfoVo hotelInfoVo,@PathVariable Integer hotelId){
-      return ResponseVo.buildSuccess(JSON.toJSONString(hotelService.modifyHotelInfo(hotelInfoVo,hotelId)));
-  }
 
   @GetMapping("/sort/{condition}")
   public ResponseVo HotelSort(@PathVariable String condition){
@@ -42,5 +39,10 @@ public class HotelController {
   @PostMapping("/insert")
   public ResponseVo addHotel(@RequestBody HotelInfoVo hotelInfoVo){
     return ResponseVo.buildSuccess(JSON.toJSONString(hotelService.addHotelInfo(hotelInfoVo)));
+  }
+  @PostMapping("/query")
+  public ResponseVo queryHotel(@RequestBody HotelReceiveDto hotel){
+
+    return ResponseVo.buildSuccess(JSON.toJSONString(hotelService.queryHotel(hotel)));
   }
 }

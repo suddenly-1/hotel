@@ -18,31 +18,13 @@
     </select>
 
     <!--模糊查询-->
-    <select id="selectLikeQuery" resultMap="Hotel">
+   <select id="selectLikeQuery" resultMap="Hotel">
         select address,businessdistrict, Introduction, facilities, Star, hotelname, score from hotel
         where  CONCAT(Star,score,hotelname,businessdistrict)
         <if test="condition !=null">
             like CONCAT('%',#{condition},'%')
         </if>
     </select>
-
-
-    <!--更新酒店信息-->
-  <update id="updateHotelInfo" parameterType="com.yuantu.po.Hotel">
-        update hotel
-        <set>
-            <if test="hotel.hotelName !=null and hotel.hotelName !=''">hotelName=#{hotel.hotelName},</if>
-            <if test="hotel.address !=null and hotel.address !=''">address=#{hotel.address},</if>
-            <if test="hotel.businessDistrict !=null and hotel.businessDistrict !=''">businessDistrict=#{hotel.businessDistrict},</if>
-            <if test="hotel.introduction !=null and hotel.introduction !=''">introduction=#{hotel.introduction},</if>
-            <if test="hotel.facilities !=null and hotel.facilities !=''">facilities=#{hotel.facilities},</if>
-            <if test="hotel.star !=null and hotel.star !=''">star=#{hotel.star},</if>
-            <if test="hotel.score !=null and hotel.score !=''">score=#{hotel.score}</if>
-        </set>
-        <where>
-            id =#{hotelId}
-        </where>
-    </update>
 
     <!--通过酒店价格从低到高，星级和评分排序-->
     <select id="selectHotelSort" resultType="Hotel" parameterType="string">
@@ -72,6 +54,65 @@
         hotel(hotel.hotelname,hotel.address,hotel.businessdistrict,hotel.Introduction,hotel.facilities,hotel.Star)
          VALUES (#{hotel.hotelName},#{hotel.address},#{hotel.businessDistrict},#{hotel.introduction},#{hotel.facilities},#{hotel.star})
     </insert>
+
+
+    <!--查询时间段里的房间状态,可以通过酒店名称、房间（类型、原始价格区间、有空房期间（房间数量、入住日期，退房日期））、星级、评分区间等条件进行搜索-->
+
+    <select id="selectHotel" resultType="com.yuantu.vo.HotelqueryInfoVo" parameterType="com.yuantu.vo.HotelQueryVo">
+        select
+        h.hotelname,
+        h.address,
+        h.businessdistrict,
+        h.Star,
+        h.facilities,
+        h.Introduction,
+        h.score,
+        r.roomtype,
+        r.price,
+        r.rooms,
+        SUM(o.rooms) AS roomNumber,
+        (r.rooms-SUM(o.rooms)) as `numbers`,
+        r.hotel_id,
+        IF(SUM(o.rooms)&lt;r.rooms,'有空房','无空房') as state
+        from
+        `order`o ,
+        `room` r,
+        `hotel`h
+      <trim prefix="where" prefixOverrides="and">
+          o.hotel_id=r.hotel_id and o.hotel_id=h.id and r.roomtype=o.roomtype and o.`status` ='未执行'
+          <if test="hotelVo.address !=null and hotelVo.address !=''">
+              and h.address=#{hotelVo.address}
+          </if>
+          <if test="hotelVo.roomType !=null and hotelVo.roomType !=''">
+              and o.roomType=#{hotelVo.roomType}
+          </if>
+          <if test="hotelVo.businessDistrict !=null and hotelVo.businessDistrict !=''">
+              and h.businessdistrict=#{hotelVo.businessDistrict}
+          </if>
+          <if test="hotelVo.hotelName !=null and hotelVo.hotelName !=''">
+              and h.hotelname=#{hotelVo.hotelName}
+          </if>
+          <if test="hotelVo.star !=null and hotelVo.star !=''">
+              and h.Star=#{hotelVo.star}
+          </if>
+          <if test="hotelVo.score !=null and hotelVo.score !=''">
+              and h.score BETWEEN #{hotelVo.score[0]} and #{hotelVo.score[1]}
+          </if>
+          <if test="hotelVo.price !=null and hotelVo.price !=''">
+              and r.price BETWEEN #{hotelVo.price[0]} and #{hotelVo.price[1]}
+          </if>
+          <if test="hotelVo.startTime !=null and hotelVo.startTime !=''">
+              AND o.startdate &gt;= #{hotelVo.startTime}
+          </if>
+          <if test="hotelVo.endTime !=null and hotelVo.endTime !=''">
+              AND o.enddate &lt;= #{hotelVo.endTime}
+          </if>
+      </trim>
+        GROUP BY
+        r.roomtype,r.rooms,r.hotel_id,r.price,h.hotelname,h.address,h.businessdistrict,h.Star,h.facilities,h.Introduction,h.score;
+
+    </select>
+
 
     <resultMap id="Hotel" type="com.yuantu.po.Hotel">
         <result column="id" property="id"></result>

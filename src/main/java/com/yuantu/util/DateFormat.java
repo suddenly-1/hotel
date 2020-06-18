@@ -25,4 +25,34 @@ public class DateFormat {
         return new SimpleDateFormat(partten).format(date);
     }
 
+    /**
+     * @desc 字符串转时间戳
+     * @param  time
+     * @example time="2019-04-19 00:00:00"
+     **/
+    public Long getTimestamp(String time) {
+        Long timestamp = null;
+        try {
+            timestamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(time).getTime();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return timestamp;
+    }
+
+    /*
+     * 将时间戳转换为时间
+     */
+    public static String stampToDate(String stap){
+        String time;
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        long lt = new Long(stap);
+        Date date = new Date(lt);
+        time = simpleDateFormat.format(date);
+        return time;
+    }
+
+
+
+
 }

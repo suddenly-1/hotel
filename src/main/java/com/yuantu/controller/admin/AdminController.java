@@ -17,8 +17,8 @@ public class AdminController {
   AdminService adminService;
 
   @GetMapping("/{userType}")
-  public ResponseVo queryUserInfo(@PathVariable String userType,@RequestParam(value = "pageNum")Integer pageNum){
-    return ResponseVo.buildSuccess(JSON.toJSONString(adminService.queryUserInfo(userType,pageNum)));
+  public String queryUserInfo(@PathVariable String userType,@RequestParam(value = "pageNum")Integer pageNum){
+    return JSON.toJSONString(adminService.queryUserInfo(userType,pageNum));
   }
 
   @PostMapping("/update/{userType}/{username}")

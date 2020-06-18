@@ -13,6 +13,7 @@
             <if test="room.id !=null">id=#{room.id},</if>
             <if test="room.price !=null">price=#{room.price},</if>
             <if test="room.rooms !=null">rooms=#{room.rooms},</if>
+
         </set>
         <where>
             hotel_id=#{hotelId} and roomType=#{roomType}

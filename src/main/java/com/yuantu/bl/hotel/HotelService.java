@@ -1,12 +1,9 @@
 package com.yuantu.bl.hotel;
 
 
-import com.yuantu.po.Hotel;
-import com.yuantu.vo.HotelInfoVo;
-import com.yuantu.vo.ResponseVo;
+import com.yuantu.vo.*;
 import org.apache.ibatis.annotations.Param;
 
-import java.awt.*;
 import java.util.List;
 
 /**
@@ -15,13 +12,6 @@ import java.util.List;
  */
 
 public interface HotelService {
-
-  /**
-   * 酒店工作人员维护酒店基本信息
-   * @param  hotelInfoVo,hotelId
-   * @return
-   */
-    ResponseVo modifyHotelInfo(@Param("hotelInfoVo") HotelInfoVo hotelInfoVo,@Param("hotelId") Integer hotelId);
 
   /**
    * 明确地址和商圈查看酒店信息
@@ -51,4 +41,13 @@ public interface HotelService {
    * @return
    */
   ResponseVo addHotelInfo(@Param("hotel") HotelInfoVo hotel);
+
+
+  /**
+   * 查询时间段里的房间状态,可以通过酒店名称、房间（类型、原始价格区间、
+   * 有空房期间（房间数量、入住日期，退房日期））、星级、评分区间等条件进行搜索
+   * @param hotel
+   * @return
+   */
+  List<HotelqueryInfoVo> queryHotel(HotelReceiveDto hotel);
 }
