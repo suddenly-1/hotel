@@ -1,6 +1,8 @@
 package com.yuantu.data.hotel;
 
 import com.yuantu.po.Hotel;
+import com.yuantu.vo.HotelQueryVo;
+import com.yuantu.vo.HotelqueryInfoVo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
@@ -10,11 +12,7 @@ import java.util.List;
 @Mapper
 @Repository
 public interface HotelMapper {
-  /**
-   * 酒店工作人员维护酒店基本信息
-   * @param  hotel ，hotelId
-   */
-  int updateHotelInfo(@Param("hotel") Hotel hotel , @Param("hotelId") Integer hotelId);
+
 
   /**
    * 系统显示酒店基本信息
@@ -45,4 +43,14 @@ public interface HotelMapper {
    * @return
    */
   int insertHotelInfo(@Param("hotel") Hotel hotel);
+
+
+  /**
+   * 可以通过酒店名称、房间（类型、原始价格区间、有空房期间（房间数量、入住日期，退房日期））
+   * 、星级、等条件进行搜索，这些条件可以独立起作用，也可以联合起作用
+   * @param hotelVo
+   * @return
+   */
+  List<HotelqueryInfoVo> selectHotel(@Param("hotelVo") HotelQueryVo hotelVo);
+
 }

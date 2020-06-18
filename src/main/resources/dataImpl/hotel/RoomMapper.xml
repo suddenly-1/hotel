@@ -11,8 +11,8 @@
         update room
         <set>
             <if test="room.id !=null">id=#{room.id},</if>
-            <if test="room.rooms !=null">price=#{room.price},</if>
-            <if test="room.price !=null">rooms=#{room.rooms}</if>
+            <if test="room.rooms !=null">price=#{room.rooms},</if>
+            <if test="room.price !=null">rooms=#{room.price}</if>
         </set>
         <where>
             hotel_id=#{hotelId} and roomType=#{roomType}

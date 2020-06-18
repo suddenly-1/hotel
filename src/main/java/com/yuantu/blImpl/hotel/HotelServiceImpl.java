@@ -6,14 +6,13 @@ import com.yuantu.bl.hotel.HotelService;
 import com.yuantu.data.hotel.HotelMapper;
 import com.yuantu.po.Hotel;
 import com.yuantu.util.PageUtil;
-import com.yuantu.vo.HotelInfoVo;
-import com.yuantu.vo.ResponseVo;
+import com.yuantu.vo.*;
+import org.apache.commons.beanutils.ConvertUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Collections;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -21,23 +20,10 @@ import java.util.stream.Collectors;
 @Service
 public class HotelServiceImpl implements HotelService {
   private final static String INSERT_ERROR="添加失败";
-  private final static String UPDATE_ERROR = "修改失败";
 
   @Autowired
   HotelMapper hotelMapper;
 
-  @Override
-  public ResponseVo modifyHotelInfo(HotelInfoVo hotelInfoVo,Integer hotelId) {
-    Hotel hotel = new Hotel();
-    BeanUtils.copyProperties(hotelInfoVo,hotel);
-    try {
-      hotelMapper.updateHotelInfo(hotel,hotelId);
-    }catch (Exception e){
-      System.out.println(e.getMessage());
-      return ResponseVo.buildFailure(UPDATE_ERROR);
-    }
-      return ResponseVo.buildSuccess(true);
-  }
 
   @Override
   public ResponseVo getHotelInfo(String businessdistrict, String address, Integer hotelId, Integer pageNum) {
@@ -107,5 +93,45 @@ public class HotelServiceImpl implements HotelService {
     }
     return ResponseVo.buildSuccess(true);
   }
+
+
+  @Override
+  public List<HotelqueryInfoVo> queryHotel(HotelReceiveDto hotel) {
+
+    HotelQueryVo hotelQueryVo = new HotelQueryVo();
+
+    if (hotel.getScore()!=null){
+      String[] Score=hotel.getScore().split("-");
+      hotelQueryVo.setScore((Double[])ConvertUtils.convert(Score,Double.class));
+    }
+    if (hotel.getPrice()!=null){
+      String[] Price = hotel.getPrice().split("-");
+      hotelQueryVo.setPrice((Double[])ConvertUtils.convert(Price,Double.class));
+    }
+
+  BeanUtils.copyProperties(hotel,hotelQueryVo);
+
+
+    List<HotelqueryInfoVo> hotelquery = hotelMapper.selectHotel(hotelQueryVo);
+
+    List<HotelqueryInfoVo> hotelqueryList = new LinkedList<>();
+
+    if (hotel.getRoomNumber()!=null) {
+      for (int i = 0; i < hotelquery.size(); i++) {
+        HotelqueryInfoVo hotelVo = new HotelqueryInfoVo();
+        if(hotel.getRoomNumber() <= hotelquery.get(i).getNumbers()){
+          BeanUtils.copyProperties(hotelquery.get(i),hotelVo);
+          hotelqueryList.add(hotelVo);
+        }
+      }
+      return hotelqueryList;
+    }
+
+    else {
+      return hotelquery;
+    }
+  }
+
+
 
 }
