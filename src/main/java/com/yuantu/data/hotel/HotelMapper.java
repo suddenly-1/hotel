@@ -53,4 +53,17 @@ public interface HotelMapper {
    */
   List<HotelqueryInfoVo> selectHotel(@Param("hotelVo") HotelQueryVo hotelVo);
 
+  /**
+   * 通过用户的酒店id查询信息
+   * @param userId
+   * @return
+   */
+  Hotel selectHotelinfo(@Param("userId") Integer userId);
+
+  /**
+   * 酒店工作人员维护酒店基本信息
+   * @param  hotel ，hotelId
+   */
+  int updateHotelInfo(@Param("hotel") Hotel hotel , @Param("hotelId") Integer hotelId);
+
 }

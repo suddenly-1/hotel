@@ -19,7 +19,7 @@ public interface HotelService {
    * @return
    * @return
    */
-   ResponseVo getHotelInfo(@Param("businessdistrict")String businessdistrict,@Param("address")String address,@Param("hotelId") Integer hotelId,@Param("pageNum") Integer pageNum);
+  ResponseVo getHotelInfo(@Param("businessdistrict")String businessdistrict,@Param("address")String address,@Param("hotelId") Integer hotelId,@Param("pageNum") Integer pageNum);
 
 
     /**
@@ -50,4 +50,19 @@ public interface HotelService {
    * @return
    */
   List<HotelqueryInfoVo> queryHotel(HotelReceiveDto hotel);
+
+  /**
+   * 通过用户的酒店id查询信息
+   * @param userId
+   * @return
+   */
+  HotelInfoVo queryHotelInfo(@Param("userId") Integer userId);
+
+
+  /**
+   * 酒店工作人员维护酒店基本信息
+   * @param  hotelInfoVo,hotelId
+   * @return
+   */
+  ResponseVo modifyHotelInfo(@Param("hotelInfoVo") HotelInfoVo hotelInfoVo, @Param("hotelId") Integer hotelId);
 }
