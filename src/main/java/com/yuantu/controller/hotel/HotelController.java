@@ -42,6 +42,9 @@ public class HotelController {
   }
   @PostMapping("/query/{pageNum}/{pageSize}")
   public String queryHotel(@PathVariable int pageNum, @PathVariable int pageSize, @RequestBody HotelReceiveDto hotel){
+    System.out.println("************" + pageNum);
+    System.out.println("************" + pageSize);
+    System.out.println("************" + hotel);
       return JSON.toJSONString(hotelService.queryHotel(hotel,pageNum,pageSize));
 }
 

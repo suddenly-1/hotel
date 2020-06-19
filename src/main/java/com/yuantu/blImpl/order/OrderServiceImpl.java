@@ -136,6 +136,9 @@ public class OrderServiceImpl implements OrderService {
             for (int i = 0; i < orders.size(); i++){
                 OrderInfo orderInfo = new OrderInfo();
                 BeanUtils.copyProperties(orders.get(i),orderInfo);
+                if(orders.get(i).getScore() == null){
+                    orderInfo.setScore(0.0);
+                }
                 if(orders.get(i).getGenerationDate() != null){
                     orderInfo.setGenerationDate(DateFormat.DateConvertString(orders.get(i).getGenerationDate()));
                 }
@@ -206,11 +209,16 @@ public class OrderServiceImpl implements OrderService {
         Order order = new Order();
         BeanUtils.copyProperties(orderEvaluation, order);
         Order order1 = orderMapper.queryOrderByOrderNumber(orderEvaluation.getOrderNumber());
-        if ("已执行".equals(order1.getStatus())){
-            orderMapper.evaluation(order);
-            return ResponseVo.buildSuccess();
+        System.out.println(order1);
+        if (order1.getScore() == null) {
+            if ("已执行".equals(order1.getStatus())) {
+                orderMapper.evaluation(order);
+                return ResponseVo.buildSuccess();
+            } else {
+                return ResponseVo.buildFailure("只能评价已执行订单！");
+            }
         } else {
-            return ResponseVo.buildFailure("只能评价已执行订单！");
+            return ResponseVo.buildFailure("该订单已评价！");
         }
     }
 
