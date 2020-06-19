@@ -49,6 +49,7 @@ public interface HotelService {
    * @param hotel
    * @return
    */
+
   List<HotelqueryInfoVo> queryHotel(HotelReceiveDto hotel);
 
   /**
@@ -65,4 +66,5 @@ public interface HotelService {
    * @return
    */
   ResponseVo modifyHotelInfo(@Param("hotelInfoVo") HotelInfoVo hotelInfoVo, @Param("hotelId") Integer hotelId);
+
 }

@@ -40,11 +40,7 @@ public class HotelController {
   public String addHotel(@RequestBody HotelInfoVo hotelInfoVo){
     return JSON.toJSONString(hotelService.addHotelInfo(hotelInfoVo));
   }
-  @PostMapping("/query")
-  public String queryHotel(@RequestBody HotelReceiveDto hotel){
 
-    return JSON.toJSONString(hotelService.queryHotel(hotel));
-  }
 
   @GetMapping("/select/{userId}")
   public String queryHotel(@PathVariable Integer userId){
@@ -55,4 +51,12 @@ public class HotelController {
   public String updateHotel(@RequestBody HotelInfoVo hotelInfoVo,@PathVariable Integer hotelId){
     return JSON.toJSONString(hotelService.modifyHotelInfo(hotelInfoVo,hotelId));
   }
+  @PostMapping("/query/{pageNum}/{pageSize}")
+  public String queryHotel(@PathVariable int pageNum, @PathVariable int pageSize, @RequestBody HotelReceiveDto hotel){
+    System.out.println("************" + pageNum);
+    System.out.println("************" + pageSize);
+    System.out.println("************" + hotel);
+      return JSON.toJSONString(hotelService.queryHotel(hotel,pageNum,pageSize));
+}
+
 }
