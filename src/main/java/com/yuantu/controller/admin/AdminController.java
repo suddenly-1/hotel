@@ -22,12 +22,12 @@ public class AdminController {
   }
 
   @PostMapping("/update/{userType}/{username}")
-  public ResponseVo modifyUserInfo(@RequestBody UserInfoVo user,@PathVariable String userType,@PathVariable String username){
-    return ResponseVo.buildSuccess(JSON.toJSONString(adminService.updateUser(user,userType,username)));
+  public String modifyUserInfo(@RequestBody UserInfoVo user,@PathVariable String userType,@PathVariable String username){
+    return JSON.toJSONString(adminService.updateUser(user,userType,username));
   }
 
   @PostMapping("/addwork/{hotelid}")
-  public ResponseVo queryHotelWorker(@PathVariable String hotelid,@RequestBody UserInfoVo userInfoVo){
-      return ResponseVo.buildSuccess(JSON.toJSONString(adminService.queryHotelWorker(hotelid,userInfoVo)));
+  public String queryHotelWorker(@PathVariable String hotelid,@RequestBody UserInfoVo userInfoVo){
+      return JSON.toJSONString(adminService.queryHotelWorker(hotelid,userInfoVo));
   }
 }

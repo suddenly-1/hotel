@@ -18,18 +18,18 @@ public class RoomController {
   RoomService roomService;
 
   @PostMapping("/insert/{hotelId}")
-  public ResponseVo enterRoomInfo(@RequestBody RoomInfoVo roomInfoVo, @PathVariable Integer hotelId){
-    return ResponseVo.buildSuccess(JSON.toJSONString(roomService.enterRoomInfo(roomInfoVo,hotelId)));
+  public String enterRoomInfo(@RequestBody RoomInfoVo roomInfoVo, @PathVariable Integer hotelId){
+    return JSON.toJSONString(roomService.enterRoomInfo(roomInfoVo,hotelId));
   }
 
   @PostMapping("/update/{hotelId}")
-  public ResponseVo modifyRoomInfo(@RequestBody RoomInfoVo roomInfoVo,@RequestParam("roomType") String roomType, @PathVariable("hotelId") Integer hotelId){
-    return ResponseVo.buildSuccess(JSON.toJSONString(roomService.modifyRoomInfo(roomInfoVo,roomType,hotelId)));
+  public String modifyRoomInfo(@RequestBody RoomInfoVo roomInfoVo,@RequestParam("roomType") String roomType, @PathVariable("hotelId") Integer hotelId){
+    return JSON.toJSONString(roomService.modifyRoomInfo(roomInfoVo,roomType,hotelId));
   }
 
   @GetMapping("/select/{hotelId}")
-  public ResponseVo queryRoomInfo(@PathVariable Integer hotelId){
+  public String queryRoomInfo(@PathVariable Integer hotelId){
 
-    return ResponseVo.buildSuccess(JSON.toJSONString(roomService.queryRoomInfo(hotelId)));
+    return JSON.toJSONString(roomService.queryRoomInfo(hotelId));
   }
 }

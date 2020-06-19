@@ -27,18 +27,29 @@ public class HotelController {
 
 
   @GetMapping("/sort/{condition}")
-  public ResponseVo HotelSort(@PathVariable String condition){
-    return ResponseVo.buildSuccess(JSON.toJSONString(hotelService.HotelSort(condition)));
+  public String HotelSort(@PathVariable String condition){
+    return JSON.toJSONString(hotelService.HotelSort(condition));
   }
 
   @GetMapping("/fuzzy/{condition}")
-  public ResponseVo HotelFuzzy(@PathVariable String condition){
-    return ResponseVo.buildSuccess(JSON.toJSONString(hotelService.likeQuery(condition)));
+  public String HotelFuzzy(@PathVariable String condition){
+    return JSON.toJSONString(hotelService.likeQuery(condition));
   }
 
   @PostMapping("/insert")
-  public ResponseVo addHotel(@RequestBody HotelInfoVo hotelInfoVo){
-    return ResponseVo.buildSuccess(JSON.toJSONString(hotelService.addHotelInfo(hotelInfoVo)));
+  public String addHotel(@RequestBody HotelInfoVo hotelInfoVo){
+    return JSON.toJSONString(hotelService.addHotelInfo(hotelInfoVo));
+  }
+
+
+  @GetMapping("/select/{userId}")
+  public String queryHotel(@PathVariable Integer userId){
+    return JSON.toJSONString(hotelService.queryHotelInfo(userId));
+  }
+
+  @PostMapping("/update/{hotelId}")
+  public String updateHotel(@RequestBody HotelInfoVo hotelInfoVo,@PathVariable Integer hotelId){
+    return JSON.toJSONString(hotelService.modifyHotelInfo(hotelInfoVo,hotelId));
   }
   @PostMapping("/query/{pageNum}/{pageSize}")
   public String queryHotel(@PathVariable int pageNum, @PathVariable int pageSize, @RequestBody HotelReceiveDto hotel){
