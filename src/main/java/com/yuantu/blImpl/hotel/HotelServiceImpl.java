@@ -110,7 +110,13 @@ public class HotelServiceImpl implements HotelService {
   BeanUtils.copyProperties(hotel,hotelQueryVo);
 
     PageHelper.startPage(pageNum,pageSize);
+    //查询订单中被订购的房间
     List<HotelqueryInfoVo> hotelquery = hotelMapper.selectHotel(hotelQueryVo);
+    //查询未被订购的房间
+    List<HotelqueryInfoVo> queryNotOrder = hotelMapper.selectNotOrders(hotelQueryVo);
+    //结合
+    hotelquery.addAll(queryNotOrder);
+
     List<HotelqueryInfoVo> hotelqueryList = new LinkedList<>();
 
     if (hotel.getRoomNumber()!=null) {

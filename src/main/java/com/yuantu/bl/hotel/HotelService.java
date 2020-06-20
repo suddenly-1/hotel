@@ -50,8 +50,8 @@ public interface HotelService {
    * @param hotel
    * @return
    */
+  ResponseVo queryHotel(HotelReceiveDto hotel,int pageNum, int pageSize);
 
-  ResponseVo queryHotel(HotelReceiveDto hotel, int pageNum, int pageSize);
 
   /**
    * 通过用户的酒店id查询信息

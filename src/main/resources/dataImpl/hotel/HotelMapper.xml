@@ -59,32 +59,19 @@
     <!--查询时间段里的房间状态,可以通过酒店名称、房间（类型、原始价格区间、有空房期间（房间数量、入住日期，退房日期））、星级、评分区间等条件进行搜索-->
 
     <select id="selectHotel" resultType="com.yuantu.vo.HotelqueryInfoVo" parameterType="com.yuantu.vo.HotelQueryVo">
-        select
-        h.hotelname,
-        h.address,
-        h.businessdistrict,
-        h.Star,
-        h.facilities,
-        h.Introduction,
-        h.score,
-        r.roomtype,
-        r.price,
-        r.rooms,
-        SUM(o.rooms) AS roomNumber,
-        (r.rooms-SUM(o.rooms)) as `numbers`,
-        r.hotel_id,
-        IF(SUM(o.rooms)&lt;r.rooms,'有空房','无空房') as state
-        from
-        `order`o ,
-        `room` r,
-        `hotel`h
+        select h.*,r.roomtype,r.rooms,r.price,SUM(od.rooms) as roomNumber,IF((r.rooms-SUM(od.rooms))&gt;0,(r.rooms-SUM(od.rooms)),0)as numbers,IF((r.rooms-SUM(od.rooms))&gt;0,'有空房','无空房') as state
+        from `room` r,hotel h,
+        (select od.hotelname,od.roomtype,od.hotel_id,od.`status`,od.room_id,od.rooms,od.startdate,od.enddate
+        from  `order` od
+        where od.`status`='未执行') od
+
       <trim prefix="where" prefixOverrides="and">
-          o.hotel_id=r.hotel_id and o.hotel_id=h.id and r.roomtype=o.roomtype and o.`status` ='未执行'
+          od.room_id=r.id and h.id=od.hotel_id
           <if test="hotelVo.address !=null and hotelVo.address !=''">
               and h.address=#{hotelVo.address}
           </if>
           <if test="hotelVo.roomType !=null and hotelVo.roomType !=''">
-              and o.roomType=#{hotelVo.roomType}
+              and r.roomtype=#{hotelVo.roomType}
           </if>
           <if test="hotelVo.businessDistrict !=null and hotelVo.businessDistrict !=''">
               and h.businessdistrict=#{hotelVo.businessDistrict}
@@ -102,16 +89,55 @@
               and r.price BETWEEN #{hotelVo.price[0]} and #{hotelVo.price[1]}
           </if>
           <if test="hotelVo.startTime !=null and hotelVo.startTime !=''">
-              AND o.startdate &gt;= #{hotelVo.startTime}
+              AND od.startdate &gt;= #{hotelVo.startTime}
           </if>
           <if test="hotelVo.endTime !=null and hotelVo.endTime !=''">
-              AND o.enddate &lt;= #{hotelVo.endTime}
+              AND od.enddate &lt;= #{hotelVo.endTime}
           </if>
       </trim>
-        GROUP BY
-        r.roomtype,r.rooms,r.hotel_id,r.price,h.hotelname,h.address,h.businessdistrict,h.Star,h.facilities,h.Introduction,h.score
+        GROUP BY r.hotel_id,od.hotelname,od.roomtype,od.rooms,h.id,r.rooms,r.price,r.roomtype,od.room_id
 
     </select>
+
+
+    <!--查询不在订单中未被预定的房间-->
+    <select id="selectNotOrders" resultType="com.yuantu.vo.HotelqueryInfoVo" parameterType="com.yuantu.vo.HotelQueryVo">
+        select h.*,r.*,r.rooms as numbers,SUM(0) as roomNumber, IF(r.rooms>0,'有空房','无空房') as state
+        from `hotel`h,(select r.hotel_id,r.roomtype,r.rooms,r.price
+        from `room`r where not exists (select * from `order` where `order`.hotel_id=r.hotel_id and `order`.roomtype=r.roomtype))r
+
+        <trim prefix="where" prefixOverrides="and">
+            r.hotel_id=h.id
+            <if test="hotelVo.address !=null and hotelVo.address !=''">
+                and h.address=#{hotelVo.address}
+            </if>
+            <if test="hotelVo.roomType !=null and hotelVo.roomType !=''">
+                and r.roomtype=#{hotelVo.roomType}
+            </if>
+            <if test="hotelVo.businessDistrict !=null and hotelVo.businessDistrict !=''">
+                and h.businessdistrict=#{hotelVo.businessDistrict}
+            </if>
+            <if test="hotelVo.hotelName !=null and hotelVo.hotelName !=''">
+                and h.hotelname=#{hotelVo.hotelName}
+            </if>
+            <if test="hotelVo.star !=null and hotelVo.star !=''">
+                and h.Star=#{hotelVo.star}
+            </if>
+            <if test="hotelVo.score !=null and hotelVo.score !=''">
+                and h.score BETWEEN #{hotelVo.score[0]} and #{hotelVo.score[1]}
+            </if>
+            <if test="hotelVo.price !=null and hotelVo.price !=''">
+                and r.price BETWEEN #{hotelVo.price[0]} and #{hotelVo.price[1]}
+            </if>
+        </trim>
+
+
+        GROUP BY h.id,r.roomtype,r.rooms,r.price
+    </select>
+
+
+
+
 
     <select id="selectHotelinfo" parameterType="string" resultMap="Hotel">
         SELECT h.id,h.hotelName,h.address,h.businessDistrict,h.introduction,h.facilities,h.star FROM `hotel` h
