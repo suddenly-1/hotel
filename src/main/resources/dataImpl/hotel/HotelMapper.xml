@@ -173,5 +173,8 @@
         <result column="score" property="score"></result>
     </resultMap>
 
+    <select id="queryHotelById" resultMap="Hotel">
+        SELECT * FROM hotel WHERE id = #{id}
+    </select>
 
 </mapper>

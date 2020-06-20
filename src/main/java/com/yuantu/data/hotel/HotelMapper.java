@@ -71,4 +71,12 @@ public interface HotelMapper {
    * @return
    */
   List<HotelqueryInfoVo> selectNotOrders(@Param("hotelVo") HotelQueryVo hotelVo);
+  
+   /**
+   * 通过酒店id查询信息
+   * @param id
+   * @return
+   */
+  Hotel queryHotelById(@Param("id") Integer id);
+
 }

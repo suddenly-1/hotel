@@ -1,6 +1,7 @@
 package com.yuantu.bl.hotel;
 
 
+import com.yuantu.po.Hotel;
 import com.yuantu.vo.*;
 import org.apache.ibatis.annotations.Param;
 
@@ -49,8 +50,8 @@ public interface HotelService {
    * @param hotel
    * @return
    */
-
   ResponseVo queryHotel(HotelReceiveDto hotel,int pageNum, int pageSize);
+
 
   /**
    * 通过用户的酒店id查询信息
@@ -66,5 +67,12 @@ public interface HotelService {
    * @return
    */
   ResponseVo modifyHotelInfo(@Param("hotelInfoVo") HotelInfoVo hotelInfoVo, @Param("hotelId") Integer hotelId);
+
+  /**
+   * 通过酒店id查询信息
+   * @param id
+   * @return
+   */
+  ResponseVo queryHotelById(@Param("id") Integer id);
 
 }

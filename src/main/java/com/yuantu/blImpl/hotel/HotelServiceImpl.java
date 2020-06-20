@@ -158,4 +158,9 @@ public class HotelServiceImpl implements HotelService {
     return ResponseVo.buildSuccess(true);
   }
 
+  @Override
+  public ResponseVo queryHotelById(Integer id) {
+    return ResponseVo.buildSuccess(hotelMapper.queryHotelById(id));
+  }
+
 }
