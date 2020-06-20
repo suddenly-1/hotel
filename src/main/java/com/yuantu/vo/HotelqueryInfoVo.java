@@ -1,7 +1,7 @@
 package com.yuantu.vo;
 
 public class HotelqueryInfoVo {
-  private Integer hotel_id;
+  private Integer id;
   private String hotelName;//酒店名称
   private String address;//酒店地址
   private String businessDistrict;//酒店所属商圈
@@ -20,8 +20,8 @@ public class HotelqueryInfoVo {
   public HotelqueryInfoVo() {
   }
 
-  public HotelqueryInfoVo(Integer hotel_id, String hotelName, String address, String businessDistrict, String introduction, String facilities, Integer star, Double score, Integer price, String roomType, Integer rooms, Integer roomNumber, Integer numbers, String state) {
-    this.hotel_id = hotel_id;
+  public HotelqueryInfoVo(Integer id, String hotelName, String address, String businessDistrict, String introduction, String facilities, Integer star, Double score, Integer price, String roomType, Integer rooms, Integer roomNumber, Integer numbers, String state) {
+    this.id = id;
     this.hotelName = hotelName;
     this.address = address;
     this.businessDistrict = businessDistrict;
@@ -37,12 +37,12 @@ public class HotelqueryInfoVo {
     this.state = state;
   }
 
-  public Integer getHotel_id() {
-    return hotel_id;
+  public Integer getId() {
+    return id;
   }
 
-  public void setHotel_id(Integer hotel_id) {
-    this.hotel_id = hotel_id;
+  public void setId(Integer id) {
+    this.id = id;
   }
 
   public String getHotelName() {
@@ -152,7 +152,7 @@ public class HotelqueryInfoVo {
   @Override
   public String toString() {
     return "HotelqueryInfoVo{" +
-      "hotel_id=" + hotel_id +
+      "id=" + id +
       ", hotelName='" + hotelName + '\'' +
       ", address='" + address + '\'' +
       ", businessDistrict='" + businessDistrict + '\'' +

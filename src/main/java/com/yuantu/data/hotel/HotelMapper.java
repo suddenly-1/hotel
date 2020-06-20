@@ -66,4 +66,9 @@ public interface HotelMapper {
    */
   int updateHotelInfo(@Param("hotel") Hotel hotel , @Param("hotelId") Integer hotelId);
 
+  /**
+   * 查询为被订购的房子
+   * @return
+   */
+  List<HotelqueryInfoVo> selectNotOrders(@Param("hotelVo") HotelQueryVo hotelVo);
 }
