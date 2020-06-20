@@ -66,4 +66,11 @@ public interface HotelMapper {
    */
   int updateHotelInfo(@Param("hotel") Hotel hotel , @Param("hotelId") Integer hotelId);
 
+  /**
+   * 通过酒店id查询信息
+   * @param id
+   * @return
+   */
+  Hotel queryHotelById(@Param("id") Integer id);
+
 }

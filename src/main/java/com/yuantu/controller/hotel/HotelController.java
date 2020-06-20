@@ -19,7 +19,6 @@ public class HotelController {
   HotelService hotelService;
 
 
-
   @GetMapping(value = {"/{address}/{businessdistrict}","/{address}/{businessdistrict}/{hotelId}"})
   public String HotelInfo(@PathVariable String businessdistrict,@PathVariable String address,@PathVariable(required = false) Integer hotelId,@RequestParam(value = "pageNum")Integer pageNum){
     return JSON.toJSONString(hotelService.getHotelInfo(businessdistrict,address,hotelId,pageNum));
@@ -53,10 +52,11 @@ public class HotelController {
   }
   @PostMapping("/query/{pageNum}/{pageSize}")
   public String queryHotel(@PathVariable int pageNum, @PathVariable int pageSize, @RequestBody HotelReceiveDto hotel){
-    System.out.println("************" + pageNum);
-    System.out.println("************" + pageSize);
-    System.out.println("************" + hotel);
       return JSON.toJSONString(hotelService.queryHotel(hotel,pageNum,pageSize));
-}
+  }
 
+  @GetMapping("/queryHotelById/{id}")
+  public String queryHotelById(@PathVariable Integer id){
+    return JSON.toJSONString(hotelService.queryHotelById(id));
+  }
 }
