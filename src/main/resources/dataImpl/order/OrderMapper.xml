@@ -30,8 +30,8 @@
     </resultMap>
 
     <insert id="addOrder" parameterType="Order" useGeneratedKeys="true" keyProperty="id">
-        INSERT INTO `order`(ordernumber,phone,username,user_id,hotel_id,hotelname,generationdate,startdate,enddate,latestdate,roomtype,rooms,number ,child,status,amount)
-         VALUES (#{orderNumber}, #{phone}, #{userName}, #{user_id}, #{hotel_id}, #{hotelName}, #{generationDate}, #{startDate}, #{endDate}, #{latestDate}, #{roomType}, #{rooms}, #{number}, #{child}, #{status}, #{amount})
+        INSERT INTO `order`(ordernumber,phone,username,user_id,hotel_id,room_id,hotelname,generationdate,startdate,enddate,latestdate,roomtype,rooms,number ,child,status,amount)
+         VALUES (#{orderNumber}, #{phone}, #{userName}, #{user_id}, #{hotel_id}, #{room_id}, #{hotelName}, #{generationDate}, #{startDate}, #{endDate}, #{latestDate}, #{roomType}, #{rooms}, #{number}, #{child}, #{status}, #{amount})
     </insert>
 
     <update id="updateOrder" parameterType="Order">
@@ -47,7 +47,6 @@
         WHERE ordernumber = #{orderNumber}
     </update>
 
-<!--    SELECT * FROM `order` where user_id = #{user_id} and status = #{status}-->
     <select id="queryOrderByStatus" parameterType="Order" resultMap="OrderMap">
         SELECT * FROM `order`
         <where>
@@ -61,6 +60,7 @@
                 and status = #{status}
             </if>
         </where>
+        ORDER BY generationdate DESC
     </select>
 
     <select id="queryOrderByOrderNumber" resultMap="OrderMap">
@@ -87,6 +87,7 @@
             <if test="userid !=null">and u.id=#{userid}</if>
             <if test="hotelid !=null">and o.hotel_id=#{hotelid}</if>
         </trim>
+        ORDER BY generationdate DESC
     </select>
 
 </mapper>

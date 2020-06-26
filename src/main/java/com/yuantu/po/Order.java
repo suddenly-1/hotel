@@ -9,6 +9,7 @@ public class Order {
     private String userName;
     private Integer user_id;
     private Integer hotel_id;
+    private Integer room_id;
     private String hotelName;
     private Date generationDate;
     private Date startDate;
@@ -27,13 +28,14 @@ public class Order {
     public Order() {
     }
 
-    public Order(Integer id, String orderNumber, String phone, String userName, Integer user_id, Integer hotel_id, String hotelName, Date generationDate, Date startDate, Date endDate, Date latestDate, String roomType, Integer rooms, Integer number, Integer child, String status, Double amount, Double score, String comment, Date revocationTime) {
+    public Order(Integer id, String orderNumber, String phone, String userName, Integer user_id, Integer hotel_id, Integer room_id, String hotelName, Date generationDate, Date startDate, Date endDate, Date latestDate, String roomType, Integer rooms, Integer number, Integer child, String status, Double amount, Double score, String comment, Date revocationTime) {
         this.id = id;
         this.orderNumber = orderNumber;
         this.phone = phone;
         this.userName = userName;
         this.user_id = user_id;
         this.hotel_id = hotel_id;
+        this.room_id = room_id;
         this.hotelName = hotelName;
         this.generationDate = generationDate;
         this.startDate = startDate;
@@ -96,6 +98,14 @@ public class Order {
 
     public void setHotel_id(Integer hotel_id) {
         this.hotel_id = hotel_id;
+    }
+
+    public Integer getRoom_id() {
+        return room_id;
+    }
+
+    public void setRoom_id(Integer room_id) {
+        this.room_id = room_id;
     }
 
     public String getHotelName() {
@@ -219,6 +229,7 @@ public class Order {
                 ", userName='" + userName + '\'' +
                 ", user_id=" + user_id +
                 ", hotel_id=" + hotel_id +
+                ", room_id=" + room_id +
                 ", hotelName='" + hotelName + '\'' +
                 ", generationDate=" + generationDate +
                 ", startDate=" + startDate +

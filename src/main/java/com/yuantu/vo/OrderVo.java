@@ -7,6 +7,7 @@ public class OrderVo {
     private String userName;        //用户名
     private Integer user_id;        //用户ID
     private Integer hotel_id;       //酒店ID
+    private Integer room_id;        //房间id
     private String hotelName;       //酒店名
     private String generationDate;    //订单生成日期
     private String startDate;         //开始时间
@@ -23,12 +24,13 @@ public class OrderVo {
     public OrderVo() {
     }
 
-    public OrderVo(String orderNumber, String phone, String userName, Integer user_id, Integer hotel_id, String hotelName, String generationDate, String startDate, String endDate, String latestDate, String roomType, Integer rooms, Integer number, Integer child, String status, Double amount, String revocationTime) {
+    public OrderVo(String orderNumber, String phone, String userName, Integer user_id, Integer hotel_id, Integer room_id, String hotelName, String generationDate, String startDate, String endDate, String latestDate, String roomType, Integer rooms, Integer number, Integer child, String status, Double amount, String revocationTime) {
         this.orderNumber = orderNumber;
         this.phone = phone;
         this.userName = userName;
         this.user_id = user_id;
         this.hotel_id = hotel_id;
+        this.room_id = room_id;
         this.hotelName = hotelName;
         this.generationDate = generationDate;
         this.startDate = startDate;
@@ -81,6 +83,14 @@ public class OrderVo {
 
     public void setHotel_id(Integer hotel_id) {
         this.hotel_id = hotel_id;
+    }
+
+    public Integer getRoom_id() {
+        return room_id;
+    }
+
+    public void setRoom_id(Integer room_id) {
+        this.room_id = room_id;
     }
 
     public String getHotelName() {
@@ -187,6 +197,7 @@ public class OrderVo {
                 ", userName='" + userName + '\'' +
                 ", user_id=" + user_id +
                 ", hotel_id=" + hotel_id +
+                ", room_id=" + room_id +
                 ", hotelName='" + hotelName + '\'' +
                 ", generationDate='" + generationDate + '\'' +
                 ", startDate='" + startDate + '\'' +
