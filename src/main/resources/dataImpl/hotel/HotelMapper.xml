@@ -56,89 +56,6 @@
     </insert>
 
 
-    <!--查询时间段里的房间状态,可以通过酒店名称、房间（类型、原始价格区间、有空房期间（房间数量、入住日期，退房日期））、星级、评分区间等条件进行搜索-->
-
-    <select id="selectHotel" resultType="com.yuantu.vo.HotelqueryInfoVo" parameterType="com.yuantu.vo.HotelQueryVo">
-        select h.*,r.roomtype,r.rooms,r.price,SUM(od.rooms) as roomNumber,IF((r.rooms-SUM(od.rooms))&gt;0,(r.rooms-SUM(od.rooms)),0)as numbers,IF((r.rooms-SUM(od.rooms))&gt;0,'有空房','无空房') as state
-        from `room` r,hotel h,
-        (select od.hotelname,od.roomtype,od.hotel_id,od.`status`,od.room_id,od.rooms,od.startdate,od.enddate
-        from  `order` od
-        where od.`status`='未执行') od
-
-      <trim prefix="where" prefixOverrides="and">
-          od.room_id=r.id and h.id=od.hotel_id
-          <if test="hotelVo.address !=null and hotelVo.address !=''">
-              and h.address=#{hotelVo.address}
-          </if>
-          <if test="hotelVo.roomType !=null and hotelVo.roomType !=''">
-              and r.roomtype=#{hotelVo.roomType}
-          </if>
-          <if test="hotelVo.businessDistrict !=null and hotelVo.businessDistrict !=''">
-              and h.businessdistrict=#{hotelVo.businessDistrict}
-          </if>
-          <if test="hotelVo.hotelName !=null and hotelVo.hotelName !=''">
-              and h.hotelname=#{hotelVo.hotelName}
-          </if>
-          <if test="hotelVo.star !=null and hotelVo.star !=''">
-              and h.Star=#{hotelVo.star}
-          </if>
-          <if test="hotelVo.score !=null and hotelVo.score !=''">
-              and h.score BETWEEN #{hotelVo.score[0]} and #{hotelVo.score[1]}
-          </if>
-          <if test="hotelVo.price !=null and hotelVo.price !=''">
-              and r.price BETWEEN #{hotelVo.price[0]} and #{hotelVo.price[1]}
-          </if>
-          <if test="hotelVo.startTime !=null and hotelVo.startTime !=''">
-              AND od.startdate &gt;= #{hotelVo.startTime}
-          </if>
-          <if test="hotelVo.endTime !=null and hotelVo.endTime !=''">
-              AND od.enddate &lt;= #{hotelVo.endTime}
-          </if>
-      </trim>
-        GROUP BY r.hotel_id,od.hotelname,od.roomtype,od.rooms,h.id,r.rooms,r.price,r.roomtype,od.room_id
-
-    </select>
-
-
-    <!--查询不在订单中未被预定的房间-->
-    <select id="selectNotOrders" resultType="com.yuantu.vo.HotelqueryInfoVo" parameterType="com.yuantu.vo.HotelQueryVo">
-        select h.*,r.*,r.rooms as numbers,SUM(0) as roomNumber, IF(r.rooms>0,'有空房','无空房') as state
-        from `hotel`h,(select r.hotel_id,r.roomtype,r.rooms,r.price
-        from `room`r where not exists (select * from `order` where `order`.hotel_id=r.hotel_id and `order`.roomtype=r.roomtype))r
-
-        <trim prefix="where" prefixOverrides="and">
-            r.hotel_id=h.id
-            <if test="hotelVo.address !=null and hotelVo.address !=''">
-                and h.address=#{hotelVo.address}
-            </if>
-            <if test="hotelVo.roomType !=null and hotelVo.roomType !=''">
-                and r.roomtype=#{hotelVo.roomType}
-            </if>
-            <if test="hotelVo.businessDistrict !=null and hotelVo.businessDistrict !=''">
-                and h.businessdistrict=#{hotelVo.businessDistrict}
-            </if>
-            <if test="hotelVo.hotelName !=null and hotelVo.hotelName !=''">
-                and h.hotelname=#{hotelVo.hotelName}
-            </if>
-            <if test="hotelVo.star !=null and hotelVo.star !=''">
-                and h.Star=#{hotelVo.star}
-            </if>
-            <if test="hotelVo.score !=null and hotelVo.score !=''">
-                and h.score BETWEEN #{hotelVo.score[0]} and #{hotelVo.score[1]}
-            </if>
-            <if test="hotelVo.price !=null and hotelVo.price !=''">
-                and r.price BETWEEN #{hotelVo.price[0]} and #{hotelVo.price[1]}
-            </if>
-        </trim>
-
-
-        GROUP BY h.id,r.roomtype,r.rooms,r.price
-    </select>
-
-
-
-
-
     <select id="selectHotelinfo" parameterType="string" resultMap="Hotel">
         SELECT h.id,h.hotelName,h.address,h.businessDistrict,h.introduction,h.facilities,h.star FROM `hotel` h
         LEFT JOIN `user` u on h.id=u.hotel_id
@@ -173,8 +90,238 @@
         <result column="score" property="score"></result>
     </resultMap>
 
+<!--     酒店详情-->
     <select id="queryHotelById" resultMap="Hotel">
         SELECT * FROM hotel WHERE id = #{id}
     </select>
+
+
+
+
+
+
+
+
+
+
+
+
+<!--    搜索酒店-->
+    <resultMap id="hotelMap" type="com.yuantu.vo.HotelInfo">
+        <id column="id" property="id"/>
+        <result property="hotelName" column="hotelname"/>
+        <result property="address" column="address"/>
+        <result property="businessDistrict" column="businessdistrict"/>
+        <result property="introduction" column="introduction"/>
+        <result property="facilities" column="facilities"/>
+        <result property="star" column="star"/>
+        <result property="score" column="score"/>
+        <result property="price" column="price"/>
+        <collection property="roomInfo"
+                    ofType="com.yuantu.vo.RoomInfo"
+                    javaType="java.util.List"
+                    select="queryRoomInfoList"
+                    column="{id=id,startTime=startTime,endTime=endTime,roomType=roomType,roomNumber=roomNumber}" >
+            <id column="room_id" property="room_id"/>
+            <result property="hotel_id" column="hotel_id"/>
+            <result property="roomType" column="roomtype"/>
+            <result property="price" column="price"/>
+            <result property="rooms" column="rooms"/>
+            <result property="roomNumber" column="roomNumber"/>
+            <result property="numbers" column="numbers"/>
+            <result property="state" column="state"/>
+        </collection>
+    </resultMap>
+    <select id="queryRoomInfoList" resultType="map">
+        SELECT r.room_id,r.hotel_id,r.roomtype,r.price,r.rooms,
+        SUM(o.rooms) AS roomNumber,
+        IF(SUM(o.rooms) > 0,r.rooms-SUM(o.rooms),r.rooms) AS numbers,
+        IF(IF(SUM(o.rooms) > 0,r.rooms-SUM(o.rooms),r.rooms)>0,'有空房','满房') AS state
+        FROM room AS r
+        LEFT JOIN `order` AS o ON r.hotel_id = o.hotel_id AND r.roomtype = o.roomType
+        <where>
+            <if test="startTime !=null and startTime !=''">
+                AND o.startdate &gt;= #{startTime}
+            </if>
+            <if test="endTime !=null and endTime !=''">
+                AND o.enddate &lt;= #{endTime}
+            </if>
+            AND o.`status` = '未执行' OR o.`status` IS NULL
+        </where>
+        GROUP BY r.room_id
+        <trim prefix="having" prefixOverrides="and">
+            r.hotel_id = #{id}
+            <if test="roomType !=null and roomType != ''">
+                and r.roomtype = #{roomType}
+            </if>
+            <if test="roomNumber !=null and roomNumber != ''">
+                and r.rooms &gt;= #{roomNumber}
+            </if>
+        </trim>
+        UNION
+        SELECT r.room_id,r.hotel_id,r.roomtype,r.price,r.rooms,
+        0 AS roomNumber,
+        r.rooms AS numbers,
+        '有空房' AS state
+        FROM room AS r
+        LEFT JOIN `order` AS o ON r.hotel_id = o.hotel_id AND r.roomtype = o.roomType
+        <where>
+            <if test="startTime !=null and startTime !='' or endTime !=null and endTime !=''">
+                AND o.startdate &lt;= #{startTime} OR o.enddate &gt;= #{endTime}
+            </if>
+            AND o.`status` = '未执行'
+        </where>
+        GROUP BY r.room_id
+        <trim prefix="having" prefixOverrides="and">
+            r.hotel_id = #{id}
+            <if test="roomType !=null and roomType !=''">
+                and r.roomtype = #{roomType}
+            </if>
+            <if test="roomNumber !=null and roomNumber !=''">
+                and r.rooms &gt;= #{roomNumber}
+            </if>
+        </trim>
+        AND r.roomtype != ALL(
+            SELECT DISTINCT r.roomtype
+            FROM room AS r
+            LEFT JOIN `order` AS o ON r.hotel_id = o.hotel_id AND r.roomtype = o.roomType
+        <where>
+            <if test="startTime !=null and startTime !=''">
+                AND o.startdate &gt;= #{startTime}
+            </if>
+            <if test="endTime !=null and endTime !=''">
+                AND o.enddate &lt;= #{endTime}
+            </if>
+            AND o.`status` = '未执行' OR o.`status` IS NULL
+            <if test="id !=null and id !=''">
+                AND r.hotel_id = #{id}
+            </if>
+        </where>
+            GROUP BY r.room_id
+        )
+    </select>
+    <select id="selectHotel" parameterType="com.yuantu.vo.HotelQueryVo" resultMap="hotelMap">
+        SELECT h.id,h.hotelname,h.address,h.businessdistrict,h.introduction,h.facilities,h.star,h.score,h.price,
+        case when ('${startTime}' IS NULL) then NULL else '${startTime}' end as startTime,
+        case when ('${endTime}' IS NULL) then NULL else '${endTime}' end as endTime,
+        case when ('${roomType}' IS NULL) then NULL else '${roomType}' end as roomType,
+        case when ('${roomNumber}' IS NULL) then NULL else '${roomNumber}' end as roomNumber
+        FROM hotel AS h
+        <where>
+            <if test="address !=null and address !=''">
+                and h.address=#{address}
+            </if>
+            <if test="businessDistrict !=null and businessDistrict !=''">
+                and h.businessdistrict LIKE CONCAT('%',#{businessDistrict},'%')
+            </if>
+            <if test="hotelName !=null and hotelName !=''">
+                and h.hotelname LIKE CONCAT('%',#{hotelName},'%')
+            </if>
+            <if test="star !=null and star !=''">
+                and h.Star=#{star}
+            </if>
+            <if test="score1 !=null and score1 !='' and score2 !=null and score2 !=''">
+                and h.score BETWEEN #{score1} and #{score2}
+            </if>
+            <if test="price1 != null and price2 != null">
+                and h.price BETWEEN #{price1} and #{price2}
+            </if>
+        </where>
+        <trim prefix="ORDER BY" suffixOverrides=",">
+            <if test="starSort !=null and starSort == 1">
+                h.star DESC,
+            </if>
+            <if test="starSort !=null and starSort == 2">
+                h.star ASC,
+            </if>
+            <if test="scoreSort !=null and scoreSort == 1">
+                h.score DESC,
+            </if>
+            <if test="scoreSort !=null and scoreSort == 2">
+                h.score ASC,
+            </if>
+            <if test="priceSort !=null and priceSort == 1">
+                h.price DESC,
+            </if>
+            <if test="priceSort !=null and priceSort == 2">
+                h.price ASC,
+            </if>
+        </trim>
+    </select>
+
+
+
+
+
+    <!--根据酒店Id查询房间信息-->
+    <select id="queryRoomInfoByHotelId" resultMap="RoomInfoMap">
+        SELECT r.room_id,r.hotel_id,r.roomtype,r.price,r.rooms,
+        SUM(o.rooms) AS roomNumber,
+        IF(SUM(o.rooms) > 0,r.rooms-SUM(o.rooms),r.rooms) AS numbers,
+        IF(IF(SUM(o.rooms) > 0,r.rooms-SUM(o.rooms),r.rooms)>0,'有空房','满房') AS state
+        FROM room AS r
+        LEFT JOIN `order` AS o ON r.hotel_id = o.hotel_id AND r.roomtype = o.roomType
+        <where>
+            <if test="startTime !=null and startTime !=''">
+                AND o.startdate &gt;= #{startTime}
+            </if>
+            <if test="endTime !=null and endTime !=''">
+                AND o.enddate &lt;= #{endTime}
+            </if>
+            AND o.`status` = '未执行' OR o.`status` IS NULL
+        </where>
+        GROUP BY r.room_id
+        <trim prefix="having" prefixOverrides="and">
+            r.hotel_id = #{hotelId}
+        </trim>
+        UNION
+        SELECT r.room_id,r.hotel_id,r.roomtype,r.price,r.rooms,
+        0 AS roomNumber,
+        r.rooms AS numbers,
+        '有空房' AS state
+        FROM room AS r
+        LEFT JOIN `order` AS o ON r.hotel_id = o.hotel_id AND r.roomtype = o.roomType
+        <where>
+            <if test="startTime !=null and startTime !='' or endTime !=null and endTime !=''">
+                AND o.startdate &lt;= #{startTime} OR o.enddate &gt;= #{endTime}
+            </if>
+            AND o.`status` = '未执行'
+        </where>
+        GROUP BY r.room_id
+        <trim prefix="having" prefixOverrides="and">
+            r.hotel_id = #{hotelId}
+        </trim>
+        AND r.roomtype != ALL(
+        SELECT DISTINCT r.roomtype
+        FROM room AS r
+        LEFT JOIN `order` AS o ON r.hotel_id = o.hotel_id AND r.roomtype = o.roomType
+        <where>
+            <if test="startTime !=null and startTime !=''">
+                AND o.startdate &gt;= #{startTime}
+            </if>
+            <if test="endTime !=null and endTime !=''">
+                AND o.enddate &lt;= #{endTime}
+            </if>
+            AND o.`status` = '未执行' OR o.`status` IS NULL
+            <if test="hotelId !=null and hotelId !=''">
+                AND r.hotel_id = #{hotelId}
+            </if>
+        </where>
+        GROUP BY r.room_id
+        )
+    </select>
+    <resultMap id="RoomInfoMap" type="com.yuantu.vo.RoomInfo">
+        <id column="room_id" property="room_id"/>
+        <result property="hotel_id" column="hotel_id"/>
+        <result property="roomType" column="roomtype"/>
+        <result property="price" column="price"/>
+        <result property="rooms" column="rooms"/>
+        <result property="roomNumber" column="roomNumber"/>
+        <result property="numbers" column="numbers"/>
+        <result property="state" column="state"/>
+    </resultMap>
+
+
+
 
 </mapper>

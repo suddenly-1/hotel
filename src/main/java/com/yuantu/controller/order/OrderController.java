@@ -6,7 +6,6 @@ import com.yuantu.vo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 
 @RestController
 @RequestMapping("/order")
@@ -50,6 +49,7 @@ public class OrderController {
         return JSON.toJSONString(orderService.evaluation(orderEvaluation));
     }
 
+//    预定过的酒店列表
     @GetMapping(value = {"/reserve/{userid}/{hotelid}","/reserve/{userid}"})
     public ResponseVo reserve(@PathVariable Integer userid,@PathVariable(required = false)Integer hotelid,@RequestParam(value = "pageNum")Integer pageNum){
         return ResponseVo.buildSuccess(orderService.hotelReservationInfo(userid, hotelid, pageNum));

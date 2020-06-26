@@ -5,15 +5,17 @@ public class UserLogin {
     private String accountNumber;
     private String password;
     private String remember;
+    private String usertype;
 
     public UserLogin() {
     }
 
-    public UserLogin(Integer id, String accountNumber, String password, String remember) {
+    public UserLogin(Integer id, String accountNumber, String password, String remember, String usertype) {
         this.id = id;
         this.accountNumber = accountNumber;
         this.password = password;
         this.remember = remember;
+        this.usertype = usertype;
     }
 
     public Integer getId() {
@@ -48,6 +50,14 @@ public class UserLogin {
         this.remember = remember;
     }
 
+    public String getUsertype() {
+        return usertype;
+    }
+
+    public void setUsertype(String usertype) {
+        this.usertype = usertype;
+    }
+
     @Override
     public String toString() {
         return "UserLogin{" +
@@ -55,6 +65,7 @@ public class UserLogin {
                 ", accountNumber='" + accountNumber + '\'' +
                 ", password='" + password + '\'' +
                 ", remember='" + remember + '\'' +
+                ", usertype='" + usertype + '\'' +
                 '}';
     }
 }

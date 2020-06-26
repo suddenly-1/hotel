@@ -42,4 +42,11 @@ public interface RoomService {
    */
   Room queryRoomByIdType(Integer hotelId, String roomType);
 
+  /**
+   * 根据id查询房间信息
+   * @param roomId
+   * @return
+   */
+  ResponseVo queryRoomById(Integer roomId);
+
 }

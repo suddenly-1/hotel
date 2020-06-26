@@ -8,6 +8,7 @@ import com.yuantu.util.PageUtil;
 import com.yuantu.vo.HotelInfoVo;
 import com.yuantu.vo.HotelReceiveDto;
 import com.yuantu.vo.ResponseVo;
+import com.yuantu.vo.RoomDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -54,6 +55,10 @@ public class HotelController {
   public String queryHotel(@PathVariable int pageNum, @PathVariable int pageSize, @RequestBody HotelReceiveDto hotel){
       return JSON.toJSONString(hotelService.queryHotel(hotel,pageNum,pageSize));
   }
+    @PostMapping("/queryRoomInfoByHotelId")
+    public String queryRoomInfoByHotelId(@RequestBody RoomDto roomDto){
+        return JSON.toJSONString(hotelService.queryRoomInfoByHotelId(roomDto));
+    }
 
   @GetMapping("/queryHotelById/{id}")
   public String queryHotelById(@PathVariable Integer id){

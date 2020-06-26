@@ -12,9 +12,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -100,41 +98,59 @@ public class HotelServiceImpl implements HotelService {
   public ResponseVo queryHotel(HotelReceiveDto hotel, int pageNum, int pageSize) {
     HotelQueryVo hotelQueryVo = new HotelQueryVo();
     if (hotel.getScore()!=null){
-      String[] Score=hotel.getScore().split("-");
-      hotelQueryVo.setScore((Double[])ConvertUtils.convert(Score,Double.class));
+      String[] score=hotel.getScore().split("~");
+      hotelQueryVo.setScore1(Double.parseDouble(score[0]));
+      hotelQueryVo.setScore2(Double.parseDouble(score[1]));
     }
     if (hotel.getPrice()!=null){
-      String[] Price = hotel.getPrice().split("-");
-      hotelQueryVo.setPrice((Double[])ConvertUtils.convert(Price,Double.class));
+      String[] price = hotel.getPrice().split("~");
+      hotelQueryVo.setPrice1(Double.parseDouble(price[0]));
+      hotelQueryVo.setPrice2(Double.parseDouble(price[1]));
     }
-  BeanUtils.copyProperties(hotel,hotelQueryVo);
+    BeanUtils.copyProperties(hotel,hotelQueryVo);
+
+    // 排序
+
+//    if(hotel.getStarSort() != null && hotel.getStarSort().equals("1")){
+//      hotelQueryVo.setStarSort("h.star DESC");
+//    }else if(hotel.getStarSort() != null && hotel.getStarSort().equals("2")){
+//      hotelQueryVo.setStarSort("h.star ASC");
+//    }
+//    if(hotel.getScoreSort() != null && hotel.getScoreSort().equals("1")){
+//      hotelQueryVo.setScoreSort("h.score DESC");
+//    }else if(hotel.getScoreSort() != null && hotel.getScoreSort().equals("2")){
+//      hotelQueryVo.setScoreSort("h.score ASC");
+//    }
+//    if(hotel.getPriceSort() != null && hotel.getPriceSort().equals("1")){
+//      hotelQueryVo.setPriceSort("h.price DESC");
+//    }else if(hotel.getPriceSort() != null && hotel.getPriceSort().equals("2")){
+//      hotelQueryVo.setPriceSort("h.price ASC");
+//    }
+
+
+    System.out.println("**********************");
+    System.out.println("hotelQueryVo：" + hotelQueryVo);
+    System.out.println("**********************");
 
     PageHelper.startPage(pageNum,pageSize);
-    //查询订单中被订购的房间
-    List<HotelqueryInfoVo> hotelquery = hotelMapper.selectHotel(hotelQueryVo);
-    //查询未被订购的房间
-    List<HotelqueryInfoVo> queryNotOrder = hotelMapper.selectNotOrders(hotelQueryVo);
-    //结合
-    hotelquery.addAll(queryNotOrder);
+    List<HotelInfo> hotelInfos = hotelMapper.selectHotel(hotelQueryVo);
 
-    List<HotelqueryInfoVo> hotelqueryList = new LinkedList<>();
-
-    if (hotel.getRoomNumber()!=null) {
-      for (int i = 0; i < hotelquery.size(); i++) {
-        HotelqueryInfoVo hotelVo = new HotelqueryInfoVo();
-        if(hotel.getRoomNumber() <= hotelquery.get(i).getNumbers()){
-          BeanUtils.copyProperties(hotelquery.get(i),hotelVo);
-          hotelqueryList.add(hotelVo);
-        }
+    //删除没有房间的酒店
+    Iterator<HotelInfo> iterator = hotelInfos.iterator();
+    while (iterator.hasNext()) {
+      HotelInfo next = iterator.next();
+      if (next.getRoomInfo().size() == 0) {
+        iterator.remove();
       }
-      PageInfo pageInfo = new PageInfo(hotelquery);
-      pageInfo.setList(hotelqueryList);
-      return ResponseVo.buildSuccess(pageInfo);
     }
-    else {
-      PageInfo<HotelqueryInfoVo> pageInfo = new PageInfo<HotelqueryInfoVo>(hotelquery);
-      return ResponseVo.buildSuccess(pageInfo);
-    }
+
+    PageInfo<HotelInfo> pageInfo = new PageInfo<HotelInfo>(hotelInfos);
+    return ResponseVo.buildSuccess(pageInfo);
+  }
+
+  @Override
+  public ResponseVo queryRoomInfoByHotelId(RoomDto roomDto) {
+    return ResponseVo.buildSuccess(hotelMapper.queryRoomInfoByHotelId(roomDto));
   }
 
   @Override

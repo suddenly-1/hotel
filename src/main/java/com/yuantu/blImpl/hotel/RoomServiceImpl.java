@@ -65,4 +65,9 @@ public class RoomServiceImpl implements RoomService {
   public Room queryRoomByIdType(Integer hotelId, String roomType) {
     return roomMapper.queryRoomByIdType(hotelId,roomType);
   }
+
+  @Override
+  public ResponseVo queryRoomById(Integer roomId) {
+    return ResponseVo.buildSuccess(roomMapper.queryRoomById(roomId));
+  }
 }

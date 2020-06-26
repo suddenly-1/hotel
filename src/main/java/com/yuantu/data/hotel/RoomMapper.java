@@ -40,4 +40,11 @@ public interface RoomMapper {
    */
   Room queryRoomByIdType(@Param("hotelId")Integer hotelId, @Param("roomType")String roomType);
 
+  /**
+   * 根据id查询房间信息
+   * @param roomId
+   * @return
+   */
+  Room queryRoomById(@Param("roomId") Integer roomId);
+
 }

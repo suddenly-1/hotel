@@ -52,6 +52,13 @@ public interface HotelService {
    */
   ResponseVo queryHotel(HotelReceiveDto hotel,int pageNum, int pageSize);
 
+  /**
+   * 通过酒店id查询房间信息
+   * @param roomDto
+   * @return
+   */
+  ResponseVo queryRoomInfoByHotelId(RoomDto roomDto);
+
 
   /**
    * 通过用户的酒店id查询信息

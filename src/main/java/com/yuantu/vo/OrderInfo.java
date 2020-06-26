@@ -5,6 +5,8 @@ package com.yuantu.vo;
 public class OrderInfo {
     private String orderNumber;     //订单号
     private Integer user_id;        //用户id
+    private String phone;           //手机号
+    private String userName;        //用户名
     private Integer hotel_id;       //酒店id
     private String hotelName;       //酒店名称
     private String generationDate;  //订单生成日期
@@ -23,9 +25,11 @@ public class OrderInfo {
     public OrderInfo() {
     }
 
-    public OrderInfo(String orderNumber, Integer user_id, Integer hotel_id, String hotelName, String generationDate, String startDate, String endDate, String latestDate, String roomType, Integer rooms, Integer number, Integer child, String status, Double amount, Double score, String revocationTime) {
+    public OrderInfo(String orderNumber, Integer user_id, String phone, String userName, Integer hotel_id, String hotelName, String generationDate, String startDate, String endDate, String latestDate, String roomType, Integer rooms, Integer number, Integer child, String status, Double amount, Double score, String revocationTime) {
         this.orderNumber = orderNumber;
         this.user_id = user_id;
+        this.phone = phone;
+        this.userName = userName;
         this.hotel_id = hotel_id;
         this.hotelName = hotelName;
         this.generationDate = generationDate;
@@ -56,6 +60,22 @@ public class OrderInfo {
 
     public void setUser_id(Integer user_id) {
         this.user_id = user_id;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public Integer getHotel_id() {
@@ -175,6 +195,8 @@ public class OrderInfo {
         return "OrderInfo{" +
                 "orderNumber='" + orderNumber + '\'' +
                 ", user_id=" + user_id +
+                ", phone='" + phone + '\'' +
+                ", userName='" + userName + '\'' +
                 ", hotel_id=" + hotel_id +
                 ", hotelName='" + hotelName + '\'' +
                 ", generationDate='" + generationDate + '\'' +

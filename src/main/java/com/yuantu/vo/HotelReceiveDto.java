@@ -11,11 +11,14 @@ public class HotelReceiveDto {
   private String price;//酒店价格
   private String roomType;//房间类型
   private Integer roomNumber;//房间数量
+  private String starSort;//星级排序
+  private String scoreSort;//评分排序
+  private String priceSort;//价格排序
 
   public HotelReceiveDto() {
   }
 
-  public HotelReceiveDto(String address, String hotelName, String startTime, String endTime, String businessDistrict, Integer star, String score, String price, String roomType, Integer roomNumber) {
+  public HotelReceiveDto(String address, String hotelName, String startTime, String endTime, String businessDistrict, Integer star, String score, String price, String roomType, Integer roomNumber, String starSort, String scoreSort, String priceSort) {
     this.address = address;
     this.hotelName = hotelName;
     this.startTime = startTime;
@@ -26,6 +29,9 @@ public class HotelReceiveDto {
     this.price = price;
     this.roomType = roomType;
     this.roomNumber = roomNumber;
+    this.starSort = starSort;
+    this.scoreSort = scoreSort;
+    this.priceSort = priceSort;
   }
 
   public String getAddress() {
@@ -108,19 +114,46 @@ public class HotelReceiveDto {
     this.roomNumber = roomNumber;
   }
 
+  public String getStarSort() {
+    return starSort;
+  }
+
+  public void setStarSort(String starSort) {
+    this.starSort = starSort;
+  }
+
+  public String getScoreSort() {
+    return scoreSort;
+  }
+
+  public void setScoreSort(String scoreSort) {
+    this.scoreSort = scoreSort;
+  }
+
+  public String getPriceSort() {
+    return priceSort;
+  }
+
+  public void setPriceSort(String priceSort) {
+    this.priceSort = priceSort;
+  }
+
   @Override
   public String toString() {
     return "HotelReceiveDto{" +
-      "address='" + address + '\'' +
-      ", hotelName='" + hotelName + '\'' +
-      ", startTime='" + startTime + '\'' +
-      ", endTime='" + endTime + '\'' +
-      ", businessDistrict='" + businessDistrict + '\'' +
-      ", star=" + star +
-      ", score=" + score +
-      ", price=" + price +
-      ", roomType='" + roomType + '\'' +
-      ", roomNumber=" + roomNumber +
-      '}';
+            "address='" + address + '\'' +
+            ", hotelName='" + hotelName + '\'' +
+            ", startTime='" + startTime + '\'' +
+            ", endTime='" + endTime + '\'' +
+            ", businessDistrict='" + businessDistrict + '\'' +
+            ", star=" + star +
+            ", score='" + score + '\'' +
+            ", price='" + price + '\'' +
+            ", roomType='" + roomType + '\'' +
+            ", roomNumber=" + roomNumber +
+            ", starSort='" + starSort + '\'' +
+            ", scoreSort='" + scoreSort + '\'' +
+            ", priceSort='" + priceSort + '\'' +
+            '}';
   }
 }

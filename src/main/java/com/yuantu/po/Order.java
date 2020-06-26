@@ -5,6 +5,8 @@ import java.util.Date;
 public class Order {
     private Integer id;
     private String orderNumber;
+    private String phone;
+    private String userName;
     private Integer user_id;
     private Integer hotel_id;
     private String hotelName;
@@ -25,9 +27,11 @@ public class Order {
     public Order() {
     }
 
-    public Order(Integer id, String orderNumber, Integer user_id, Integer hotel_id, String hotelName, Date generationDate, Date startDate, Date endDate, Date latestDate, String roomType, Integer rooms, Integer number, Integer child, String status, Double amount, Double score, String comment, Date revocationTime) {
+    public Order(Integer id, String orderNumber, String phone, String userName, Integer user_id, Integer hotel_id, String hotelName, Date generationDate, Date startDate, Date endDate, Date latestDate, String roomType, Integer rooms, Integer number, Integer child, String status, Double amount, Double score, String comment, Date revocationTime) {
         this.id = id;
         this.orderNumber = orderNumber;
+        this.phone = phone;
+        this.userName = userName;
         this.user_id = user_id;
         this.hotel_id = hotel_id;
         this.hotelName = hotelName;
@@ -60,6 +64,22 @@ public class Order {
 
     public void setOrderNumber(String orderNumber) {
         this.orderNumber = orderNumber;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public Integer getUser_id() {
@@ -195,6 +215,8 @@ public class Order {
         return "Order{" +
                 "id=" + id +
                 ", orderNumber='" + orderNumber + '\'' +
+                ", phone='" + phone + '\'' +
+                ", userName='" + userName + '\'' +
                 ", user_id=" + user_id +
                 ", hotel_id=" + hotel_id +
                 ", hotelName='" + hotelName + '\'' +

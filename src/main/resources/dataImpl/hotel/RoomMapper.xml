@@ -42,4 +42,9 @@
         <result column="rooms" property="rooms"></result>
     </resultMap>
 
+
+    <select id="queryRoomById" parameterType="int" resultMap="RoomMap">
+        SELECT * FROM room WHERE room_id = #{roomId}
+    </select>
+
 </mapper> 

@@ -35,6 +35,7 @@ public class AccountServiceImpl implements AccountService {
             if (userLogin.getRemember() == null){
                 userLogin.setRemember("null");
             }
+            userLogin.setUsertype(user.getUserType());
             return ResponseVo.buildSuccess(userLogin);
         } else {
             return ResponseVo.buildFailure("用户名或密码错误！");

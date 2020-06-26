@@ -29,7 +29,12 @@ public class RoomController {
 
   @GetMapping("/select/{hotelId}")
   public String queryRoomInfo(@PathVariable Integer hotelId){
-
     return JSON.toJSONString(roomService.queryRoomInfo(hotelId));
   }
+
+  @GetMapping("/queryRoomById/{roomId}")
+  public String queryRoomById(@PathVariable Integer roomId){
+    return JSON.toJSONString(roomService.queryRoomById(roomId));
+  }
+
 }

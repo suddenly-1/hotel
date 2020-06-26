@@ -35,5 +35,7 @@ pagehelper:
   reasonable: true
   support-methods-arguments: true
   params: count=countSql
+#  autoRuntimeDialect: true
+#  auto-dialect: true
 
 

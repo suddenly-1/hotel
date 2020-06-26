@@ -1,13 +1,13 @@
 package com.yuantu.data.hotel;
 
 import com.yuantu.po.Hotel;
-import com.yuantu.vo.HotelQueryVo;
-import com.yuantu.vo.HotelqueryInfoVo;
+import com.yuantu.vo.*;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 
 @Mapper
 @Repository
@@ -51,7 +51,14 @@ public interface HotelMapper {
    * @param hotelVo
    * @return
    */
-  List<HotelqueryInfoVo> selectHotel(@Param("hotelVo") HotelQueryVo hotelVo);
+  List<HotelInfo> selectHotel(HotelQueryVo hotelVo);
+
+  /**
+   * 通过酒店id查询房间信息
+   * @param roomDto
+   * @return
+   */
+  List<RoomInfo> queryRoomInfoByHotelId(RoomDto roomDto);
 
   /**
    * 通过用户的酒店id查询信息

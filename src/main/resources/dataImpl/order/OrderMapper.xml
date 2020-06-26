@@ -9,6 +9,8 @@
         <!--column数据库中的字段，property实体类中的属性-->
         <result column="id" property="id"/>
         <result column="ordernumber" property="orderNumber"/>
+        <result column="phone" property="phone"/>
+        <result column="username" property="userName"/>
         <result column="user_id" property="user_id"/>
         <result column="hotel_id" property="hotel_id"/>
         <result column="hotelname" property="hotelName"/>
@@ -28,8 +30,8 @@
     </resultMap>
 
     <insert id="addOrder" parameterType="Order" useGeneratedKeys="true" keyProperty="id">
-        INSERT INTO `order`(ordernumber,user_id,hotel_id,hotelname,generationdate,startdate,enddate,latestdate,roomtype,rooms,number ,child,status,amount)
-         VALUES (#{orderNumber}, #{user_id}, #{hotel_id}, #{hotelName}, #{generationDate}, #{startDate}, #{endDate}, #{latestDate}, #{roomType}, #{rooms}, #{number}, #{child}, #{status}, #{amount})
+        INSERT INTO `order`(ordernumber,phone,username,user_id,hotel_id,hotelname,generationdate,startdate,enddate,latestdate,roomtype,rooms,number ,child,status,amount)
+         VALUES (#{orderNumber}, #{phone}, #{userName}, #{user_id}, #{hotel_id}, #{hotelName}, #{generationDate}, #{startDate}, #{endDate}, #{latestDate}, #{roomType}, #{rooms}, #{number}, #{child}, #{status}, #{amount})
     </insert>
 
     <update id="updateOrder" parameterType="Order">
