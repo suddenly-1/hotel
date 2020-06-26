@@ -61,7 +61,7 @@ public class OrderServiceImpl implements OrderService {
             public void run() {
                 Order order = orderMapper.queryOrderByOrderNumber(order1.getOrderNumber());
                 if ("未执行".equals(order.getStatus())) {
-                    orderMapper.updateOrder(new Order(null,order.getOrderNumber(),null,null,null,null,null,null,null,null,null,null,null,null,null,null,"异常",null,null,null,null));
+                    orderMapper.updateOrder(new Order(null,order.getOrderNumber(),null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,"异常",null,null,null,null));
                     Double res = accountService.queryUserById(order.getUser_id()).getCredit()-order.getAmount();
                     accountService.updateUserInfo(new UserInfo(order.getUser_id(),null,null,null,res,null,null,null));
                     creditService.addCredit(new Credit(null,order.getUser_id(),new Date(),order.getOrderNumber(),"异常","-"+order.getAmount(),res));
@@ -196,7 +196,7 @@ public class OrderServiceImpl implements OrderService {
         Double creditResult = credit.getCreditResult();
         Double result = res + creditResult;
 
-        orderMapper.updateOrder(new Order(null,orderStatus.getOrderNumber(),null,null,null,null,null,null,null,null,null,null,null,null,null,null,"已执行",null,null,null,null));
+        orderMapper.updateOrder(new Order(null,orderStatus.getOrderNumber(),null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,"已执行",null,null,null,null));
         accountService.updateUserInfo(new UserInfo(credit.getUserId(),null,null,null,result,null,null,null));
         creditService.addCredit(new Credit(null,credit.getUserId(),new Date(),credit.getOrderNumber(),"已执行","-"+res,result));
         // vip

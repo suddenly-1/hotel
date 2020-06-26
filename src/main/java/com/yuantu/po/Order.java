@@ -15,6 +15,7 @@ public class Order {
     private Date startDate;
     private Date endDate;
     private Date latestDate;
+    private Date actualTime;
     private String roomType;
     private Integer rooms;
     private Integer number;
@@ -28,7 +29,7 @@ public class Order {
     public Order() {
     }
 
-    public Order(Integer id, String orderNumber, String phone, String userName, Integer user_id, Integer hotel_id, Integer room_id, String hotelName, Date generationDate, Date startDate, Date endDate, Date latestDate, String roomType, Integer rooms, Integer number, Integer child, String status, Double amount, Double score, String comment, Date revocationTime) {
+    public Order(Integer id, String orderNumber, String phone, String userName, Integer user_id, Integer hotel_id, Integer room_id, String hotelName, Date generationDate, Date startDate, Date endDate, Date latestDate, Date actualTime, String roomType, Integer rooms, Integer number, Integer child, String status, Double amount, Double score, String comment, Date revocationTime) {
         this.id = id;
         this.orderNumber = orderNumber;
         this.phone = phone;
@@ -41,6 +42,7 @@ public class Order {
         this.startDate = startDate;
         this.endDate = endDate;
         this.latestDate = latestDate;
+        this.actualTime = actualTime;
         this.roomType = roomType;
         this.rooms = rooms;
         this.number = number;
@@ -148,6 +150,14 @@ public class Order {
         this.latestDate = latestDate;
     }
 
+    public Date getActualTime() {
+        return actualTime;
+    }
+
+    public void setActualTime(Date actualTime) {
+        this.actualTime = actualTime;
+    }
+
     public String getRoomType() {
         return roomType;
     }
@@ -235,6 +245,7 @@ public class Order {
                 ", startDate=" + startDate +
                 ", endDate=" + endDate +
                 ", latestDate=" + latestDate +
+                ", actualTime=" + actualTime +
                 ", roomType='" + roomType + '\'' +
                 ", rooms=" + rooms +
                 ", number=" + number +
