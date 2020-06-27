@@ -109,29 +109,6 @@ public class HotelServiceImpl implements HotelService {
     }
     BeanUtils.copyProperties(hotel,hotelQueryVo);
 
-    // 排序
-
-//    if(hotel.getStarSort() != null && hotel.getStarSort().equals("1")){
-//      hotelQueryVo.setStarSort("h.star DESC");
-//    }else if(hotel.getStarSort() != null && hotel.getStarSort().equals("2")){
-//      hotelQueryVo.setStarSort("h.star ASC");
-//    }
-//    if(hotel.getScoreSort() != null && hotel.getScoreSort().equals("1")){
-//      hotelQueryVo.setScoreSort("h.score DESC");
-//    }else if(hotel.getScoreSort() != null && hotel.getScoreSort().equals("2")){
-//      hotelQueryVo.setScoreSort("h.score ASC");
-//    }
-//    if(hotel.getPriceSort() != null && hotel.getPriceSort().equals("1")){
-//      hotelQueryVo.setPriceSort("h.price DESC");
-//    }else if(hotel.getPriceSort() != null && hotel.getPriceSort().equals("2")){
-//      hotelQueryVo.setPriceSort("h.price ASC");
-//    }
-
-
-    System.out.println("**********************");
-    System.out.println("hotelQueryVo：" + hotelQueryVo);
-    System.out.println("**********************");
-
     PageHelper.startPage(pageNum,pageSize);
     List<HotelInfo> hotelInfos = hotelMapper.selectHotel(hotelQueryVo);
 
