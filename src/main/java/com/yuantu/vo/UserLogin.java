@@ -2,6 +2,7 @@ package com.yuantu.vo;
 
 public class UserLogin {
     private Integer id;
+    private String username;
     private String accountNumber;
     private String password;
     private String remember;
@@ -10,8 +11,9 @@ public class UserLogin {
     public UserLogin() {
     }
 
-    public UserLogin(Integer id, String accountNumber, String password, String remember, String usertype) {
+    public UserLogin(Integer id, String username, String accountNumber, String password, String remember, String usertype) {
         this.id = id;
+        this.username = username;
         this.accountNumber = accountNumber;
         this.password = password;
         this.remember = remember;
@@ -24,6 +26,14 @@ public class UserLogin {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getAccountNumber() {
@@ -62,6 +72,7 @@ public class UserLogin {
     public String toString() {
         return "UserLogin{" +
                 "id=" + id +
+                ", username='" + username + '\'' +
                 ", accountNumber='" + accountNumber + '\'' +
                 ", password='" + password + '\'' +
                 ", remember='" + remember + '\'' +
