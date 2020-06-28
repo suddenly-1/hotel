@@ -21,7 +21,7 @@
     </update>
     
     <select id="selectRoomInfo" resultMap="Room" parameterType="int">
-        select room.roomtype,room.price,room.rooms from room where room.hotel_id=#{hotelId}
+        select room.room_id,room.roomtype,room.price,room.rooms from room where room.hotel_id=#{hotelId}
     </select>
 
     <select id="queryRoomByIdType" resultMap="RoomMap">
@@ -29,13 +29,14 @@
     </select>
 
     <resultMap id="Room" type="com.yuantu.vo.RoomInfoVo">
+        <result column="room_id" property="id"></result>
         <result column="roomType" property="roomType"></result>
         <result column="price" property="price"></result>
         <result column="rooms" property="rooms"></result>
     </resultMap>
 
     <resultMap id="RoomMap" type="com.yuantu.po.Room">
-        <result column="id" property="id"></result>
+        <result column="room_id" property="id"></result>
         <result column="hotel_id" property="hotelId"></result>
         <result column="roomtype" property="roomType"></result>
         <result column="price" property="price"></result>

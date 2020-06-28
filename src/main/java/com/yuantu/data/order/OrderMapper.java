@@ -36,6 +36,12 @@ public interface OrderMapper {
     Order queryOrderByOrderNumber(String orderNumber);
 
     /**
+     * 查询订单以今天的时间
+     * @param order
+     * */
+    List<Order> queryOrderByTodayTime(Order order);
+
+    /**
      * 评价
      * @param order
      * */
@@ -48,4 +54,5 @@ public interface OrderMapper {
      * @return
      */
     List<Order> hotelReservation(@Param("userid")Integer userid, @Param("hotelid")Integer hotelid);
+    
 }

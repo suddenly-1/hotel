@@ -57,8 +57,9 @@ public class RoomServiceImpl implements RoomService {
         RoomInfoVo roomInfoVo = new RoomInfoVo();
         BeanUtils.copyProperties(room.get(i),roomInfoVo);
         rl.add(roomInfoVo);
-      }
-      return rl;
+    }
+
+    return rl;
   }
 
   @Override

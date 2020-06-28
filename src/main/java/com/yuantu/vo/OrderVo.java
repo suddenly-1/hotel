@@ -1,8 +1,6 @@
 package com.yuantu.vo;
 
 
-import java.util.Date;
-
 public class OrderVo {
     private String orderNumber;     //订单号
     private String phone;           //手机号
@@ -15,7 +13,9 @@ public class OrderVo {
     private String startDate;         //开始时间
     private String endDate;           //退房时间
     private String latestDate;        //最晚订单执行时间
-    private Date actualTime;        //实际退房时间
+    private String room_number;     //房间号
+    private String actualCheckInTime; //实际入住时间
+    private String actualTime;        //实际退房时间
     private String roomType;        //房间类型
     private Integer rooms;          //房间数量
     private Integer number;         //入住人数
@@ -27,7 +27,7 @@ public class OrderVo {
     public OrderVo() {
     }
 
-    public OrderVo(String orderNumber, String phone, String userName, Integer user_id, Integer hotel_id, Integer room_id, String hotelName, String generationDate, String startDate, String endDate, String latestDate, Date actualTime, String roomType, Integer rooms, Integer number, Integer child, String status, Double amount, String revocationTime) {
+    public OrderVo(String orderNumber, String phone, String userName, Integer user_id, Integer hotel_id, Integer room_id, String hotelName, String generationDate, String startDate, String endDate, String latestDate, String room_number, String actualCheckInTime, String actualTime, String roomType, Integer rooms, Integer number, Integer child, String status, Double amount, String revocationTime) {
         this.orderNumber = orderNumber;
         this.phone = phone;
         this.userName = userName;
@@ -39,6 +39,8 @@ public class OrderVo {
         this.startDate = startDate;
         this.endDate = endDate;
         this.latestDate = latestDate;
+        this.room_number = room_number;
+        this.actualCheckInTime = actualCheckInTime;
         this.actualTime = actualTime;
         this.roomType = roomType;
         this.rooms = rooms;
@@ -137,11 +139,27 @@ public class OrderVo {
         this.latestDate = latestDate;
     }
 
-    public Date getActualTime() {
+    public String getRoom_number() {
+        return room_number;
+    }
+
+    public void setRoom_number(String room_number) {
+        this.room_number = room_number;
+    }
+
+    public String getActualCheckInTime() {
+        return actualCheckInTime;
+    }
+
+    public void setActualCheckInTime(String actualCheckInTime) {
+        this.actualCheckInTime = actualCheckInTime;
+    }
+
+    public String getActualTime() {
         return actualTime;
     }
 
-    public void setActualTime(Date actualTime) {
+    public void setActualTime(String actualTime) {
         this.actualTime = actualTime;
     }
 
@@ -215,7 +233,9 @@ public class OrderVo {
                 ", startDate='" + startDate + '\'' +
                 ", endDate='" + endDate + '\'' +
                 ", latestDate='" + latestDate + '\'' +
-                ", actualTime=" + actualTime +
+                ", room_number='" + room_number + '\'' +
+                ", actualCheckInTime='" + actualCheckInTime + '\'' +
+                ", actualTime='" + actualTime + '\'' +
                 ", roomType='" + roomType + '\'' +
                 ", rooms=" + rooms +
                 ", number=" + number +

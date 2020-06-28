@@ -30,8 +30,8 @@
     </resultMap>
 
     <insert id="addOrder" parameterType="Order" useGeneratedKeys="true" keyProperty="id">
-        INSERT INTO `order`(ordernumber,phone,username,user_id,hotel_id,room_id,hotelname,generationdate,startdate,enddate,latestdate,roomtype,rooms,number ,child,status,amount)
-         VALUES (#{orderNumber}, #{phone}, #{userName}, #{user_id}, #{hotel_id}, #{room_id}, #{hotelName}, #{generationDate}, #{startDate}, #{endDate}, #{latestDate}, #{roomType}, #{rooms}, #{number}, #{child}, #{status}, #{amount})
+        INSERT INTO `order`(ordernumber,phone,username,user_id,hotel_id,room_id,room_number,hotelname,generationdate,startdate,enddate,latestdate,actualcheckintime,roomtype,rooms,number ,child,status,amount)
+         VALUES (#{orderNumber}, #{phone}, #{userName}, #{user_id}, #{hotel_id}, #{room_id}, #{room_number}, #{hotelName}, #{generationDate}, #{startDate}, #{endDate}, #{latestDate}, #{actualCheckInTime}, #{roomType}, #{rooms}, #{number}, #{child}, #{status}, #{amount})
     </insert>
 
     <update id="updateOrder" parameterType="Order">
@@ -41,7 +41,16 @@
                 `status` = #{status},
             </if>
             <if test="revocationTime != null">
-                `revocationtime` = #{revocationTime}
+                `revocationtime` = #{revocationTime},
+            </if>
+            <if test="room_number != null">
+                `room_number` = #{room_number},
+            </if>
+            <if test="actualCheckInTime != null">
+                `actualcheckintime` = #{actualCheckInTime},
+            </if>
+            <if test="actualTime != null">
+                `actualtime` = #{actualTime},
             </if>
         </set>
         WHERE ordernumber = #{orderNumber}
@@ -65,6 +74,16 @@
 
     <select id="queryOrderByOrderNumber" resultMap="OrderMap">
         SELECT * FROM `order` where ordernumber = #{orderNumber}
+    </select>
+
+    <select id="queryOrderByTodayTime" resultMap="OrderMap">
+        SELECT o.ordernumber,o.room_id,o.roomtype,o.room_number
+        FROM `order` AS o
+        WHERE o.hotel_id = #{hotel_id}
+        AND o.`status` = '已执行'
+        AND o.actualtime IS NULL
+        AND o.startdate &gt;= #{startDate}
+        AND o.enddate &lt;= #{endDate}
     </select>
 
     <update id="evaluation" parameterType="Order">

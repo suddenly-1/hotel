@@ -1,5 +1,6 @@
 package com.yuantu.bl.order;
 
+import com.yuantu.po.Order;
 import com.yuantu.vo.*;
 import org.apache.ibatis.annotations.Param;
 
@@ -45,10 +46,22 @@ public interface OrderService {
     ResponseVo supplementaryExecution(OrderStatus orderStatus);
 
     /**
+     * 退房
+     * @param orderStatus
+     * */
+    ResponseVo checkOut(OrderStatus orderStatus);
+
+    /**
      * 评价
      * @param orderEvaluation
      * */
     ResponseVo evaluation(OrderEvaluation orderEvaluation);
+
+    /**
+     * 查询订单以今天的时间
+     * @param order
+     * */
+    ResponseVo queryOrderByTodayTime(Order order);
 
     /**
      *查看自己预定过的酒店

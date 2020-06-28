@@ -44,12 +44,22 @@ public class OrderServiceImpl implements OrderService {
         order1.setStartDate(DateFormat.StringConvertDate(orderVo.getStartDate()));
         order1.setEndDate(DateFormat.StringConvertDate(orderVo.getEndDate()));
         order1.setLatestDate(DateFormat.StringConvertDate(orderVo.getLatestDate()));
+        order1.setActualCheckInTime(DateFormat.StringConvertDate(orderVo.getActualCheckInTime()));
         // 订单号UUID
         String s = new Date().getTime() + "";
         String time = s.substring(s.length() - 4, s.length());
         Integer random = (int)((Math.random()*9+1)*1000);
-        order1.setOrderNumber(time+random+orderVo.getUser_id());
+        if(orderVo.getUser_id() != null){
+            order1.setOrderNumber(time+random+orderVo.getUser_id());
+        }else {
+            order1.setOrderNumber(time+random+time);
+        }
+
         orderMapper.addOrder(order1);
+
+        System.out.println("****************");
+        System.out.println(order1);
+        System.out.println("****************");
 
         // 超过最晚执行订单时间
         long latestTime = DateFormat.StringConvertDate(orderVo.getLatestDate()).getTime();
@@ -61,7 +71,7 @@ public class OrderServiceImpl implements OrderService {
             public void run() {
                 Order order = orderMapper.queryOrderByOrderNumber(order1.getOrderNumber());
                 if ("未执行".equals(order.getStatus())) {
-                    orderMapper.updateOrder(new Order(null,order.getOrderNumber(),null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,"异常",null,null,null,null));
+                    orderMapper.updateOrder(new Order(null,order.getOrderNumber(),null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,"异常",null,null,null,null));
                     Double res = accountService.queryUserById(order.getUser_id()).getCredit()-order.getAmount();
                     accountService.updateUserInfo(new UserInfo(order.getUser_id(),null,null,null,res,null,null,null));
                     creditService.addCredit(new Credit(null,order.getUser_id(),new Date(),order.getOrderNumber(),"异常","-"+order.getAmount(),res));
@@ -77,7 +87,9 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public ResponseVo undoOrder(OrderStatus orderStatus) {
-        long latestTime = DateFormat.StringConvertDate(orderStatus.getLatestDate()).getTime();
+
+        Order order1 = orderMapper.queryOrderByOrderNumber(orderStatus.getOrderNumber());
+        long latestTime = order1.getLatestDate().getTime();
         long revocationTime = DateFormat.StringConvertDate(orderStatus.getRevocationTime()).getTime();
         long interval = latestTime - revocationTime;
 
@@ -108,6 +120,17 @@ public class OrderServiceImpl implements OrderService {
         Order order = new Order();
         try {
             BeanUtils.copyProperties(orderStatus,order);
+            if(orderStatus.getActualCheckInTime() != null){
+                order.setActualCheckInTime(DateFormat.StringConvertDate(orderStatus.getActualCheckInTime()));
+            }
+            if(orderStatus.getActualTime() != null){
+                order.setActualTime(DateFormat.StringConvertDate(orderStatus.getActualTime()));
+            }
+
+            System.out.println("*******************");
+            System.out.println(order);
+            System.out.println("*******************");
+
             orderMapper.updateOrder(order);
 
             Double res = accountService.queryUserById(orderStatus.getUser_id()).getCredit() + orderStatus.getAmount();
@@ -155,10 +178,24 @@ public class OrderServiceImpl implements OrderService {
                 if(orders.get(i).getRevocationTime() != null) {
                     orderInfo.setRevocationTime(DateFormat.DateConvertString(orders.get(i).getRevocationTime()));
                 }
+                if(orders.get(i).getActualCheckInTime()!= null) {
+                    orderInfo.setActualCheckInTime(DateFormat.DateConvertString(orders.get(i).getActualCheckInTime()));
+                }
+                if(orders.get(i).getActualTime()!= null) {
+                    orderInfo.setActualTime(DateFormat.DateConvertString(orders.get(i).getActualTime()));
+                }else {
+                    orderInfo.setActualTime(null);
+                }
                 orderInfoList.add(orderInfo);
             }
             PageInfo pageInfo = new PageInfo(orders);
             pageInfo.setList(orderInfoList);
+
+
+            System.out.println("***************");
+            System.out.println(orderInfoList);
+            System.out.println("***************");
+
             return ResponseVo.buildSuccess(pageInfo);
         } catch (Exception e) {
             System.out.println("查询订单错误！");
@@ -191,18 +228,40 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public ResponseVo supplementaryExecution(OrderStatus orderStatus) {
+        Date actualCheckInTime = null;
+        Date actualTime = null;
+        if(orderStatus.getActualCheckInTime() != null){
+            actualCheckInTime = DateFormat.StringConvertDate(orderStatus.getActualCheckInTime());
+        }
+        if(orderStatus.getActualTime() != null){
+            actualTime = DateFormat.StringConvertDate(orderStatus.getActualTime());
+        }
+
+        System.out.println("*******************");
+        System.out.println(orderStatus);
+        System.out.println("*******************");
+
         Credit credit = creditService.creditDetails(orderStatus.getOrderNumber(), orderStatus.getStatus());
         Double res = Double.valueOf(credit.getCreditChange().substring(1));
         Double creditResult = credit.getCreditResult();
         Double result = res + creditResult;
 
-        orderMapper.updateOrder(new Order(null,orderStatus.getOrderNumber(),null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,"已执行",null,null,null,null));
+        orderMapper.updateOrder(new Order(null,orderStatus.getOrderNumber(),null,null,null,null,null,orderStatus.getRoom_number(),null,null,null,null,null,actualCheckInTime,actualTime,null,null,null,null,"已执行",null,null,null,null));
         accountService.updateUserInfo(new UserInfo(credit.getUserId(),null,null,null,result,null,null,null));
-        creditService.addCredit(new Credit(null,credit.getUserId(),new Date(),credit.getOrderNumber(),"已执行","-"+res,result));
+        creditService.addCredit(new Credit(null,credit.getUserId(),new Date(),credit.getOrderNumber(),"已执行","+"+res,result));
         // vip
         User user = accountService.queryUserById(orderStatus.getUser_id());
         accountService.vip(orderStatus.getUser_id(),user.getCredit());
         return ResponseVo.buildSuccess();
+    }
+
+    @Override
+    public ResponseVo checkOut(OrderStatus orderStatus) {
+        Order order = new Order();
+        BeanUtils.copyProperties(orderStatus, order);
+        order.setActualTime(DateFormat.StringConvertDate(orderStatus.getActualTime()));
+        orderMapper.updateOrder(order);
+        return ResponseVo.buildSuccess(orderMapper.queryOrderByOrderNumber(orderStatus.getOrderNumber()));
     }
 
     @Override
@@ -221,6 +280,11 @@ public class OrderServiceImpl implements OrderService {
         } else {
             return ResponseVo.buildFailure("该订单已评价！");
         }
+    }
+
+    @Override
+    public ResponseVo queryOrderByTodayTime(Order order) {
+        return ResponseVo.buildSuccess(orderMapper.queryOrderByTodayTime(order));
     }
 
     @Override

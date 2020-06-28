@@ -10,11 +10,13 @@ public class Order {
     private Integer user_id;
     private Integer hotel_id;
     private Integer room_id;
+    private String room_number;
     private String hotelName;
     private Date generationDate;
     private Date startDate;
     private Date endDate;
     private Date latestDate;
+    private Date actualCheckInTime;
     private Date actualTime;
     private String roomType;
     private Integer rooms;
@@ -29,7 +31,7 @@ public class Order {
     public Order() {
     }
 
-    public Order(Integer id, String orderNumber, String phone, String userName, Integer user_id, Integer hotel_id, Integer room_id, String hotelName, Date generationDate, Date startDate, Date endDate, Date latestDate, Date actualTime, String roomType, Integer rooms, Integer number, Integer child, String status, Double amount, Double score, String comment, Date revocationTime) {
+    public Order(Integer id, String orderNumber, String phone, String userName, Integer user_id, Integer hotel_id, Integer room_id, String room_number, String hotelName, Date generationDate, Date startDate, Date endDate, Date latestDate, Date actualCheckInTime, Date actualTime, String roomType, Integer rooms, Integer number, Integer child, String status, Double amount, Double score, String comment, Date revocationTime) {
         this.id = id;
         this.orderNumber = orderNumber;
         this.phone = phone;
@@ -37,11 +39,13 @@ public class Order {
         this.user_id = user_id;
         this.hotel_id = hotel_id;
         this.room_id = room_id;
+        this.room_number = room_number;
         this.hotelName = hotelName;
         this.generationDate = generationDate;
         this.startDate = startDate;
         this.endDate = endDate;
         this.latestDate = latestDate;
+        this.actualCheckInTime = actualCheckInTime;
         this.actualTime = actualTime;
         this.roomType = roomType;
         this.rooms = rooms;
@@ -110,6 +114,14 @@ public class Order {
         this.room_id = room_id;
     }
 
+    public String getRoom_number() {
+        return room_number;
+    }
+
+    public void setRoom_number(String room_number) {
+        this.room_number = room_number;
+    }
+
     public String getHotelName() {
         return hotelName;
     }
@@ -148,6 +160,14 @@ public class Order {
 
     public void setLatestDate(Date latestDate) {
         this.latestDate = latestDate;
+    }
+
+    public Date getActualCheckInTime() {
+        return actualCheckInTime;
+    }
+
+    public void setActualCheckInTime(Date actualCheckInTime) {
+        this.actualCheckInTime = actualCheckInTime;
     }
 
     public Date getActualTime() {
@@ -240,11 +260,13 @@ public class Order {
                 ", user_id=" + user_id +
                 ", hotel_id=" + hotel_id +
                 ", room_id=" + room_id +
+                ", room_number='" + room_number + '\'' +
                 ", hotelName='" + hotelName + '\'' +
                 ", generationDate=" + generationDate +
                 ", startDate=" + startDate +
                 ", endDate=" + endDate +
                 ", latestDate=" + latestDate +
+                ", actualCheckInTime=" + actualCheckInTime +
                 ", actualTime=" + actualTime +
                 ", roomType='" + roomType + '\'' +
                 ", rooms=" + rooms +

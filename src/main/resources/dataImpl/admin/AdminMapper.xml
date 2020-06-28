@@ -28,8 +28,8 @@
             <if test="user.vip !=null">
                 vip=#{user.vip},
             </if>
-            <if test="user.companyname !=null">
-                companyname=#{user.companyname}
+            <if test="user.companyName !=null">
+                companyname=#{user.companyName}
             </if>
         </set>
         <where>
