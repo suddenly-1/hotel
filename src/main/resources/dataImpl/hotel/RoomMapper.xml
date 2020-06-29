@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yuantu.data.hotel.RoomMapper">
-    
+
     <insert id="insertRoomInfo" parameterType="com.yuantu.po.Room" useGeneratedKeys="true" keyProperty="id">
         insert into room(room.price,room.rooms,room.roomtype,room.hotel_id)
         values (#{room.price},#{room.rooms},#{room.roomType},#{room.hotelId})
@@ -19,7 +19,7 @@
             hotel_id=#{hotelId} and roomType=#{roomType}
         </where>
     </update>
-    
+
     <select id="selectRoomInfo" resultMap="Room" parameterType="int">
         select room.room_id,room.roomtype,room.price,room.rooms from room where room.hotel_id=#{hotelId}
     </select>

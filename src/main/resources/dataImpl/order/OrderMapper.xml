@@ -30,8 +30,12 @@
     </resultMap>
 
     <insert id="addOrder" parameterType="Order" useGeneratedKeys="true" keyProperty="id">
-        INSERT INTO `order`(ordernumber,phone,username,user_id,hotel_id,room_id,room_number,hotelname,generationdate,startdate,enddate,latestdate,actualcheckintime,roomtype,rooms,number ,child,status,amount)
-         VALUES (#{orderNumber}, #{phone}, #{userName}, #{user_id}, #{hotel_id}, #{room_id}, #{room_number}, #{hotelName}, #{generationDate}, #{startDate}, #{endDate}, #{latestDate}, #{actualCheckInTime}, #{roomType}, #{rooms}, #{number}, #{child}, #{status}, #{amount})
+        INSERT INTO
+        `order`(ordernumber,phone,username,user_id,hotel_id,room_id,room_number,hotelname,generationdate,startdate,enddate,latestdate,actualcheckintime,roomtype,rooms,number
+        ,child,status,amount)
+        VALUES (#{orderNumber}, #{phone}, #{userName}, #{user_id}, #{hotel_id}, #{room_id}, #{room_number},
+        #{hotelName}, #{generationDate}, #{startDate}, #{endDate}, #{latestDate}, #{actualCheckInTime}, #{roomType},
+        #{rooms}, #{number}, #{child}, #{status}, #{amount})
     </insert>
 
     <update id="updateOrder" parameterType="Order">

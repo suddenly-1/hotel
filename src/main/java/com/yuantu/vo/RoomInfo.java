@@ -8,7 +8,7 @@ public class RoomInfo {
     private Integer rooms;//房间数量
     private Integer roomNumber;//订购数量
     private Integer numbers;//剩余房间
-    private String  state;//房间状态
+    private String state;//房间状态
 
     public RoomInfo() {
     }

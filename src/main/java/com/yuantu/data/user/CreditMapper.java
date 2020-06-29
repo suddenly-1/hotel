@@ -17,6 +17,7 @@ public interface CreditMapper {
 
     /**
      * 根据订单号和状态查询
+     *
      * @param orderNumber
      * @param action
      * @return
@@ -25,6 +26,7 @@ public interface CreditMapper {
 
     /**
      * 根据id查询
+     *
      * @param id
      * @return
      */
@@ -32,6 +34,7 @@ public interface CreditMapper {
 
     /**
      * 根据用户id查询
+     *
      * @param userId
      * @return
      */
@@ -39,6 +42,7 @@ public interface CreditMapper {
 
     /**
      * 增加信用记录
+     *
      * @param credit
      * @return
      */

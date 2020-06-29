@@ -13,12 +13,12 @@ import java.util.Map;
 public class ShiroConfig {
 
     @Bean
-    public ShiroFilterFactoryBean shiroFilter(@Qualifier("getDefaultWebSecurityManager") DefaultWebSecurityManager defaultWebSecurityManager){
+    public ShiroFilterFactoryBean shiroFilter(@Qualifier("getDefaultWebSecurityManager") DefaultWebSecurityManager defaultWebSecurityManager) {
         ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
         shiroFilterFactoryBean.setSecurityManager(defaultWebSecurityManager);
 
-        Map<String, String > filterMap = new LinkedHashMap<>();
-        filterMap.put("/Account/*","perms[admin]");
+        Map<String, String> filterMap = new LinkedHashMap<>();
+        filterMap.put("/Account/*", "perms[admin]");
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterMap);
 
         shiroFilterFactoryBean.setLoginUrl("/autherror/1");
@@ -28,14 +28,14 @@ public class ShiroConfig {
     }
 
     @Bean
-    public DefaultWebSecurityManager getDefaultWebSecurityManager(@Qualifier("getShiroRealm") ShiroRealm shiroRealm){
+    public DefaultWebSecurityManager getDefaultWebSecurityManager(@Qualifier("getShiroRealm") ShiroRealm shiroRealm) {
         DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
         securityManager.setRealm(shiroRealm);
         return securityManager;
     }
 
     @Bean
-    public ShiroRealm getShiroRealm(){
+    public ShiroRealm getShiroRealm() {
         return new ShiroRealm();
     }
 

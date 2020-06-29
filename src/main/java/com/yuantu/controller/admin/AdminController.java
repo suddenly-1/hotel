@@ -8,26 +8,25 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 
-
 @RestController
 @RequestMapping("/admin")
 public class AdminController {
 
-  @Autowired
-  AdminService adminService;
+    @Autowired
+    AdminService adminService;
 
-  @GetMapping("/{userType}")
-  public String queryUserInfo(@PathVariable String userType,@RequestParam(value = "pageNum")Integer pageNum){
-    return JSON.toJSONString(adminService.queryUserInfo(userType,pageNum));
-  }
+    @GetMapping("/{userType}")
+    public String queryUserInfo(@PathVariable String userType, @RequestParam(value = "pageNum") Integer pageNum) {
+        return JSON.toJSONString(adminService.queryUserInfo(userType, pageNum));
+    }
 
-  @PostMapping("/update/{userType}/{username}")
-  public String modifyUserInfo(@RequestBody UserInfoVo user,@PathVariable String userType,@PathVariable String username){
-    return JSON.toJSONString(adminService.updateUser(user,userType,username));
-  }
+    @PostMapping("/update/{userType}/{username}")
+    public String modifyUserInfo(@RequestBody UserInfoVo user, @PathVariable String userType, @PathVariable String username) {
+        return JSON.toJSONString(adminService.updateUser(user, userType, username));
+    }
 
-  @PostMapping("/addwork/{hotelid}")
-  public String queryHotelWorker(@PathVariable String hotelid,@RequestBody UserInfoVo userInfoVo){
-      return JSON.toJSONString(adminService.queryHotelWorker(hotelid,userInfoVo));
-  }
+    @PostMapping("/addwork/{hotelid}")
+    public String queryHotelWorker(@PathVariable String hotelid, @RequestBody UserInfoVo userInfoVo) {
+        return JSON.toJSONString(adminService.queryHotelWorker(hotelid, userInfoVo));
+    }
 }

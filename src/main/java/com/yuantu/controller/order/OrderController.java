@@ -16,53 +16,53 @@ public class OrderController {
     private OrderService orderService;
 
     @PostMapping("/generateOrders")
-    public String generateOrders(@RequestBody OrderVo orderVo){
+    public String generateOrders(@RequestBody OrderVo orderVo) {
         return JSON.toJSONString(orderService.generateOrders(orderVo));
     }
 
     @PostMapping("/undoOrder")
-    public String undoOrder(@RequestBody OrderStatus orderStatus){
+    public String undoOrder(@RequestBody OrderStatus orderStatus) {
         return JSON.toJSONString(orderService.undoOrder(orderStatus));
     }
 
     @PostMapping("/ordersExecuted")
-    public String ordersExecuted(@RequestBody OrderStatus orderStatus){
+    public String ordersExecuted(@RequestBody OrderStatus orderStatus) {
         return JSON.toJSONString(orderService.ordersExecuted(orderStatus));
     }
 
     @PostMapping("/queryOrderByStatus")
-    public String queryOrderByStatus(@RequestBody OrderPage orderPage){
+    public String queryOrderByStatus(@RequestBody OrderPage orderPage) {
         return JSON.toJSONString(orderService.queryOrderByStatus(orderPage));
     }
 
     @GetMapping("/queryOrderByOrderNumber/{orderNumber}")
-    public String queryOrderByOrderNumber(@PathVariable String orderNumber){
+    public String queryOrderByOrderNumber(@PathVariable String orderNumber) {
         return JSON.toJSONString(orderService.queryOrderByOrderNumber(orderNumber));
     }
 
     @PostMapping("/supplementaryExecution")
-    public String supplementaryExecution(@RequestBody OrderStatus orderStatus){
+    public String supplementaryExecution(@RequestBody OrderStatus orderStatus) {
         return JSON.toJSONString(orderService.supplementaryExecution(orderStatus));
     }
 
     @PostMapping("/checkOut")
-    public String checkOut(@RequestBody OrderStatus orderStatus){
+    public String checkOut(@RequestBody OrderStatus orderStatus) {
         return JSON.toJSONString(orderService.checkOut(orderStatus));
     }
 
     @PostMapping("/evaluation")
-    public String evaluation(@RequestBody OrderEvaluation orderEvaluation){
+    public String evaluation(@RequestBody OrderEvaluation orderEvaluation) {
         return JSON.toJSONString(orderService.evaluation(orderEvaluation));
     }
 
     @PostMapping("/queryOrderByTodayTime")
-    public String queryOrderByTodayTime(@RequestBody Order order){
+    public String queryOrderByTodayTime(@RequestBody Order order) {
         return JSON.toJSONString(orderService.queryOrderByTodayTime(order));
     }
 
-//    预定过的酒店列表
-    @GetMapping(value = {"/reserve/{userid}/{hotelid}","/reserve/{userid}"})
-    public ResponseVo reserve(@PathVariable Integer userid,@PathVariable(required = false)Integer hotelid,@RequestParam(value = "pageNum")Integer pageNum){
+    //    预定过的酒店列表
+    @GetMapping(value = {"/reserve/{userid}/{hotelid}", "/reserve/{userid}"})
+    public ResponseVo reserve(@PathVariable Integer userid, @PathVariable(required = false) Integer hotelid, @RequestParam(value = "pageNum") Integer pageNum) {
         return ResponseVo.buildSuccess(orderService.hotelReservationInfo(userid, hotelid, pageNum));
     }
 

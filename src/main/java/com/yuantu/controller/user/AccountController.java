@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 
-
 @RestController
 @RequestMapping("/account")
 public class AccountController {
@@ -17,22 +16,22 @@ public class AccountController {
     private AccountService accountService;
 
     @PostMapping("/register")
-    public String register(@RequestBody UserForm userForm){
+    public String register(@RequestBody UserForm userForm) {
         return JSON.toJSONString(accountService.register(userForm));
     }
 
     @GetMapping("/info/{id}")
-    public String queryUserInfo(@PathVariable int id){
+    public String queryUserInfo(@PathVariable int id) {
         return JSON.toJSONString(accountService.queryUserInfo(id));
     }
 
     @PostMapping("/update")
-    public String updateUserInfo(@RequestBody UserInfo userInfo){
+    public String updateUserInfo(@RequestBody UserInfo userInfo) {
         return JSON.toJSONString(accountService.updateUserInfo(userInfo));
     }
 
     @GetMapping("/queryUserById/{id}")
-    public String queryUserById(@PathVariable int id){
+    public String queryUserById(@PathVariable int id) {
         return JSON.toJSONString(accountService.queryUserById(id));
     }
 }

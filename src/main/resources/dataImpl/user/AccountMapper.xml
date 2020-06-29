@@ -30,7 +30,8 @@
 
     <insert id="createNewAccount" parameterType="User" useGeneratedKeys="true" keyProperty="id">
         insert into user (username,accountnumber,password,phone,credit,vip,usertype,birthday,companyname,hotel_id)
-        values (#{username},#{accountNumber},#{password},#{phone},#{credit},#{vip},#{userType},#{birthday},#{companyName},#{hotel_id})
+        values
+        (#{username},#{accountNumber},#{password},#{phone},#{credit},#{vip},#{userType},#{birthday},#{companyName},#{hotel_id})
     </insert>
 
     <update id="updateAccount" parameterType="User">

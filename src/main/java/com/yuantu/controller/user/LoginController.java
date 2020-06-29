@@ -19,14 +19,14 @@ public class LoginController {
     private AccountService accountService;
 
     @PostMapping("/login")
-    public String login(@RequestBody UserLogin userLogin){
+    public String login(@RequestBody UserLogin userLogin) {
         Subject subject = SecurityUtils.getSubject();
-        UsernamePasswordToken token = new UsernamePasswordToken(userLogin.getAccountNumber(),userLogin.getPassword());
+        UsernamePasswordToken token = new UsernamePasswordToken(userLogin.getAccountNumber(), userLogin.getPassword());
         try {
             subject.login(token);
-            if("on".equals(userLogin.getRemember())){
+            if ("on".equals(userLogin.getRemember())) {
                 token.setRememberMe(true);
-            }else {
+            } else {
                 token.setRememberMe(false);
             }
             return JSON.toJSONString(accountService.login(userLogin));
@@ -38,14 +38,14 @@ public class LoginController {
     }
 
     @GetMapping("/logout")
-    public String logout(){
+    public String logout() {
         Subject subject = SecurityUtils.getSubject();
         subject.logout();
         return JSON.toJSONString(ResponseVo.buildSuccess("已退出"));
     }
 
     @RequestMapping("/autherror/{code}")
-    public String autherror(@PathVariable int code){
+    public String autherror(@PathVariable int code) {
         return code == 1 ? JSON.toJSONString(ResponseVo.buildFailure("未登录")) : JSON.toJSONString(ResponseVo.buildFailure("未授权"));
     }
 

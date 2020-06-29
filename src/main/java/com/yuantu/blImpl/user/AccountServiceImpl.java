@@ -29,10 +29,10 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public ResponseVo login(UserLogin userLogin) {
         User user = accountMapper.queryUserByAccountName(userLogin.getAccountNumber());
-        if (user != null){
+        if (user != null) {
             userLogin.setId(user.getId());
             userLogin.setPassword(null);
-            if (userLogin.getRemember() == null){
+            if (userLogin.getRemember() == null) {
                 userLogin.setRemember("null");
             }
             userLogin.setUsertype(user.getUserType());
@@ -47,15 +47,15 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public ResponseVo register(UserForm userForm) {
         User user1 = accountMapper.queryUserByAccountName(userForm.getAccountNumber());
-        if (user1 != null){
+        if (user1 != null) {
             return ResponseVo.buildFailure("账号已存在！");
         } else {
             User user = new User();
-            BeanUtils.copyProperties(userForm,user);
+            BeanUtils.copyProperties(userForm, user);
             user.setCredit(100.0);
             try {
                 accountMapper.createNewAccount(user);
-            } catch (Exception e){
+            } catch (Exception e) {
                 e.getMessage();
                 return ResponseVo.buildFailure(ACCOUNT_EXIST);
             }
@@ -66,12 +66,12 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public ResponseVo queryUserInfo(int id) {
         User user = accountMapper.queryUserById(id);
-        if (user == null){
+        if (user == null) {
             return ResponseVo.buildFailure(ACCOUNT_INFO_ERROR);
         }
         UserInfo userInfo = new UserInfo();
-        BeanUtils.copyProperties(user,userInfo);
-        if(user.getBirthday() != null){
+        BeanUtils.copyProperties(user, userInfo);
+        if (user.getBirthday() != null) {
             userInfo.setBirthday(DateFormat.DateConvertString(user.getBirthday()));
         }
         return ResponseVo.buildSuccess(userInfo);
@@ -80,14 +80,14 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public ResponseVo updateUserInfo(UserInfo userInfo) {
         User user = new User();
-        BeanUtils.copyProperties(userInfo,user);
-        if(userInfo.getBirthday() != null){
-            user.setBirthday(DateFormat.StringConvertDate(userInfo.getBirthday(),"yyyy-MM-dd"));
+        BeanUtils.copyProperties(userInfo, user);
+        if (userInfo.getBirthday() != null) {
+            user.setBirthday(DateFormat.StringConvertDate(userInfo.getBirthday(), "yyyy-MM-dd"));
         }
         accountMapper.updateAccount(user);
         try {
             accountMapper.updateAccount(user);
-        } catch (Exception e){
+        } catch (Exception e) {
             e.getMessage();
             return ResponseVo.buildFailure(UPDATE_ERROR);
         }
@@ -97,11 +97,11 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public void vip(Integer id, Double credit) {
         if (credit >= 0 && credit < 2000) {
-            accountMapper.updateAccount(new User(id,null,null,null,null,null,"vip1",null,null,null,null));
-        }else if (credit >= 2000 && credit < 5000) {
-            accountMapper.updateAccount(new User(id,null,null,null,null,null,"vip2",null,null,null,null));
-        }else if (credit >= 5000) {
-            accountMapper.updateAccount(new User(id,null,null,null,null,null,"vip3",null,null,null,null));
+            accountMapper.updateAccount(new User(id, null, null, null, null, null, "vip1", null, null, null, null));
+        } else if (credit >= 2000 && credit < 5000) {
+            accountMapper.updateAccount(new User(id, null, null, null, null, null, "vip2", null, null, null, null));
+        } else if (credit >= 5000) {
+            accountMapper.updateAccount(new User(id, null, null, null, null, null, "vip3", null, null, null, null));
         }
     }
 

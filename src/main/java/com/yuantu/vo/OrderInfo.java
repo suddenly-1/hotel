@@ -1,7 +1,6 @@
 package com.yuantu.vo;
 
 
-
 public class OrderInfo {
     private String orderNumber;     //订单号
     private Integer user_id;        //用户id
