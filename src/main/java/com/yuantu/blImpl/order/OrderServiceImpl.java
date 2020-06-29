@@ -39,20 +39,23 @@ public class OrderServiceImpl implements OrderService {
     public ResponseVo generateOrders(OrderVo orderVo) {
         // 类型转换
         Order order1 = new Order();
-        BeanUtils.copyProperties(orderVo,order1);
+        BeanUtils.copyProperties(orderVo, order1);
         order1.setGenerationDate(DateFormat.StringConvertDate(orderVo.getGenerationDate()));
         order1.setStartDate(DateFormat.StringConvertDate(orderVo.getStartDate()));
         order1.setEndDate(DateFormat.StringConvertDate(orderVo.getEndDate()));
         order1.setLatestDate(DateFormat.StringConvertDate(orderVo.getLatestDate()));
-        order1.setActualCheckInTime(DateFormat.StringConvertDate(orderVo.getActualCheckInTime()));
+        if (orderVo.getActualCheckInTime() != null) {
+            order1.setActualCheckInTime(DateFormat.StringConvertDate(orderVo.getActualCheckInTime()));
+        }
+
         // 订单号UUID
         String s = new Date().getTime() + "";
         String time = s.substring(s.length() - 4, s.length());
-        Integer random = (int)((Math.random()*9+1)*1000);
-        if(orderVo.getUser_id() != null){
-            order1.setOrderNumber(time+random+orderVo.getUser_id());
-        }else {
-            order1.setOrderNumber(time+random+time);
+        Integer random = (int) ((Math.random() * 9 + 1) * 1000);
+        if (orderVo.getUser_id() != null) {
+            order1.setOrderNumber(time + random + orderVo.getUser_id());
+        } else {
+            order1.setOrderNumber(time + random + time);
         }
 
         orderMapper.addOrder(order1);
@@ -71,17 +74,17 @@ public class OrderServiceImpl implements OrderService {
             public void run() {
                 Order order = orderMapper.queryOrderByOrderNumber(order1.getOrderNumber());
                 if ("未执行".equals(order.getStatus())) {
-                    orderMapper.updateOrder(new Order(null,order.getOrderNumber(),null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,"异常",null,null,null,null));
-                    Double res = accountService.queryUserById(order.getUser_id()).getCredit()-order.getAmount();
-                    accountService.updateUserInfo(new UserInfo(order.getUser_id(),null,null,null,res,null,null,null));
-                    creditService.addCredit(new Credit(null,order.getUser_id(),new Date(),order.getOrderNumber(),"异常","-"+order.getAmount(),res));
+                    orderMapper.updateOrder(new Order(null, order.getOrderNumber(), null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, "异常", null, null, null, null));
+                    Double res = accountService.queryUserById(order.getUser_id()).getCredit() - order.getAmount();
+                    accountService.updateUserInfo(new UserInfo(order.getUser_id(), null, null, null, res, null, null, null));
+                    creditService.addCredit(new Credit(null, order.getUser_id(), new Date(), order.getOrderNumber(), "异常", "-" + order.getAmount(), res));
                     // vip
                     User user = accountService.queryUserById(orderVo.getUser_id());
-                    accountService.vip(orderVo.getUser_id(),user.getCredit());
+                    accountService.vip(orderVo.getUser_id(), user.getCredit());
                     System.out.println("超过最晚订单执行时间后还没有办理入住，系统自动将其置为异常订单！同时扣除用户等于订单的总价值的信用值!");
                 }
             }
-        },interval);
+        }, interval);
         return ResponseVo.buildSuccess(order1);
     }
 
@@ -95,17 +98,17 @@ public class OrderServiceImpl implements OrderService {
 
         Order order = new Order();
         try {
-            BeanUtils.copyProperties(orderStatus,order);
+            BeanUtils.copyProperties(orderStatus, order);
             order.setRevocationTime(DateFormat.StringConvertDate(orderStatus.getRevocationTime()));
             orderMapper.updateOrder(order);
-            if (interval < 1000*60*60*6) {
-                Double amount = orderStatus.getAmount()*1/2;
-                Double res = accountService.queryUserById(orderStatus.getUser_id()).getCredit()-amount;
-                accountService.updateUserInfo(new UserInfo(orderStatus.getUser_id(),null,null,null,res,null,null,null));
-                creditService.addCredit(new Credit(null,orderStatus.getUser_id(),new Date(),orderStatus.getOrderNumber(),orderStatus.getStatus(),"-"+amount,res));
+            if (interval < 1000 * 60 * 60 * 6) {
+                Double amount = orderStatus.getAmount() * 1 / 2;
+                Double res = accountService.queryUserById(orderStatus.getUser_id()).getCredit() - amount;
+                accountService.updateUserInfo(new UserInfo(orderStatus.getUser_id(), null, null, null, res, null, null, null));
+                creditService.addCredit(new Credit(null, orderStatus.getUser_id(), new Date(), orderStatus.getOrderNumber(), orderStatus.getStatus(), "-" + amount, res));
                 // vip
                 User user = accountService.queryUserById(orderStatus.getUser_id());
-                accountService.vip(orderStatus.getUser_id(),user.getCredit());
+                accountService.vip(orderStatus.getUser_id(), user.getCredit());
                 return ResponseVo.buildSuccess("撤销的订单距离最晚执行订单时间不足6小时，撤销同时扣除信用值，信用值为订单的（总价*1/2）!");
             }
             return ResponseVo.buildSuccess();
@@ -119,11 +122,11 @@ public class OrderServiceImpl implements OrderService {
     public ResponseVo ordersExecuted(OrderStatus orderStatus) {
         Order order = new Order();
         try {
-            BeanUtils.copyProperties(orderStatus,order);
-            if(orderStatus.getActualCheckInTime() != null){
+            BeanUtils.copyProperties(orderStatus, order);
+            if (orderStatus.getActualCheckInTime() != null) {
                 order.setActualCheckInTime(DateFormat.StringConvertDate(orderStatus.getActualCheckInTime()));
             }
-            if(orderStatus.getActualTime() != null){
+            if (orderStatus.getActualTime() != null) {
                 order.setActualTime(DateFormat.StringConvertDate(orderStatus.getActualTime()));
             }
 
@@ -134,11 +137,11 @@ public class OrderServiceImpl implements OrderService {
             orderMapper.updateOrder(order);
 
             Double res = accountService.queryUserById(orderStatus.getUser_id()).getCredit() + orderStatus.getAmount();
-            accountService.updateUserInfo(new UserInfo(orderStatus.getUser_id(),null,null,null,res,null,null,null));
-            creditService.addCredit(new Credit(null,orderStatus.getUser_id(),new Date(),orderStatus.getOrderNumber(),orderStatus.getStatus(),"+"+orderStatus.getAmount(),res));
+            accountService.updateUserInfo(new UserInfo(orderStatus.getUser_id(), null, null, null, res, null, null, null));
+            creditService.addCredit(new Credit(null, orderStatus.getUser_id(), new Date(), orderStatus.getOrderNumber(), orderStatus.getStatus(), "+" + orderStatus.getAmount(), res));
             // vip
             User user = accountService.queryUserById(orderStatus.getUser_id());
-            accountService.vip(orderStatus.getUser_id(),user.getCredit());
+            accountService.vip(orderStatus.getUser_id(), user.getCredit());
             return ResponseVo.buildSuccess();
         } catch (Exception e) {
             System.out.println("执行错误！");
@@ -154,36 +157,36 @@ public class OrderServiceImpl implements OrderService {
             order.setUser_id(orderPage.getUser_id());
             order.setStatus(orderPage.getStatus());
 
-            PageHelper.startPage(orderPage.getPageNum(),orderPage.getPageSize());
+            PageHelper.startPage(orderPage.getPageNum(), orderPage.getPageSize());
             List<Order> orders = orderMapper.queryOrderByStatus(order);
             List<OrderInfo> orderInfoList = new ArrayList<>();
-            for (int i = 0; i < orders.size(); i++){
+            for (int i = 0; i < orders.size(); i++) {
                 OrderInfo orderInfo = new OrderInfo();
-                BeanUtils.copyProperties(orders.get(i),orderInfo);
-                if(orders.get(i).getScore() == null){
+                BeanUtils.copyProperties(orders.get(i), orderInfo);
+                if (orders.get(i).getScore() == null) {
                     orderInfo.setScore(0.0);
                 }
-                if(orders.get(i).getGenerationDate() != null){
+                if (orders.get(i).getGenerationDate() != null) {
                     orderInfo.setGenerationDate(DateFormat.DateConvertString(orders.get(i).getGenerationDate()));
                 }
-                if(orders.get(i).getStartDate() != null) {
+                if (orders.get(i).getStartDate() != null) {
                     orderInfo.setStartDate(DateFormat.DateConvertString(orders.get(i).getStartDate()));
                 }
-                if(orders.get(i).getEndDate() != null) {
+                if (orders.get(i).getEndDate() != null) {
                     orderInfo.setEndDate(DateFormat.DateConvertString(orders.get(i).getEndDate()));
                 }
-                if(orders.get(i).getLatestDate() != null) {
+                if (orders.get(i).getLatestDate() != null) {
                     orderInfo.setLatestDate(DateFormat.DateConvertString(orders.get(i).getLatestDate()));
                 }
-                if(orders.get(i).getRevocationTime() != null) {
+                if (orders.get(i).getRevocationTime() != null) {
                     orderInfo.setRevocationTime(DateFormat.DateConvertString(orders.get(i).getRevocationTime()));
                 }
-                if(orders.get(i).getActualCheckInTime()!= null) {
+                if (orders.get(i).getActualCheckInTime() != null) {
                     orderInfo.setActualCheckInTime(DateFormat.DateConvertString(orders.get(i).getActualCheckInTime()));
                 }
-                if(orders.get(i).getActualTime()!= null) {
+                if (orders.get(i).getActualTime() != null) {
                     orderInfo.setActualTime(DateFormat.DateConvertString(orders.get(i).getActualTime()));
-                }else {
+                } else {
                     orderInfo.setActualTime(null);
                 }
                 orderInfoList.add(orderInfo);
@@ -207,20 +210,20 @@ public class OrderServiceImpl implements OrderService {
     public ResponseVo queryOrderByOrderNumber(String orderNumber) {
         Order order = orderMapper.queryOrderByOrderNumber(orderNumber);
         OrderInfo orderInfo = new OrderInfo();
-        BeanUtils.copyProperties(order,orderInfo);
-        if(order.getGenerationDate() != null) {
+        BeanUtils.copyProperties(order, orderInfo);
+        if (order.getGenerationDate() != null) {
             orderInfo.setGenerationDate(DateFormat.DateConvertString(order.getGenerationDate()));
         }
-        if(order.getStartDate() != null) {
+        if (order.getStartDate() != null) {
             orderInfo.setStartDate(DateFormat.DateConvertString(order.getStartDate()));
         }
-        if(order.getEndDate() != null) {
+        if (order.getEndDate() != null) {
             orderInfo.setEndDate(DateFormat.DateConvertString(order.getEndDate()));
         }
-        if(order.getLatestDate() != null) {
+        if (order.getLatestDate() != null) {
             orderInfo.setLatestDate(DateFormat.DateConvertString(order.getLatestDate()));
         }
-        if(order.getRevocationTime() != null) {
+        if (order.getRevocationTime() != null) {
             orderInfo.setRevocationTime(DateFormat.DateConvertString(order.getRevocationTime()));
         }
         return ResponseVo.buildSuccess(orderInfo);
@@ -230,10 +233,10 @@ public class OrderServiceImpl implements OrderService {
     public ResponseVo supplementaryExecution(OrderStatus orderStatus) {
         Date actualCheckInTime = null;
         Date actualTime = null;
-        if(orderStatus.getActualCheckInTime() != null){
+        if (orderStatus.getActualCheckInTime() != null) {
             actualCheckInTime = DateFormat.StringConvertDate(orderStatus.getActualCheckInTime());
         }
-        if(orderStatus.getActualTime() != null){
+        if (orderStatus.getActualTime() != null) {
             actualTime = DateFormat.StringConvertDate(orderStatus.getActualTime());
         }
 
@@ -246,12 +249,12 @@ public class OrderServiceImpl implements OrderService {
         Double creditResult = credit.getCreditResult();
         Double result = res + creditResult;
 
-        orderMapper.updateOrder(new Order(null,orderStatus.getOrderNumber(),null,null,null,null,null,orderStatus.getRoom_number(),null,null,null,null,null,actualCheckInTime,actualTime,null,null,null,null,"已执行",null,null,null,null));
-        accountService.updateUserInfo(new UserInfo(credit.getUserId(),null,null,null,result,null,null,null));
-        creditService.addCredit(new Credit(null,credit.getUserId(),new Date(),credit.getOrderNumber(),"已执行","+"+res,result));
+        orderMapper.updateOrder(new Order(null, orderStatus.getOrderNumber(), null, null, null, null, null, orderStatus.getRoom_number(), null, null, null, null, null, actualCheckInTime, actualTime, null, null, null, null, "已执行", null, null, null, null));
+        accountService.updateUserInfo(new UserInfo(credit.getUserId(), null, null, null, result, null, null, null));
+        creditService.addCredit(new Credit(null, credit.getUserId(), new Date(), credit.getOrderNumber(), "已执行", "+" + res, result));
         // vip
         User user = accountService.queryUserById(orderStatus.getUser_id());
-        accountService.vip(orderStatus.getUser_id(),user.getCredit());
+        accountService.vip(orderStatus.getUser_id(), user.getCredit());
         return ResponseVo.buildSuccess();
     }
 
@@ -288,7 +291,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public ResponseVo hotelReservationInfo(Integer userid, Integer hotelid,Integer pageNum) {
+    public ResponseVo hotelReservationInfo(Integer userid, Integer hotelid, Integer pageNum) {
         PageHelper.startPage(pageNum, PageUtil.pageSize);
         List<Order> orders = orderMapper.hotelReservation(userid, hotelid);
         List<OrderVo> voList = new LinkedList<>();

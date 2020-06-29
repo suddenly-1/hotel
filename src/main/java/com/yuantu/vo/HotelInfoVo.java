@@ -6,6 +6,7 @@ package com.yuantu.vo;
  * @Date:2020-05-29
  */
 public class HotelInfoVo {
+
   private Integer id;
   private String hotelName;//酒店名称
   private String address;//酒店地址
@@ -118,4 +119,5 @@ public class HotelInfoVo {
       ", averagePrice=" + averagePrice +
       '}';
   }
+
 }

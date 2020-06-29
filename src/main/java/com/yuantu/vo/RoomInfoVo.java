@@ -1,49 +1,60 @@
 package com.yuantu.vo;
 
 public class RoomInfoVo {
-  private String roomType;
-  private Double price;
-  private Integer rooms;
+    private Integer id;
+    private String roomType;
+    private Double price;
+    private Integer rooms;
 
-  public RoomInfoVo() {
-  }
+    public RoomInfoVo() {
+    }
 
-  public RoomInfoVo(String roomType, Double price, Integer rooms) {
-    this.roomType = roomType;
-    this.price = price;
-    this.rooms = rooms;
-  }
+    public RoomInfoVo(Integer id, String roomType, Double price, Integer rooms) {
+        this.id = id;
+        this.roomType = roomType;
+        this.price = price;
+        this.rooms = rooms;
+    }
 
-  public String getRoomType() {
-    return roomType;
-  }
+    public Integer getId() {
+        return id;
+    }
 
-  public void setRoomType(String roomType) {
-    this.roomType = roomType;
-  }
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
-  public Double getPrice() {
-    return price;
-  }
+    public String getRoomType() {
+        return roomType;
+    }
 
-  public void setPrice(Double price) {
-    this.price = price;
-  }
+    public void setRoomType(String roomType) {
+        this.roomType = roomType;
+    }
 
-  public Integer getRooms() {
-    return rooms;
-  }
+    public Double getPrice() {
+        return price;
+    }
 
-  public void setRooms(Integer rooms) {
-    this.rooms = rooms;
-  }
+    public void setPrice(Double price) {
+        this.price = price;
+    }
 
-  @Override
-  public String toString() {
-    return "RoomInfoVo{" +
-      "roomType='" + roomType + '\'' +
-      ", price=" + price +
-      ", rooms=" + rooms +
-      '}';
-  }
+    public Integer getRooms() {
+        return rooms;
+    }
+
+    public void setRooms(Integer rooms) {
+        this.rooms = rooms;
+    }
+
+    @Override
+    public String toString() {
+        return "RoomInfoVo{" +
+                "id=" + id +
+                ", roomType='" + roomType + '\'' +
+                ", price=" + price +
+                ", rooms=" + rooms +
+                '}';
+    }
 }

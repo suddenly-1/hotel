@@ -14,7 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 public class ShiroRealm extends AuthorizingRealm {
 
-    public void setName(String name){
+    public void setName(String name) {
         super.setName("userRealm");
     }
 
@@ -25,7 +25,7 @@ public class ShiroRealm extends AuthorizingRealm {
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
         SimpleAuthorizationInfo simpleAuthorizationInfo = new SimpleAuthorizationInfo();
         Subject subject = SecurityUtils.getSubject();
-        User currentUser = (User)subject.getPrincipal();
+        User currentUser = (User) subject.getPrincipal();
         simpleAuthorizationInfo.addStringPermission(currentUser.getUserType());
         return simpleAuthorizationInfo;
     }
@@ -35,10 +35,10 @@ public class ShiroRealm extends AuthorizingRealm {
         UsernamePasswordToken userToken = (UsernamePasswordToken) token;
         User user = accountMapper.queryUserByAccountName(userToken.getUsername());
         try {
-            if (!userToken.getUsername().equals(user.getAccountNumber())){
+            if (!userToken.getUsername().equals(user.getAccountNumber())) {
                 return null;
             }
-            String password = new Md5Hash(user.getPassword(),user.getUsername(),3).toString();
+            String password = new Md5Hash(user.getPassword(), user.getUsername(), 3).toString();
             return new SimpleAuthenticationInfo(user, user.getPassword(), this.getName());
         } catch (Exception e) {
             return null;

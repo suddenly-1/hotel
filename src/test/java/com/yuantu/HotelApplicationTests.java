@@ -20,21 +20,20 @@ import java.util.List;
 public class HotelApplicationTests {
 
 
-  @Autowired
-  private HotelMapper hotelMapper;
-  @Autowired
-  private HotelService hotelService;
-  @Autowired
-  private RoomMapper roomMapper;
-  @Autowired
-  private OrderMapper orderMapper;
+    @Autowired
+    private HotelMapper hotelMapper;
+    @Autowired
+    private HotelService hotelService;
+    @Autowired
+    private RoomMapper roomMapper;
+    @Autowired
+    private OrderMapper orderMapper;
 
-  @Test
+    @Test
     public void test() {
 
 
-
-  }
+    }
 
 }
 

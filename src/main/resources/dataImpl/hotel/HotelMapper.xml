@@ -10,7 +10,9 @@
 
     <!--查询-->
     <select id="selectHotelInfo" resultMap="Hotel">
-        select  hotel.id,hotel.hotelname,hotel.address,hotel.businessdistrict,hotel.Introduction,hotel.facilities,hotel.Star,hotel.score,avg(room.price) as averagePrice
+        select
+        hotel.id,hotel.hotelname,hotel.address,hotel.businessdistrict,hotel.Introduction,hotel.facilities,hotel.Star,hotel.score,avg(room.price)
+        as averagePrice
         from hotel
         left join
         room on hotel.id=room.hotel_id GROUP BY hotel.id
@@ -25,9 +27,11 @@
     </select>
 
     <!--模糊查询-->
+
    <select id="selectLikeQuery" resultMap="Hotel">
         select id,address,businessdistrict, Introduction, facilities, Star, hotelname, score from hotel
         where  CONCAT(Star,score,hotelname,businessdistrict)
+
         <if test="condition !=null">
             like CONCAT('%',#{condition},'%')
         </if>
@@ -35,31 +39,34 @@
 
     <!--通过酒店价格从低到高，星级和评分排序-->
     <select id="selectHotelSort" resultType="Hotel" parameterType="string">
-    select hotel.hotelname,hotel.address,hotel.businessdistrict,hotel.Introduction,hotel.facilities,hotel.Star,hotel.score,avg(room.price) as averagePrice
-    from hotel
-    left join
-    room on hotel.id=room.hotel_id GROUP BY hotel.id
-    <trim prefix="ORDER BY" suffix="ASC">
+        select
+        hotel.hotelname,hotel.address,hotel.businessdistrict,hotel.Introduction,hotel.facilities,hotel.Star,hotel.score,avg(room.price)
+        as averagePrice
+        from hotel
+        left join
+        room on hotel.id=room.hotel_id GROUP BY hotel.id
+        <trim prefix="ORDER BY" suffix="ASC">
 
-       <if test="condition !=null and condition =='星级'">
-            Star
-        </if>
+            <if test="condition !=null and condition =='星级'">
+                Star
+            </if>
 
-        <if test="condition !=null and condition =='评分'">
-            score
-        </if>
+            <if test="condition !=null and condition =='评分'">
+                score
+            </if>
 
-        <if test="condition !=null and condition =='价格'">
-            averagePrice
-        </if>
-    </trim>
+            <if test="condition !=null and condition =='价格'">
+                averagePrice
+            </if>
+        </trim>
     </select>
 
     <!--添加酒店-->
     <insert id="insertHotelInfo" parameterType="com.yuantu.po.Hotel" useGeneratedKeys="true" keyProperty="id">
         insert into
         hotel(hotel.hotelname,hotel.address,hotel.businessdistrict,hotel.Introduction,hotel.facilities,hotel.Star)
-         VALUES (#{hotel.hotelName},#{hotel.address},#{hotel.businessDistrict},#{hotel.introduction},#{hotel.facilities},#{hotel.star})
+        VALUES
+        (#{hotel.hotelName},#{hotel.address},#{hotel.businessDistrict},#{hotel.introduction},#{hotel.facilities},#{hotel.star})
     </insert>
 
 
@@ -75,7 +82,9 @@
         update hotel
         <set>
             <if test="hotel.address !=null and hotel.address !=''">address=#{hotel.address},</if>
-            <if test="hotel.businessDistrict !=null and hotel.businessDistrict !=''">businessDistrict=#{hotel.businessDistrict},</if>
+            <if test="hotel.businessDistrict !=null and hotel.businessDistrict !=''">
+                businessDistrict=#{hotel.businessDistrict},
+            </if>
             <if test="hotel.introduction !=null and hotel.introduction !=''">introduction=#{hotel.introduction},</if>
             <if test="hotel.facilities !=null and hotel.facilities !=''">facilities=#{hotel.facilities},</if>
             <if test="hotel.star !=null and hotel.star !=''">star=#{hotel.star}</if>
@@ -97,23 +106,13 @@
         <result column="score" property="score"></result>
     </resultMap>
 
-<!--     酒店详情-->
+    <!--     酒店详情-->
     <select id="queryHotelById" resultMap="Hotel">
         SELECT * FROM hotel WHERE id = #{id}
     </select>
 
 
-
-
-
-
-
-
-
-
-
-
-<!--    搜索酒店-->
+    <!--    搜索酒店-->
     <resultMap id="hotelMap" type="com.yuantu.vo.HotelInfo">
         <id column="id" property="id"/>
         <result property="hotelName" column="hotelname"/>
@@ -128,7 +127,7 @@
                     ofType="com.yuantu.vo.RoomInfo"
                     javaType="java.util.List"
                     select="queryRoomInfoList"
-                    column="{id=id,startTime=startTime,endTime=endTime,roomType=roomType,roomNumber=roomNumber}" >
+                    column="{id=id,startTime=startTime,endTime=endTime,roomType=roomType,roomNumber=roomNumber}">
             <id column="room_id" property="room_id"/>
             <result property="hotel_id" column="hotel_id"/>
             <result property="roomType" column="roomtype"/>
@@ -153,7 +152,7 @@
             <if test="endTime !=null and endTime !=''">
                 AND o.enddate &lt;= #{endTime}
             </if>
-            AND o.`status` = '未执行' OR o.`status` IS NULL
+            AND o.`status` = '未执行'
         </where>
         GROUP BY r.room_id
         <trim prefix="having" prefixOverrides="and">
@@ -172,12 +171,12 @@
         '有空房' AS state
         FROM room AS r
         LEFT JOIN `order` AS o ON r.hotel_id = o.hotel_id AND r.roomtype = o.roomType
-        <where>
-            <if test="startTime !=null and startTime !='' or endTime !=null and endTime !=''">
-                AND o.startdate &lt;= #{startTime} OR o.enddate &gt;= #{endTime}
-            </if>
-            AND o.`status` = '未执行'
-        </where>
+        <!--        <where>-->
+        <!--            <if test="startTime !=null and startTime !='' or endTime !=null and endTime !=''">-->
+        <!--                AND o.startdate &lt;= #{startTime} OR o.enddate &gt;= #{endTime}-->
+        <!--            </if>-->
+        <!--            AND o.`status` = '未执行'-->
+        <!--        </where>-->
         GROUP BY r.room_id
         <trim prefix="having" prefixOverrides="and">
             r.hotel_id = #{id}
@@ -189,9 +188,9 @@
             </if>
         </trim>
         AND r.roomtype != ALL(
-            SELECT DISTINCT r.roomtype
-            FROM room AS r
-            LEFT JOIN `order` AS o ON r.hotel_id = o.hotel_id AND r.roomtype = o.roomType
+        SELECT DISTINCT r.roomtype
+        FROM room AS r
+        LEFT JOIN `order` AS o ON r.hotel_id = o.hotel_id AND r.roomtype = o.roomType
         <where>
             <if test="startTime !=null and startTime !=''">
                 AND o.startdate &gt;= #{startTime}
@@ -199,12 +198,12 @@
             <if test="endTime !=null and endTime !=''">
                 AND o.enddate &lt;= #{endTime}
             </if>
-            AND o.`status` = '未执行' OR o.`status` IS NULL
+            AND o.`status` = '未执行'
             <if test="id !=null and id !=''">
                 AND r.hotel_id = #{id}
             </if>
         </where>
-            GROUP BY r.room_id
+        GROUP BY r.room_id
         )
     </select>
     <select id="selectHotel" parameterType="com.yuantu.vo.HotelQueryVo" resultMap="hotelMap">
@@ -257,9 +256,6 @@
     </select>
 
 
-
-
-
     <!--根据酒店Id查询房间信息-->
     <select id="queryRoomInfoByHotelId" resultMap="RoomInfoMap">
         SELECT r.room_id,r.hotel_id,r.roomtype,r.price,r.rooms,
@@ -275,7 +271,7 @@
             <if test="endTime !=null and endTime !=''">
                 AND o.enddate &lt;= #{endTime}
             </if>
-            AND o.`status` = '未执行' OR o.`status` IS NULL
+            AND o.`status` = '未执行'
         </where>
         GROUP BY r.room_id
         <trim prefix="having" prefixOverrides="and">
@@ -288,12 +284,12 @@
         '有空房' AS state
         FROM room AS r
         LEFT JOIN `order` AS o ON r.hotel_id = o.hotel_id AND r.roomtype = o.roomType
-        <where>
-            <if test="startTime !=null and startTime !='' or endTime !=null and endTime !=''">
-                AND o.startdate &lt;= #{startTime} OR o.enddate &gt;= #{endTime}
-            </if>
-            AND o.`status` = '未执行'
-        </where>
+        <!--        <where>-->
+        <!--            <if test="startTime !=null and startTime !='' or endTime !=null and endTime !=''">-->
+        <!--                AND o.startdate &lt;= #{startTime} OR o.enddate &gt;= #{endTime}-->
+        <!--            </if>-->
+        <!--            AND o.`status` = '未执行'-->
+        <!--        </where>-->
         GROUP BY r.room_id
         <trim prefix="having" prefixOverrides="and">
             r.hotel_id = #{hotelId}
@@ -309,7 +305,7 @@
             <if test="endTime !=null and endTime !=''">
                 AND o.enddate &lt;= #{endTime}
             </if>
-            AND o.`status` = '未执行' OR o.`status` IS NULL
+            AND o.`status` = '未执行'
             <if test="hotelId !=null and hotelId !=''">
                 AND r.hotel_id = #{hotelId}
             </if>
@@ -327,8 +323,6 @@
         <result property="numbers" column="numbers"/>
         <result property="state" column="state"/>
     </resultMap>
-
-
 
 
 </mapper>

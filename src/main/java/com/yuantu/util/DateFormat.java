@@ -6,10 +6,11 @@ import java.util.Date;
 
 public class DateFormat {
 
-    public static Date StringConvertDate(String dateStr){
-        return DateFormat.StringConvertDate(dateStr,"yyyy-MM-dd HH:mm");
+    public static Date StringConvertDate(String dateStr) {
+        return DateFormat.StringConvertDate(dateStr, "yyyy-MM-dd HH:mm");
     }
-    public static Date StringConvertDate(String dateStr, String partten){
+
+    public static Date StringConvertDate(String dateStr, String partten) {
         try {
             return new SimpleDateFormat(partten).parse(dateStr);
         } catch (ParseException e) {
@@ -18,16 +19,17 @@ public class DateFormat {
         }
     }
 
-    public static String DateConvertString(Date date){
+    public static String DateConvertString(Date date) {
         return new SimpleDateFormat("yyyy-MM-dd HH:mm").format(date);
     }
-    public static String DateConvertString(Date date, String partten){
+
+    public static String DateConvertString(Date date, String partten) {
         return new SimpleDateFormat(partten).format(date);
     }
 
     /**
+     * @param time
      * @desc 字符串转时间戳
-     * @param  time
      * @example time="2019-04-19 00:00:00"
      **/
     public Long getTimestamp(String time) {
@@ -43,7 +45,7 @@ public class DateFormat {
     /*
      * 将时间戳转换为时间
      */
-    public static String stampToDate(String stap){
+    public static String stampToDate(String stap) {
         String time;
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         long lt = new Long(stap);
@@ -51,8 +53,6 @@ public class DateFormat {
         time = simpleDateFormat.format(date);
         return time;
     }
-
-
 
 
 }

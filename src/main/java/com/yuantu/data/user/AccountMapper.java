@@ -15,6 +15,7 @@ public interface AccountMapper {
 
     /**
      * 根据id查询
+     *
      * @param id
      * @return
      */
@@ -22,6 +23,7 @@ public interface AccountMapper {
 
     /**
      * 根据账号查询
+     *
      * @param accountNumber
      * @return
      */
@@ -29,6 +31,7 @@ public interface AccountMapper {
 
     /**
      * 添加用户
+     *
      * @param user
      * @return
      */
@@ -36,6 +39,7 @@ public interface AccountMapper {
 
     /**
      * 修改信息
+     *
      * @param user
      * @return
      */

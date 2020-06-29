@@ -8,6 +8,7 @@ public interface CreditService {
 
     /**
      * 根据订单号和状态查询信用详情
+     *
      * @param orderNumber
      * @param action
      * @return
@@ -16,6 +17,7 @@ public interface CreditService {
 
     /**
      * 查询信用详情
+     *
      * @param id
      * @return
      */
@@ -23,6 +25,7 @@ public interface CreditService {
 
     /**
      * 查询信用列表
+     *
      * @param userId
      * @return
      */
@@ -30,6 +33,7 @@ public interface CreditService {
 
     /**
      * 增加信用记录
+     *
      * @param credit
      * @return
      */

@@ -12,6 +12,7 @@ import java.util.List;
  */
 
 public interface AdminService {
+
   /**
    * 根据用户类型来查询信息
    * @param userType

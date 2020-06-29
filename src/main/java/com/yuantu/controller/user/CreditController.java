@@ -18,14 +18,14 @@ public class CreditController {
     private CreditService creditService;
 
     @GetMapping("/creditDetails/{id}")
-    public String creditDetails(@PathVariable int id){
+    public String creditDetails(@PathVariable int id) {
         return JSON.toJSONString(creditService.creditDetails(id));
     }
 
     @GetMapping("/creditList/{userId}/{pageNum}/{pageSize}")
-    public String creditList(@PathVariable int userId, @PathVariable int pageNum, @PathVariable int pageSize){
+    public String creditList(@PathVariable int userId, @PathVariable int pageNum, @PathVariable int pageSize) {
 //        SerializerFeature.DisableCircularReferenceDetect   --->   fastjson 解除循环引用
-        return JSON.toJSONString(creditService.creditList(userId,pageNum,pageSize), SerializerFeature.DisableCircularReferenceDetect);
+        return JSON.toJSONString(creditService.creditList(userId, pageNum, pageSize), SerializerFeature.DisableCircularReferenceDetect);
     }
 
 }

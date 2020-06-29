@@ -23,14 +23,14 @@ public class CreditServiceImpl implements CreditService {
 
     @Override
     public Credit creditDetails(String orderNumber, String action) {
-        return creditMapper.queryCreditByOrderNumber(orderNumber,action);
+        return creditMapper.queryCreditByOrderNumber(orderNumber, action);
     }
 
     @Override
     public ResponseVo creditDetails(int id) {
         CreditVo creditVo = new CreditVo();
         Credit credit = creditMapper.queryCreditById(id);
-        BeanUtils.copyProperties(credit,creditVo);
+        BeanUtils.copyProperties(credit, creditVo);
         creditVo.setTime(DateFormat.DateConvertString(credit.getTime()));
         ResponseVo responseVo = ResponseVo.buildSuccess(creditVo);
         return responseVo;
@@ -38,12 +38,12 @@ public class CreditServiceImpl implements CreditService {
 
     @Override
     public ResponseVo creditList(int userId, int pageNum, int pageSize) {
-        PageHelper.startPage(pageNum,pageSize);
+        PageHelper.startPage(pageNum, pageSize);
         List<Credit> creditList = creditMapper.queryCreditByUserId(userId);
         List<CreditVo> listVo = new ArrayList<>();
-        for (int i = 0; i < creditList.size(); i++){
+        for (int i = 0; i < creditList.size(); i++) {
             CreditVo creditVo = new CreditVo();
-            BeanUtils.copyProperties(creditList.get(i),creditVo);
+            BeanUtils.copyProperties(creditList.get(i), creditVo);
             creditVo.setTime(DateFormat.DateConvertString(creditList.get(i).getTime()));
             listVo.add(creditVo);
         }

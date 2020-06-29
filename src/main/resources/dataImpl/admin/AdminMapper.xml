@@ -5,11 +5,12 @@
 <mapper namespace="com.yuantu.data.admin.AdminMapper">
     <!--通过用户类型查询-->
     <select id="selectUser" parameterType="string" resultMap="UserMap">
-        select username, INSERT(accountnumber,4,4,'*') as accountnumber,'******'as password,INSERT(phone,4,4,'****') as phone,credit,vip
-         ,birthday,companyname from user
-         <where>
-             usertype=#{userType}
-         </where>
+        select username, INSERT(accountnumber,4,4,'*') as accountnumber,'******'as password,INSERT(phone,4,4,'****') as
+        phone,credit,vip
+        ,birthday,companyname from user
+        <where>
+            usertype=#{userType}
+        </where>
     </select>
 
     <!--修改用户信息-->
