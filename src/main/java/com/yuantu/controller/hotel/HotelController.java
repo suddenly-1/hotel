@@ -39,10 +39,6 @@ public class HotelController {
         return JSON.toJSONString(hotelService.HotelSort(condition));
     }
 
-    @GetMapping("/fuzzy/{condition}")
-    public String HotelFuzzy(@PathVariable String condition) {
-        return JSON.toJSONString(hotelService.likeQuery(condition));
-    }
 
     @PostMapping("/insert")
     public String addHotel(@RequestBody HotelInfoVo hotelInfoVo) {

@@ -78,8 +78,6 @@ public class AdminServiceImpl implements AdminService {
         return ResponseVo.buildSuccess(true);
     }
 
-    return ResponseVo.buildSuccess(true);
-  }
 
   @Override
   public ResponseVo queryHotelInfo(String hotelName, Integer pageNum) {

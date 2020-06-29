@@ -22,12 +22,16 @@ public class HotelServiceImpl implements HotelService {
 
     @Autowired
     HotelMapper hotelMapper;
+  private String businessdistrict;
+  private String address;
+  private Integer hotelId;
+  private Integer pageNum;
 
 
-    @Override
+  @Override
     public ResponseVo getHotelInfo(String businessdistrict, String address, Integer hotelId, Integer pageNum) {
 
-        PageHelper.startPage(pageNum, PageUtil.pageSize);
+    PageHelper.startPage(pageNum, PageUtil.pageSize);
         List<Hotel> hotel = hotelMapper.selectHotelInfo(businessdistrict, address, hotelId);
         List<HotelInfoVo> hotelInfoVos = new LinkedList<>();
         for (int i = 0; i < hotel.size(); i++) {
@@ -54,33 +58,6 @@ public class HotelServiceImpl implements HotelService {
     PageInfo pageInfo = new PageInfo(hotels);
     pageInfo.setList(hotelInfoVos);
       return ResponseVo.buildSuccess(pageInfo);
-  }
-
-  @Override
-  public ResponseVo getHotelInfo(String businessdistrict, String address, Integer hotelId, Integer pageNum) {
-
-
-    @Override
-    public List<HotelInfoVo> HotelSort(String condition) {
-        List<Hotel> hotel = hotelMapper.selectHotelSort(condition);
-        List<HotelInfoVo> hotelInfoVo = hotel.stream().map(h -> {
-            HotelInfoVo hl = new HotelInfoVo();
-            hl.setAddress(h.getAddress());
-            hl.setBusinessDistrict(h.getBusinessDistrict());
-            hl.setIntroduction(h.getIntroduction());
-            hl.setFacilities(h.getFacilities());
-            hl.setHotelName(h.getHotelName());
-            hl.setScore(h.getScore());
-            hl.setStar(h.getStar());
-            hl.setAveragePrice(h.getAveragePrice());
-            return hl;
-        }).collect(Collectors.toList());
-        return hotelInfoVo;
-    }
-
-    PageInfo pageInfo = new PageInfo(hotel);
-    pageInfo.setList(hotelInfoVos);
-    return ResponseVo.buildSuccess(pageInfo);
   }
 
 
@@ -122,16 +99,6 @@ public class HotelServiceImpl implements HotelService {
     return ResponseVo.buildSuccess(pageInfo);
   }
 
-  @Override
-  public ResponseVo addHotelInfo(HotelInfoVo hotel) {
-    System.out.println(hotel);
-    Hotel h = new Hotel();
-    BeanUtils.copyProperties(hotel,h);
-    System.out.println(h);
-    try{
-      hotelMapper.insertHotelInfo(h);
-
-    }
 
     @Override
     public ResponseVo addHotelInfo(HotelInfoVo hotel) {
