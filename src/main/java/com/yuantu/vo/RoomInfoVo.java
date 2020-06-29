@@ -1,6 +1,7 @@
 package com.yuantu.vo;
 
 public class RoomInfoVo {
+  private Integer id;
   private String roomType;
   private Double price;
   private Integer rooms;
@@ -8,10 +9,19 @@ public class RoomInfoVo {
   public RoomInfoVo() {
   }
 
-  public RoomInfoVo(String roomType, Double price, Integer rooms) {
+  public RoomInfoVo(Integer id, String roomType, Double price, Integer rooms) {
+    this.id = id;
     this.roomType = roomType;
     this.price = price;
     this.rooms = rooms;
+  }
+
+  public Integer getId() {
+    return id;
+  }
+
+  public void setId(Integer id) {
+    this.id = id;
   }
 
   public String getRoomType() {
@@ -41,9 +51,10 @@ public class RoomInfoVo {
   @Override
   public String toString() {
     return "RoomInfoVo{" +
-      "roomType='" + roomType + '\'' +
-      ", price=" + price +
-      ", rooms=" + rooms +
-      '}';
+            "id=" + id +
+            ", roomType='" + roomType + '\'' +
+            ", price=" + price +
+            ", rooms=" + rooms +
+            '}';
   }
 }

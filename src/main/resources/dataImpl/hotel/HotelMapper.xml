@@ -165,12 +165,12 @@
         '有空房' AS state
         FROM room AS r
         LEFT JOIN `order` AS o ON r.hotel_id = o.hotel_id AND r.roomtype = o.roomType
-        <where>
-            <if test="startTime !=null and startTime !='' or endTime !=null and endTime !=''">
-                AND o.startdate &lt;= #{startTime} OR o.enddate &gt;= #{endTime}
-            </if>
-            AND o.`status` = '未执行'
-        </where>
+<!--        <where>-->
+<!--            <if test="startTime !=null and startTime !='' or endTime !=null and endTime !=''">-->
+<!--                AND o.startdate &lt;= #{startTime} OR o.enddate &gt;= #{endTime}-->
+<!--            </if>-->
+<!--            AND o.`status` = '未执行'-->
+<!--        </where>-->
         GROUP BY r.room_id
         <trim prefix="having" prefixOverrides="and">
             r.hotel_id = #{id}
@@ -281,12 +281,12 @@
         '有空房' AS state
         FROM room AS r
         LEFT JOIN `order` AS o ON r.hotel_id = o.hotel_id AND r.roomtype = o.roomType
-        <where>
-            <if test="startTime !=null and startTime !='' or endTime !=null and endTime !=''">
-                AND o.startdate &lt;= #{startTime} OR o.enddate &gt;= #{endTime}
-            </if>
-            AND o.`status` = '未执行'
-        </where>
+<!--        <where>-->
+<!--            <if test="startTime !=null and startTime !='' or endTime !=null and endTime !=''">-->
+<!--                AND o.startdate &lt;= #{startTime} OR o.enddate &gt;= #{endTime}-->
+<!--            </if>-->
+<!--            AND o.`status` = '未执行'-->
+<!--        </where>-->
         GROUP BY r.room_id
         <trim prefix="having" prefixOverrides="and">
             r.hotel_id = #{hotelId}
