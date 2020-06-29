@@ -47,6 +47,17 @@
         </where>
     </select>
 
+
+    <select id="selectAll" resultType="com.yuantu.vo.HotelWorkInfoVo">
+       	select DISTINCT h.id,h.hotelname,h.address,h.businessdistrict,IFNULL(u.username,'暂无') as username,IFNULL(INSERT(u.accountnumber,4,4,'*'),'暂无') as accountnumber,'******'as password,IFNULL(u.phone,'暂无') as phone,IFNULL(u.birthday,'暂无') as birthday from `hotel`h left join `user`u on h.id=u.hotel_id
+       	ORDER BY h.id ASC
+    </select>
+
+    <select id="selectForHotel" resultType="com.yuantu.vo.HotelWorkInfoVo">
+        	select DISTINCT h.id,h.hotelname,h.address,h.businessdistrict,IFNULL(u.username,'暂无') as username,IFNULL(INSERT(u.accountnumber,4,4,'*'),'暂无') as accountnumber,'******'as password,IFNULL(u.phone,'暂无') as phone,IFNULL(u.birthday,'暂无') as birthday from `hotel`h left join `user`u on h.id=u.hotel_id
+        	where  h.hotelname=#{hotelName} ORDER BY h.id ASC
+    </select>
+
     <!--结果集映射-->
     <resultMap id="UserMap" type="User">
         <!--column数据库中的字段，property实体类中的属性-->

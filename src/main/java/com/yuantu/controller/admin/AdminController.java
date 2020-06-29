@@ -25,8 +25,20 @@ public class AdminController {
         return JSON.toJSONString(adminService.updateUser(user, userType, username));
     }
 
-    @PostMapping("/addwork/{hotelid}")
-    public String queryHotelWorker(@PathVariable String hotelid, @RequestBody UserInfoVo userInfoVo) {
-        return JSON.toJSONString(adminService.queryHotelWorker(hotelid, userInfoVo));
-    }
+
+  @PostMapping("/addwork/{hotelid}")
+  public String queryHotelWorker(@PathVariable String hotelid,@RequestBody UserInfoVo userInfoVo){
+      return JSON.toJSONString(adminService.queryHotelWorker(hotelid,userInfoVo));
+  }
+
+  @GetMapping("/select")
+  public String getall(@RequestParam(value = "pageNum")Integer pageNum){
+    return JSON.toJSONString(adminService.queryWork(pageNum));
+  }
+
+  @GetMapping("/find/{hotelName}")
+  public String findHotel(@PathVariable String hotelName,@RequestParam("pageNum")Integer pageNum){
+    return JSON.toJSONString(adminService.queryHotelInfo(hotelName,pageNum));
+  }
+
 }

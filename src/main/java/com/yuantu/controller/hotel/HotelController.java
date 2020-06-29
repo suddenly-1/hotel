@@ -20,10 +20,18 @@ public class HotelController {
     HotelService hotelService;
 
 
-    @GetMapping(value = {"/{address}/{businessdistrict}", "/{address}/{businessdistrict}/{hotelId}"})
-    public String HotelInfo(@PathVariable String businessdistrict, @PathVariable String address, @PathVariable(required = false) Integer hotelId, @RequestParam(value = "pageNum") Integer pageNum) {
-        return JSON.toJSONString(hotelService.getHotelInfo(businessdistrict, address, hotelId, pageNum));
-    }
+
+  @GetMapping("all")
+  public String allHotel(@RequestParam(value = "pageNum")Integer pageNum){
+    return JSON.toJSONString(hotelService.allHotelInfo(pageNum));
+
+  }
+
+
+  @GetMapping(value = {"/{address}/{businessdistrict}","/{address}/{businessdistrict}/{hotelId}"})
+  public String HotelInfo(@PathVariable String businessdistrict,@PathVariable String address,@PathVariable(required = false) Integer hotelId,@RequestParam(value = "pageNum")Integer pageNum){
+    return JSON.toJSONString(hotelService.getHotelInfo(businessdistrict,address,hotelId,pageNum));
+  }
 
 
     @GetMapping("/sort/{condition}")
@@ -40,6 +48,12 @@ public class HotelController {
     public String addHotel(@RequestBody HotelInfoVo hotelInfoVo) {
         return JSON.toJSONString(hotelService.addHotelInfo(hotelInfoVo));
     }
+
+
+  @GetMapping("/fuzzy/{condition}")
+  public String HotelFuzzy(@PathVariable String condition,@RequestParam(value = "pageNum")Integer pageNum){
+    return JSON.toJSONString(hotelService.likeQuery(condition,pageNum));
+  }
 
 
     @GetMapping("/select/{userId}")

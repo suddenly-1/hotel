@@ -1,6 +1,7 @@
 package com.yuantu.data.admin;
 
 import com.yuantu.po.User;
+import com.yuantu.vo.HotelWorkInfoVo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
@@ -33,11 +34,18 @@ public interface AdminMapper {
     int updateUser(@Param("user") User user, @Param("userType") String userType, @Param("username") String username);
 
 
-    /**
-     * 通过酒店id查询是否有员工,返回true表明存在，false可以添加
-     *
-     * @param hotelid
-     * @return
-     */
-    Boolean selectHotelWorker(@Param("hotelid") String hotelid);
+
+
+  /**
+   *通过酒店id查询是否有员工,返回true表明存在，false可以添加
+   * @param hotelid
+   * @return
+   */
+  Boolean selectHotelWorker(@Param("hotelid")String hotelid);
+
+
+  List<HotelWorkInfoVo> selectAll();
+
+  List<HotelWorkInfoVo> selectForHotel(@Param("hotelName")String hotelName);
+
 }

@@ -13,6 +13,11 @@ import java.util.Map;
 @Repository
 public interface HotelMapper {
 
+  /**
+   * 查询所有的酒店
+   * @return
+   */
+    List<Hotel> selectAllHotel();
 
     /**
      * 系统显示酒店基本信息

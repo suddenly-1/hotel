@@ -41,6 +41,25 @@ public class HotelServiceImpl implements HotelService {
     }
 
 
+  @Override
+  public ResponseVo allHotelInfo(Integer pageNum) {
+    PageHelper.startPage(pageNum,PageUtil.pageSize);
+    List<Hotel> hotels = hotelMapper.selectAllHotel();
+    List<HotelInfoVo> hotelInfoVos = new LinkedList<>();
+    for (int i=0; i<hotels.size();i++) {
+      HotelInfoVo hotelInfoVo = new HotelInfoVo();
+      BeanUtils.copyProperties(hotels.get(i),hotelInfoVo);
+      hotelInfoVos.add(hotelInfoVo);
+    }
+    PageInfo pageInfo = new PageInfo(hotels);
+    pageInfo.setList(hotelInfoVos);
+      return ResponseVo.buildSuccess(pageInfo);
+  }
+
+  @Override
+  public ResponseVo getHotelInfo(String businessdistrict, String address, Integer hotelId, Integer pageNum) {
+
+
     @Override
     public List<HotelInfoVo> HotelSort(String condition) {
         List<Hotel> hotel = hotelMapper.selectHotelSort(condition);
@@ -59,22 +78,59 @@ public class HotelServiceImpl implements HotelService {
         return hotelInfoVo;
     }
 
-    @Override
-    public List<HotelInfoVo> likeQuery(String condition) {
-        List<Hotel> hotels = hotelMapper.selectLikeQuery(condition);
-        List<HotelInfoVo> hotelInfoVos = hotels.stream().map(hotel -> {
-            HotelInfoVo hl = new HotelInfoVo();
-            hl.setAddress(hotel.getAddress());
-            hl.setBusinessDistrict(hotel.getBusinessDistrict());
-            hl.setIntroduction(hotel.getIntroduction());
-            hl.setFacilities(hotel.getFacilities());
-            hl.setHotelName(hotel.getHotelName());
-            hl.setScore(hotel.getScore());
-            hl.setStar(hotel.getStar());
-            hl.setAveragePrice(hotel.getAveragePrice());
-            return hl;
-        }).collect(Collectors.toList());
-        return hotelInfoVos;
+    PageInfo pageInfo = new PageInfo(hotel);
+    pageInfo.setList(hotelInfoVos);
+    return ResponseVo.buildSuccess(pageInfo);
+  }
+
+
+  @Override
+  public List<HotelInfoVo> HotelSort(String condition) {
+    List<Hotel> hotel=hotelMapper.selectHotelSort(condition);
+    List<HotelInfoVo> hotelInfoVo = hotel.stream().map(h -> {
+      HotelInfoVo hl= new HotelInfoVo();
+      hl.setAddress(h.getAddress());
+      hl.setBusinessDistrict(h.getBusinessDistrict());
+      hl.setIntroduction(h.getIntroduction());
+      hl.setFacilities(h.getFacilities());
+      hl.setHotelName(h.getHotelName());
+      hl.setScore(h.getScore());
+      hl.setStar(h.getStar());
+      hl.setAveragePrice(h.getAveragePrice());
+      return hl;
+    }).collect(Collectors.toList());
+    return hotelInfoVo;
+  }
+
+  @Override
+  public ResponseVo likeQuery(String condition,Integer pageNum) {
+    PageHelper.startPage(pageNum,PageUtil.pageSize);
+    List<Hotel> hotels = hotelMapper.selectLikeQuery(condition);
+    List<HotelInfoVo> hotelInfoVos = hotels.stream().map(hotel -> {
+      HotelInfoVo hl= new HotelInfoVo();
+      hl.setAddress(hotel.getAddress());
+      hl.setBusinessDistrict(hotel.getBusinessDistrict());
+      hl.setIntroduction(hotel.getIntroduction());
+      hl.setFacilities(hotel.getFacilities());
+      hl.setHotelName(hotel.getHotelName());
+      hl.setScore(hotel.getScore());
+      hl.setStar(hotel.getStar());
+      hl.setAveragePrice(hotel.getAveragePrice());
+      return hl;
+    }).collect(Collectors.toList());
+    PageInfo<HotelInfoVo> pageInfo = new PageInfo(hotels);
+    return ResponseVo.buildSuccess(pageInfo);
+  }
+
+  @Override
+  public ResponseVo addHotelInfo(HotelInfoVo hotel) {
+    System.out.println(hotel);
+    Hotel h = new Hotel();
+    BeanUtils.copyProperties(hotel,h);
+    System.out.println(h);
+    try{
+      hotelMapper.insertHotelInfo(h);
+
     }
 
     @Override
