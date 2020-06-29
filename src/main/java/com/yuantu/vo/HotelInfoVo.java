@@ -6,6 +6,7 @@ package com.yuantu.vo;
  * @Date:2020-05-29
  */
 public class HotelInfoVo {
+  private Integer id;
   private String hotelName;//酒店名称
   private String address;//酒店地址
   private String businessDistrict;//酒店所属商圈
@@ -18,7 +19,8 @@ public class HotelInfoVo {
   public HotelInfoVo() {
   }
 
-  public HotelInfoVo(String hotelName, String address, String businessDistrict, String introduction, String facilities, Integer star, Integer score,Integer averagePrice) {
+  public HotelInfoVo(Integer id, String hotelName, String address, String businessDistrict, String introduction, String facilities, Integer star, Integer score, Integer averagePrice) {
+    this.id = id;
     this.hotelName = hotelName;
     this.address = address;
     this.businessDistrict = businessDistrict;
@@ -27,6 +29,15 @@ public class HotelInfoVo {
     this.star = star;
     this.score = score;
     this.averagePrice = averagePrice;
+  }
+
+
+  public Integer getId() {
+    return id;
+  }
+
+  public void setId(Integer id) {
+    this.id = id;
   }
 
   public String getHotelName() {
@@ -96,7 +107,8 @@ public class HotelInfoVo {
   @Override
   public String toString() {
     return "HotelInfoVo{" +
-      "hotelName='" + hotelName + '\'' +
+      "id=" + id +
+      ", hotelName='" + hotelName + '\'' +
       ", address='" + address + '\'' +
       ", businessDistrict='" + businessDistrict + '\'' +
       ", introduction='" + introduction + '\'' +

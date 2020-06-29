@@ -20,6 +20,13 @@ public class HotelController {
   HotelService hotelService;
 
 
+  @GetMapping("all")
+  public String allHotel(@RequestParam(value = "pageNum")Integer pageNum){
+    return JSON.toJSONString(hotelService.allHotelInfo(pageNum));
+
+  }
+
+
   @GetMapping(value = {"/{address}/{businessdistrict}","/{address}/{businessdistrict}/{hotelId}"})
   public String HotelInfo(@PathVariable String businessdistrict,@PathVariable String address,@PathVariable(required = false) Integer hotelId,@RequestParam(value = "pageNum")Integer pageNum){
     return JSON.toJSONString(hotelService.getHotelInfo(businessdistrict,address,hotelId,pageNum));
@@ -32,8 +39,8 @@ public class HotelController {
   }
 
   @GetMapping("/fuzzy/{condition}")
-  public String HotelFuzzy(@PathVariable String condition){
-    return JSON.toJSONString(hotelService.likeQuery(condition));
+  public String HotelFuzzy(@PathVariable String condition,@RequestParam(value = "pageNum")Integer pageNum){
+    return JSON.toJSONString(hotelService.likeQuery(condition,pageNum));
   }
 
   @PostMapping("/insert")

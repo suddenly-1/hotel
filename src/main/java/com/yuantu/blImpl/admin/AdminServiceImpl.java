@@ -8,6 +8,7 @@ import com.yuantu.data.admin.AdminMapper;
 import com.yuantu.po.User;
 import com.yuantu.util.DateFormat;
 import com.yuantu.util.PageUtil;
+import com.yuantu.vo.HotelWorkInfoVo;
 import com.yuantu.vo.ResponseVo;
 import com.yuantu.vo.UserInfoVo;
 import org.springframework.beans.BeanUtils;
@@ -75,6 +76,22 @@ public class AdminServiceImpl implements AdminService {
     }
 
     return ResponseVo.buildSuccess(true);
+  }
+
+  @Override
+  public ResponseVo queryHotelInfo(String hotelName, Integer pageNum) {
+    PageHelper.startPage(pageNum, PageUtil.pageSize);
+    List<HotelWorkInfoVo> hotels = adminMapper.selectForHotel(hotelName);
+    PageInfo<HotelWorkInfoVo> pageInfo = new PageInfo(hotels);
+    return ResponseVo.buildSuccess(pageInfo);
+  }
+
+  @Override
+  public ResponseVo queryWork(Integer pageNum) {
+    PageHelper.startPage(pageNum, PageUtil.pageSize);
+    List<HotelWorkInfoVo> hotelWork = adminMapper.selectAll();
+    PageInfo<HotelWorkInfoVo> pageInfo = new PageInfo(hotelWork);
+    return ResponseVo.buildSuccess(pageInfo);
   }
 
 

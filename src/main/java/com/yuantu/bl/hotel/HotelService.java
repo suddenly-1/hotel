@@ -13,6 +13,11 @@ import java.util.List;
  */
 
 public interface HotelService {
+  /**
+   * 所有的酒店信息
+   * @return
+   */
+      ResponseVo allHotelInfo(@Param("pageNum") Integer pageNum);
 
   /**
    * 明确地址和商圈查看酒店信息
@@ -34,7 +39,7 @@ public interface HotelService {
    * @param condition
    * returnl
    */
-  List<HotelInfoVo> likeQuery(@Param("condition") String condition);
+  ResponseVo likeQuery(@Param("condition") String condition,@Param("pageNum") Integer pageNum);
 
   /**
    * 添加酒店

@@ -36,4 +36,19 @@ public interface AdminService {
    * @return
    */
   ResponseVo queryHotelWorker(@Param("hotelid")String hotelid,UserInfoVo userInfoVo);
+
+  /**
+   * 根据酒店名搜索
+   * @param hotelName
+   * @param pageNum
+   * @return
+   */
+  ResponseVo queryHotelInfo(@Param("hotelName") String hotelName,@Param("pageNum")Integer pageNum);
+
+  /**
+   * 搜索全部
+   * @param pageNum
+   * @return
+   */
+  ResponseVo queryWork(@Param("pageNum")Integer pageNum);
 }

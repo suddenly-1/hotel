@@ -25,6 +25,21 @@ public class HotelServiceImpl implements HotelService {
 
 
   @Override
+  public ResponseVo allHotelInfo(Integer pageNum) {
+    PageHelper.startPage(pageNum,PageUtil.pageSize);
+    List<Hotel> hotels = hotelMapper.selectAllHotel();
+    List<HotelInfoVo> hotelInfoVos = new LinkedList<>();
+    for (int i=0; i<hotels.size();i++) {
+      HotelInfoVo hotelInfoVo = new HotelInfoVo();
+      BeanUtils.copyProperties(hotels.get(i),hotelInfoVo);
+      hotelInfoVos.add(hotelInfoVo);
+    }
+    PageInfo pageInfo = new PageInfo(hotels);
+    pageInfo.setList(hotelInfoVos);
+      return ResponseVo.buildSuccess(pageInfo);
+  }
+
+  @Override
   public ResponseVo getHotelInfo(String businessdistrict, String address, Integer hotelId, Integer pageNum) {
 
     PageHelper.startPage(pageNum,PageUtil.pageSize);
@@ -60,7 +75,8 @@ public class HotelServiceImpl implements HotelService {
   }
 
   @Override
-  public List<HotelInfoVo> likeQuery(String condition) {
+  public ResponseVo likeQuery(String condition,Integer pageNum) {
+    PageHelper.startPage(pageNum,PageUtil.pageSize);
     List<Hotel> hotels = hotelMapper.selectLikeQuery(condition);
     List<HotelInfoVo> hotelInfoVos = hotels.stream().map(hotel -> {
       HotelInfoVo hl= new HotelInfoVo();
@@ -74,7 +90,8 @@ public class HotelServiceImpl implements HotelService {
       hl.setAveragePrice(hotel.getAveragePrice());
       return hl;
     }).collect(Collectors.toList());
-    return hotelInfoVos;
+    PageInfo<HotelInfoVo> pageInfo = new PageInfo(hotels);
+    return ResponseVo.buildSuccess(pageInfo);
   }
 
   @Override

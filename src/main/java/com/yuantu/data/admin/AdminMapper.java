@@ -1,6 +1,7 @@
 package com.yuantu.data.admin;
 
 import com.yuantu.po.User;
+import com.yuantu.vo.HotelWorkInfoVo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
@@ -38,4 +39,9 @@ public interface AdminMapper {
    * @return
    */
   Boolean selectHotelWorker(@Param("hotelid")String hotelid);
+
+
+  List<HotelWorkInfoVo> selectAll();
+
+  List<HotelWorkInfoVo> selectForHotel(@Param("hotelName")String hotelName);
 }
